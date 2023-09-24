@@ -68,25 +68,27 @@ class RegisterController extends Controller
     {
         $locationData = Location::get();
 
+//        dd($locationData);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'UserID' => 'u-' . Str::uuid()->toString(),
             'password' => Hash::make($data['password']),
-            'ip' => $locationData->ip,
-            'countryName' => $locationData->countryName,
-            'countryCode' => $locationData->countryCode,
-            'regionCode' => $locationData->regionCode,
-            'regionName' => $locationData->regionName,
-            'cityName' => $locationData->cityName,
-            'zipCode' => $locationData->zipCode,
-            'isoCode' => $locationData->isoCode,
-            'postalCode' => $locationData->postalCode,
-            'latitude' => $locationData->latitude,
-            'longitude' => $locationData->longitude,
-            'metroCode' => $locationData->metroCode,
-            'areaCode' => $locationData->areaCode,
-            'timezone' => $locationData->timezone
+//            'ip' => $locationData->ip,
+//            'countryName' => $locationData->countryName,
+//            'countryCode' => $locationData->countryCode,
+//            'regionCode' => $locationData->regionCode,
+//            'regionName' => $locationData->regionName,
+//            'cityName' => $locationData->cityName,
+//            'zipCode' => $locationData->zipCode,
+//            'isoCode' => $locationData->isoCode,
+//            'postalCode' => $locationData->postalCode,
+//            'latitude' => $locationData->latitude,
+//            'longitude' => $locationData->longitude,
+//            'metroCode' => $locationData->metroCode,
+//            'areaCode' => $locationData->areaCode,
+//            'timezone' => $locationData->timezone
         ]);
 
     }
