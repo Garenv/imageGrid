@@ -19,18 +19,18 @@
                                             <div class="form-group">
                                                 <input id="email" type="email" placeholder="Email Address" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                                                 @error('email')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
                                                 @enderror
                                                 <i class="input-icon uil uil-at"></i>
                                             </div>
                                             <div class="form-group mt-2">
                                                 <input id="password" type="password" placeholder="Password" class="form-style @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                                 @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
                                                 @enderror
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
@@ -43,35 +43,48 @@
                                     </div>
                                 </div>
                             </form>
-                            <form class="card-3d-wrapper" method="POST" action="{{ route('login') }}">
+
+                            <form class="card-3d-wrapper" method="POST" action="{{ route('register') }}">
+                                @csrf
                                 <div class="card-back">
                                     <div class="center-wrap">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Sign Up</h4>
                                             <div class="form-group">
-                                                <input type="text" name="logname"
-                                                       class="form-style"
-                                                       placeholder="Your Full Name"
-                                                       id="logname"
-                                                       autocomplete="none">
+                                                <input id="logname" type="text" placeholder="Name" class="form-style @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                                @error('name')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                                 <i class="input-icon uil uil-user"></i>
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input type="email" name="logemail"
-                                                       class="form-style"
-                                                       placeholder="Your Email"
-                                                       id="logemail" autocomplete="none">
+                                                <input id="email" type="email" placeholder="Email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                                 <i class="input-icon uil uil-at"></i>
                                             </div>
+
                                             <div class="form-group mt-2">
-                                                <input type="password" name="logpass"
-                                                       class="form-style"
-                                                       placeholder="Your Password"
-                                                       id="logpass"
-                                                       autocomplete="none">
+                                                <input id="password" type="password" placeholder="Password" class="form-style @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                                @error('password')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
-                                            <a href="#" class="btn mt-4">submit</a>
+
+                                            <div class="form-group mt-2">
+                                                <input id="password" type="password" placeholder="Confirm Password" class="form-style @error('password') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <button type="submit" class="btn mt-4">{{ __('Register') }}</button>
                                         </div>
                                     </div>
                                 </div>

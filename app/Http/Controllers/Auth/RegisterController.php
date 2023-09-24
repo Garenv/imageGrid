@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Stevebauman\Location\Facades\Location;
 
 class RegisterController extends Controller
 {
@@ -64,10 +66,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $locationData = Location::get();
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'UserID' => 'u-' . Str::uuid()->toString(),
             'password' => Hash::make($data['password']),
+            'ip' => $locationData->ip,
+            'countryName' => $locationData->countryName,
+            'countryCode' => $locationData->countryCode,
+            'regionCode' => $locationData->regionCode,
+            'regionName' => $locationData->regionName,
+            'cityName' => $locationData->cityName,
+            'zipCode' => $locationData->zipCode,
+            'isoCode' => $locationData->isoCode,
+            'postalCode' => $locationData->postalCode,
+            'latitude' => $locationData->latitude,
+            'longitude' => $locationData->longitude,
+            'metroCode' => $locationData->metroCode,
+            'areaCode' => $locationData->areaCode,
+            'timezone' => $locationData->timezone
         ]);
+
     }
 }
