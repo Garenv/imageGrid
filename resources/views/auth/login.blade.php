@@ -38,7 +38,9 @@
                                             <p class="mb-0 mt-4 text-center">
                                                Forgot your password?
                                             </p>
-                                            <a href="#0" class="link"><u>Click Here</u></a>
+                                            @if (Route::has('password.request'))
+                                                <a href="{{ route('password.request') }}" class="link"><u>{{ __('Click Here') }}</u></a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
