@@ -31,4 +31,15 @@ class HomeController extends Controller
     public function login() {
         return view('auth.login');
     }
+
+    public function checkSession()
+    {
+        if (!Auth::check()) {
+            return response()->json(['authenticated' => false]);
+        }
+
+        return response()->json(['authenticated' => true]);
+
+    }
+
 }

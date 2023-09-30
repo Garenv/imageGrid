@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -22,4 +21,14 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::get('/check-session', [HomeController::class, 'checkSession']);
+
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+
+// At the end of your web.php
+//Route::get('/{any}', function () {
+//    return view('welcome');  // assuming 'welcome' is where your React app is initialized
+//})->where('any', '.*');

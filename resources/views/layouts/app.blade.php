@@ -12,6 +12,10 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
 
+    <script>
+        let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};
+    </script>
+
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss'])
 </head>
