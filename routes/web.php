@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -23,12 +24,22 @@ Auth::routes(['verify' => true]);
 
 Route::get('/check-session', [HomeController::class, 'checkSession']);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get( '/get-user-uploads-data',                [UsersController::class,      'getUserUploadsData']);
+    Route::post('/like',                                 [UsersController::class,      'handleLike']);
+    Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
+    Route::get('/home',                                  [HomeController::class, 'index'])->name('home');
+});
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
-
-// At the end of your web.php
-//Route::get('/{any}', function () {
-//    return view('welcome');  // assuming 'welcome' is where your React app is initialized
-//})->where('any', '.*');
+//Route::post('/file-upload',                          [FileUploadController::class, 'fileUpload']);
+//Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
+//Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);
+//Route::get('/get-winners',                           [WinnersController::class,    'getTopThreeWinnersFromWinnersTable']);
+//Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
+//Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
+//Route::get('/get-data-from-userlikes-table',         [UsersController::class,      'getDataFromUserLikesTable']);
+//Route::get('/get-user-data',                         [UsersController::class,      'getUserData']);
+//Route::post('/update-password',                      [UsersController::class,      'changePassword']);
+//Route::post('/update-email',                         [UsersController::class,      'updateEmail']);
+//Route::post('/update-name',                          [UsersController::class,      'updateName']);
+//Route::post('/support',                              [SupportController::class,    'support']);

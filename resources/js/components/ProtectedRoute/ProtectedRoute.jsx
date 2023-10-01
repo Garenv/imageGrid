@@ -7,7 +7,6 @@ const ProtectedRoute = () => {
     useEffect(() => {
 
         ApiClient.get('/check-session').then(response => {
-            console.log(response.data.authenticated);
             setIsAuthenticated(response.data.authenticated);
         });
 

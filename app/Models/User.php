@@ -12,15 +12,19 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    // Placed here after deleting updated_at column since it's not needed.
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var string[]
      */
     protected $fillable = [
         'name',
         'email',
         'UserID',
+        'dateOfBirth',
         'password',
         'ip',
         'countryName',
@@ -29,19 +33,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'regionName',
         'cityName',
         'zipCode',
-        'isoCode',
-        'postalCode',
-        'latitude',
-        'longitude',
-        'metroCode',
-        'areaCode',
-        'timezone'
+        'email_verified_at'
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -51,10 +49,9 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be cast.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
 }
