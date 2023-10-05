@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,14 +30,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/like',                                 [UsersController::class,      'handleLike']);
     Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
     Route::get('/home',                                  [HomeController::class, 'index'])->name('home');
+    Route::post('/file-upload',                          [FileUploadController::class, 'fileUpload']);
+    Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
 });
-
-//Route::post('/file-upload',                          [FileUploadController::class, 'fileUpload']);
 //Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
 //Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);
 //Route::get('/get-winners',                           [WinnersController::class,    'getTopThreeWinnersFromWinnersTable']);
 //Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
-//Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
 //Route::get('/get-data-from-userlikes-table',         [UsersController::class,      'getDataFromUserLikesTable']);
 //Route::get('/get-user-data',                         [UsersController::class,      'getUserData']);
 //Route::post('/update-password',                      [UsersController::class,      'changePassword']);

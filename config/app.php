@@ -17,6 +17,11 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'aws_s3_path' => env('AWS_S3_PATH'),
+    'aws_default_region' => env('AWS_DEFAULT_REGION'),
+    'aws_bucket' => env('AWS_BUCKET'),
+    'aws_secret_access_key' => env('AWS'),
+    'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
 
     /*
     |--------------------------------------------------------------------------

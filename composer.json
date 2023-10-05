@@ -7,10 +7,12 @@
     "require": {
         "php": "^8.1",
         "ext-curl": "*",
+        "aws/aws-sdk-php": "3.252.1",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "league/flysystem-aws-s3-v3": "3.0",
         "stevebauman/location": "^7.0"
     },
     "require-dev": {
