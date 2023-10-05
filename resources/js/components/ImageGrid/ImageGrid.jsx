@@ -5,30 +5,51 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from "react-toastify";
 import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
+const fetchUserUploads = async () => {
+    const { data } = await ApiClient.get('/get-user-uploads-data');
+    return data;
+};
+
+const uploadImage = async (file) => {
+    let formData = new FormData();
+    formData.append("image", file);
+    const { data } = await ApiClient.post('/file-upload', formData);
+    return data;
+};
 
 const ImageGrid = () => {
     const userId = useContext(UserContext);
-    const [gridData, setGridData] = useState([]);
     const [userLikedPhotos, setUserLikedPhotos] = useState({});
-    const [show, setShow] = useState(false);
+    const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-
-    useEffect(() => {
-        ApiClient.get('/get-user-uploads-data')
-            .then(resp => {
-                setGridData(resp.data);
-            }).catch(err => {
-            console.log(err);
-        });
-
-    }, []);
+    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const queryClient = useQueryClient();
+
+    const { data: gridData } = useQuery('userUploads', fetchUserUploads);
+
+    const mutation = useMutation(uploadImage, {
+        onSuccess: (newImage) => {
+
+            // make sure `newImage` has the right structure and append it to existing data.
+            queryClient.setQueryData('userUploads', (oldData) => [
+                ...oldData,
+                newImage
+            ]);
+            handleClose();
+            // manually invalidate queries to force a refetch and re-render
+            queryClient.invalidateQueries('userUploads');
+        },
+    });
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        setFile(file);
 
         if (file && file.type.includes("image")) {
             const reader = new FileReader();
@@ -41,15 +62,14 @@ const ImageGrid = () => {
             console.error("Unsupported file type");
         }
     };
-
-    const fileUpload = () => {
+    const fileUpload = async (file) => {
         let formData = new FormData();
         let uploadedFile = document.querySelector('#file');
         formData.append("image", uploadedFile.files[0]);
 
-        ApiClient.post('/file-upload', formData)
+        await ApiClient.post('/file-upload', formData)
             .then(resp => {
-
+                mutation.mutate(file);
                 console.log(resp.data);
 
                 let okStatus       = resp.status;
@@ -192,18 +212,23 @@ const ImageGrid = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={fileUpload}>Save Changes</Button>
+                    <Button
+                        variant="primary"
+                        onClick={() => mutation.mutate(file)}
+                        disabled={mutation.isLoading}
+                    >
+                        {mutation.isLoading ? 'Uploading...' : 'Save Changes'}
+                    </Button>
                 </Modal.Footer>
             </Modal>
 
             {
-                gridData.length !== 0 ?
+                gridData && gridData.map ?
                     <section className="gallery">
                         <div className="container">
                             <div className="img-container">
                                 {
                                     gridData.map((photos, index) => {
-                                        console.log(photos);
                                         return (
                                             <>
                                                 <ToastContainer
@@ -211,7 +236,7 @@ const ImageGrid = () => {
                                                     closeButton={false}
                                                 />
 
-                                                <img src={photos.url} className="img-fluid" alt="photo" loading="lazy" />
+                                                <img src={photos.url} className="img-fluid" alt="photo" loading="lazy" key={index} />
 
                                                 <div className="userDetails">
                                                     <span className="likesAmt" style={{color: '#000000'}}>❤️ {photos.likes}</span><br/>
