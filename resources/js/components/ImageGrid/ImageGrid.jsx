@@ -63,7 +63,7 @@ const ImageGrid = () => {
 
     const { data: gridData } = useQuery('userUploads', fetchUserUploads);
 
-    const mutation = useMutation(uploadImage, {
+    const uploadMutation = useMutation(uploadImage, {
         onSuccess: (newImage) => {
 
             // make sure `newImage` has the right structure and append it to existing data.
@@ -76,6 +76,7 @@ const ImageGrid = () => {
             queryClient.invalidateQueries('userUploads');
         },
     });
+
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -158,10 +159,6 @@ const ImageGrid = () => {
                     autoClose: 1100
                 });
 
-                setTimeout(() => {
-                    window.location.reload(false);
-                },1400);
-
             }).catch(error => {
             let errorMessage       = error.response.data.message;
 
@@ -171,12 +168,34 @@ const ImageGrid = () => {
                 autoClose: 1400
             });
 
-            setTimeout(() => {
-                window.location.reload(false);
-            },1400);
-
         });
     }
+
+    const deleteMutation = useMutation(deleteUserUpload, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('userUploads');
+        },
+        onMutate: async (likedPhotoUserId) => {
+            await queryClient.cancelQueries('userUploads');
+
+            const previousData = queryClient.getQueryData('userUploads');
+
+            // remove the deleted item from the UI
+            const newData = previousData.filter(
+                (photo) => photo.UserID !== likedPhotoUserId
+            );
+
+            queryClient.setQueryData('userUploads', newData);
+
+            return { previousData };
+        },
+        onError: (err, variables, context) => {
+            // if deletion fails, go back to the previous state
+            if(context?.previousData) {
+                queryClient.setQueryData('userUploads', context.previousData);
+            }
+        },
+    });
 
     return(
         <>
@@ -213,10 +232,10 @@ const ImageGrid = () => {
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => mutation.mutate(file)}
-                        disabled={mutation.isLoading}
+                        onClick={() => uploadMutation.mutate(file)}
+                        disabled={uploadMutation.isLoading}
                     >
-                        {mutation.isLoading ? 'Uploading...' : 'Submit'}
+                        {uploadMutation.isLoading ? 'Uploading...' : 'Submit'}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -245,7 +264,7 @@ const ImageGrid = () => {
                                                     }
                                                     <br/>
                                                     <span style={{ color: "black" }}>{photos.name} {userId === photos.UserID ? <h6 style={{ color: "black" }}>(You)</h6> : null}</span>
-                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => deleteUserUpload(photos.UserID)}>Delete</Button> : null}
+                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => deleteMutation.mutate(photos.UserID)}>Delete</Button> : null}
                                                 </div>
 
                                                 <br/>
