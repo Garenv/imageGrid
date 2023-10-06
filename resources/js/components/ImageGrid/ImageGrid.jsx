@@ -7,18 +7,6 @@ import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
-const fetchUserUploads = async () => {
-    const { data } = await ApiClient.get('/get-user-uploads-data');
-    return data;
-};
-
-const uploadImage = async (file) => {
-    let formData = new FormData();
-    formData.append("image", file);
-    const { data } = await ApiClient.post('/file-upload', formData);
-    return data;
-};
-
 const ImageGrid = () => {
     const userId = useContext(UserContext);
     const [userLikedPhotos, setUserLikedPhotos] = useState({});
@@ -30,6 +18,48 @@ const ImageGrid = () => {
     const handleShow = () => setShow(true);
 
     const queryClient = useQueryClient();
+
+    const fetchUserUploads = async () => {
+        const { data } = await ApiClient.get('/get-user-uploads-data');
+        return data;
+    };
+
+    const uploadImage = async (file) => {
+        let formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            const response = await ApiClient.post('/file-upload', formData);
+
+            let okStatus= response.status;
+            let successMessage = response.data.message;
+
+            if(okStatus) {
+                setShow(false);
+            }
+
+            toast.success(successMessage, {
+                closeOnClick: false,
+                closeButton: false,
+                autoClose: 1000
+            });
+
+            return response.data;
+
+        } catch (error) {
+            if (error.response) {
+                let errorMessage = error.response.data.message;
+
+                toast.error(errorMessage, {
+                    closeOnClick: false,
+                    closeButton: false,
+                    autoClose: 1000
+                });
+
+                throw new Error('Upload failed');
+            }
+        }
+    };
 
     const { data: gridData } = useQuery('userUploads', fetchUserUploads);
 
@@ -61,39 +91,6 @@ const ImageGrid = () => {
         } else {
             console.error("Unsupported file type");
         }
-    };
-    const fileUpload = async (file) => {
-        let formData = new FormData();
-        let uploadedFile = document.querySelector('#file');
-        formData.append("image", uploadedFile.files[0]);
-
-        await ApiClient.post('/file-upload', formData)
-            .then(resp => {
-                mutation.mutate(file);
-                console.log(resp.data);
-
-                let okStatus       = resp.status;
-                let successMessage = resp.data.message;
-
-                if(okStatus) {
-                    setShow(false);
-                }
-
-                toast.success(successMessage, {
-                    closeOnClick: false,
-                    closeButton: false,
-                    autoClose: 1400,
-                });
-
-            }).catch(error => {
-            let errorMessage       = error.response.data.message;
-
-            toast.error(errorMessage, {
-                closeOnClick: false,
-                closeButton: false,
-                autoClose: 1400
-            });
-        });
     };
 
     const handleLike = (likedPhotoUserId, userName, likedPhotoId) => {
@@ -158,7 +155,7 @@ const ImageGrid = () => {
                 toast.success(successMessage, {
                     closeOnClick: false,
                     closeButton: false,
-                    autoClose: 1400
+                    autoClose: 1100
                 });
 
                 setTimeout(() => {
@@ -183,21 +180,23 @@ const ImageGrid = () => {
 
     return(
         <>
-            <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Upload Image</Form.Label>
-                <div className="custom-file-upload">
-                    <label htmlFor="file" className="btn btn-outline-secondary">
-                        Choose File
-                    </label>
-                    <input
-                        id="file"
-                        type="file"
-                        onChange={handleImageChange}
-                        style={{ display: "none" }}
-                        accept=".jpg, .jpeg, .png, .heic"
-                    />
-                </div>
-            </Form.Group>
+            <div className="btn-wrapper">
+                <Form.Group controlId="formFile" className="mb-5">
+                    <Form.Label>Upload Image</Form.Label>
+                    <div className="custom-file-upload pt-5">
+                        <label htmlFor="file" className="btn btn-outline-secondary">
+                            Upload
+                        </label>
+                        <input
+                            id="file"
+                            type="file"
+                            onChange={handleImageChange}
+                            style={{ display: "none" }}
+                            accept=".jpg, .jpeg, .png, .heic"
+                        />
+                    </div>
+                </Form.Group>
+            </div>
 
             <Modal show={show} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>
@@ -217,7 +216,7 @@ const ImageGrid = () => {
                         onClick={() => mutation.mutate(file)}
                         disabled={mutation.isLoading}
                     >
-                        {mutation.isLoading ? 'Uploading...' : 'Save Changes'}
+                        {mutation.isLoading ? 'Uploading...' : 'Submit'}
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -245,9 +244,11 @@ const ImageGrid = () => {
                                                         <Button className="bg-danger" onClick={() => handleDislike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👎</Button>
                                                     }
                                                     <br/>
-                                                    <span className="name">{photos.name} {userId === photos.UserID ? <h6 className="you">(You)</h6> : null}</span>
-                                                    {userId === photos.UserID ? <Button variant="danger" onClick={() => deleteUserUpload(photos.UserID)}>Delete</Button> : null}
+                                                    <span style={{ color: "black" }}>{photos.name} {userId === photos.UserID ? <h6 style={{ color: "black" }}>(You)</h6> : null}</span>
+                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => deleteUserUpload(photos.UserID)}>Delete</Button> : null}
                                                 </div>
+
+                                                <br/>
                                             </>
                                         )
                                     })

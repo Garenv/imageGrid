@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dal\Interfaces\IUploadsRepository;
 use App\Models\LegacyUploads;
 use Aws\Exception\AwsException;
+use Aws\Rekognition\Exception\RekognitionException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,9 +74,17 @@ class FileUploadController extends Controller
 
             return response()->json(['status' => 'failed', 'message' => "You have already uploaded a photo this week!"], 500);
 
-        } catch (\Exception $e) {
+        } catch (RekognitionException $e) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
+
+            // grab the previous Guzzle exception since the Rekognition API
+            // disallows access to the appropriate status codes
+            $previousException = $e->getPrevious();
+
+            if($previousException->getCode() !== 200) {
+                return response()->json(['status' => 'failed', 'message' => "Something's wrong with your upload!"], $previousException->getCode());
+            }
+
         }
 
     }
@@ -93,6 +102,7 @@ class FileUploadController extends Controller
     }
 
     public function isImageUploadedAppropriate($file) {
+
         $rekognition = new RekognitionClient([
             'version' => 'latest',
             'region' => config('app.aws_default_region')
@@ -129,6 +139,7 @@ class FileUploadController extends Controller
         }
 
         return Response::json([
+            'status' => 200,
             'message' => 'Image uploaded!',
             'isInappropriate' => false
         ]);
