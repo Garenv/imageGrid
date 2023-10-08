@@ -2,17 +2,31 @@
 
 namespace App\Console;
 
+use App\Console\Commands\TruncateWeeklyWinnersCronJob;
+use App\Console\Commands\WeeklyWinnersCronJob;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    protected $commands = [
+        WeeklyWinnersCronJob::class,
+        TruncateWeeklyWinnersCronJob::class
+    ];
+
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Truncate the winners table every other Sunday at 12:00am EST
+        $schedule->command('truncate:winners')->timezone('America/New_York')
+            ->weeklyOn(0, '0:0')
+            ->when(function () {
+                return Carbon::now()->weekOfYear % 2 == 1; // or == 0 depending on the week you want to start
+            });
+        $schedule->command('weekly:winners')->timezone('America/New_York')->weekly()->appendOutputTo('storage/logs/scheduler.log');
     }
 
     /**

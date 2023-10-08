@@ -22,6 +22,8 @@ return [
     'aws_bucket' => env('AWS_BUCKET'),
     'aws_secret_access_key' => env('AWS'),
     'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
+    'mailgun_secret' => env('MAILGUN_SECRET'),
+    'mailgun_domain' => env('MAILGUN_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------
