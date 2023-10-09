@@ -23,6 +23,5 @@ export default App;
 
 if (document.getElementById('example')) {
     const Index = ReactDOM.createRoot(document.getElementById("example"));
-
     Index.render(<App/>)
 }

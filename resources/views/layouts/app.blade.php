@@ -17,7 +17,7 @@
     </script>
 
     @viteReactRefresh
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
 </head>
 <body>
     <div id="app">
@@ -40,17 +40,6 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -67,6 +56,10 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
+                                    <a class="dropdown-item" href="/support">
+                                        {{ __('Support') }}
+                                    </a>
                                 </div>
                             </li>
                         @endguest
@@ -78,6 +71,7 @@
         <main class="text-center">
             @yield('content')
         </main>
+
     </div>
 </body>
 </html>

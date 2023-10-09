@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +26,21 @@ Auth::routes(['verify' => true]);
 
 Route::get('/check-session', [HomeController::class, 'checkSession']);
 
+
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                [UsersController::class,      'getUserUploadsData']);
     Route::post('/like',                                 [UsersController::class,      'handleLike']);
     Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
     Route::get('/home',                                  [HomeController::class, 'index'])->name('home');
+
+    Route::get('/{any?}', function () {
+        return view('home');
+    })->where('any', '.*');
+
     Route::post('/file-upload',                          [FileUploadController::class, 'fileUpload']);
     Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
+    Route::post('/support',                              [SupportController::class,    'support']);
+
 });
 //Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
 //Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);
@@ -42,4 +51,3 @@ Route::middleware(['auth'])->group(function () {
 //Route::post('/update-password',                      [UsersController::class,      'changePassword']);
 //Route::post('/update-email',                         [UsersController::class,      'updateEmail']);
 //Route::post('/update-name',                          [UsersController::class,      'updateName']);
-//Route::post('/support',                              [SupportController::class,    'support']);
