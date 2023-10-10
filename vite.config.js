@@ -9,7 +9,9 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/app.js',
                 'resources/sass/loginPage.scss',
-                'resources/sass/support/support.scss'
+                'resources/sass/support/support.scss',
+                'resources/css/style.css',
+                'resources/js/main.js'
             ],
             refresh: true,
         }),
