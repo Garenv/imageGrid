@@ -123,6 +123,12 @@ h6 {
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
+  background: grey;
+}
+
+.pLogo {
+  width: 50px;
+  height: 50px;
 }
 
 #header.header-scrolled,
@@ -137,7 +143,7 @@ h6 {
   line-height: 1;
   font-weight: 700;
   letter-spacing: 2px;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 #header .logo a {
@@ -163,12 +169,13 @@ h6 {
   transition: 0.3s;
   font-size: 14px;
   display: inline-block;
-  border: 2px solid #ffc451;
+  border: 2px solid #1e90ff;
+  background: #000000;
 }
 
 .get-started-btn:hover {
-  background: #ffbb38;
-  color: #343a40;
+  background: #000000;
+  color: #FFFFFF;
 }
 
 @media (max-width: 992px) {
@@ -182,7 +189,7 @@ h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 /**
-* Desktop Navigation 
+* Desktop Navigation
 */
 .navbar {
   padding: 0;
@@ -224,7 +231,7 @@ h6 {
 .navbar .active,
 .navbar .active:focus,
 .navbar li:hover>a {
-  color: #ffc451;
+  color: #f5f5dc;
 }
 
 .navbar .dropdown ul {
@@ -294,7 +301,7 @@ h6 {
 }
 
 /**
-* Mobile Navigation 
+* Mobile Navigation
 */
 .mobile-nav-toggle {
   color: #fff;
@@ -413,7 +420,7 @@ h6 {
 
 #hero:before {
   content: "";
-  background: rgba(0, 0, 0, 0.6);
+  background: #1e90ff;
   position: absolute;
   bottom: 0;
   top: 0;
