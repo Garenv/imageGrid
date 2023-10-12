@@ -18,14 +18,24 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes(['verify' => true]);
 
 Route::get('/check-session', [HomeController::class, 'checkSession']);
 
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect('/home');
+    }
+    return view('welcome');
+});
+
+Route::get('/terms-and-conditions', function () {
+    return view('terms-and-conditions');
+});
+
+Route::get('/contact-us', function () {
+    return view('contact-us');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                [UsersController::class,      'getUserUploadsData']);
