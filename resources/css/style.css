@@ -15,12 +15,10 @@ body {
 }
 
 a {
-  color: #ffc451;
   text-decoration: none;
 }
 
 a:hover {
-  color: #ffd584;
   text-decoration: none;
 }
 
@@ -43,7 +41,7 @@ h6 {
   right: 15px;
   bottom: 15px;
   z-index: 996;
-  background: #ffc451;
+  background: #000000;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -52,7 +50,7 @@ h6 {
 
 .back-to-top i {
   font-size: 28px;
-  color: #151515;
+  color: #FFFFFF;
   line-height: 0;
 }
 
@@ -61,7 +59,7 @@ h6 {
 }
 
 .back-to-top:hover i {
-  color: #ffc451;
+  color: #1e90ff;
 }
 
 .back-to-top.active {
@@ -88,7 +86,7 @@ h6 {
   position: fixed;
   top: calc(50% - 0px);
   left: calc(50% - 30px);
-  border: 6px solid #ffc451;
+  border: 6px solid #1e90ff;
   border-top-color: #151515;
   border-bottom-color: #151515;
   border-radius: 50%;
@@ -364,7 +362,7 @@ h6 {
 .navbar-mobile .active,
 .navbar-mobile li:hover>a {
   color: #151515;
-  background-color: #ffc451;
+  background-color: beige;
 }
 
 .navbar-mobile .getstarted,

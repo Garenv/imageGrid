@@ -90,7 +90,7 @@
                     <h3>What is Phopixel?</h3>
                     <p>
                         Phopixel is the first website that gives everyone an equal chance of winning prizes solely based on the appealingness of your uploaded photo.
-                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way.
+                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way
                         <br>
                         <br>
                         Here are a few things to note:
@@ -123,17 +123,12 @@
                     <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-user text-black"></i>
                         <h4>User Experience</h4>
-                        <p>Engineered on top of AWS which means your experience will be nothing but smooth and seamless.</p>
+                        <p>Engineered on top of AWS which means your experience will be nothing but smooth and seamless</p>
                     </div>
                     <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-                        <i class="bx bx-images text-black"></i>
-                        <h4>Aut occaecati</h4>
-                        <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
-                    </div>
-                    <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
-                        <i class="bx bx-shield text-black"></i>
-                        <h4>Beatae veritatis</h4>
-                        <p>Expedita veritatis consequuntur nihil tempore laudantium vitae denat pacta</p>
+                        <i class="bx ri-computer-line text-black"></i>
+                        <h4>System</h4>
+                        <p>We're continuously upgrading our systems and adding new features.  Feel free to <a href="/contact-us">contact us</a> if you have any suggestions!</p>
                     </div>
                 </div>
             </div>
@@ -184,9 +179,9 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 footer-links">
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">FAQ</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/faq">FAQ</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="/terms-and-conditions">Terms & Conditions</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy Policy</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/privacy-policy">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>

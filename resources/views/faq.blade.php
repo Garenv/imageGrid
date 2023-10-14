@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <title>Contact Form</title>
+
+    <script>
+        let APP_URL = <?php echo \Psy\Util\Json::encode(url('/')); ?>;
+    </script>
+    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
+    @include('partials.styles')
+
+</head>
+
+@include('partials.header')
+
+<body class="container pt-5">
+<div class="max-w-screen-xl mx-auto px-5 bg-white min-h-sceen">
+    <div class="flex flex-col items-center">
+        <h2 class="font-bold text-5xl mt-5 tracking-tight">
+            FAQ
+        </h2>
+    </div>
+    <div class="grid divide-y divide-neutral-200 max-w-xl mx-auto mt-8">
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span> Is it free and is there a catch?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    There's no catch at all, it's completely free to participate and ALWAYS will be.  We'll NEVER ask you for payment information simply because, again, it's completely free.
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>What's the goal of Phopixel?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+</svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    Our goal is to give something back to the world and what better way to do that than giving out prizes to people who won them fair and square?
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>How does it work?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+</svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    It's simple! All you need to do is upload a photo and every Sunday at midnight there will be a 1st, 2nd and 3rd place winner based on the number of likes your photo accumulated over the week.  Each winner will receive a prize consistent with which place they got in.
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>What does Phopixel mean?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+</svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    Phopixel is a combination of two words - Photo and Pixel which's what the product revolves around.
+                </p>
+            </details>
+        </div>
+</div>
+
+</body>
+</html>

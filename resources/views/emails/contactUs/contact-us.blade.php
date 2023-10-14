@@ -1,5 +1,5 @@
-{{--<div class="container">--}}
-{{--    <p>Full name: {{ $name ?? "" }}</p>--}}
-{{--    <p>Email: {{ $messageText ?? "" }}</p>--}}
-{{--    <p>Message: {{ $messageText ?? "" }}</p>--}}
-{{--</div>--}}
+<div class="container">
+    <p>Full Name: {{ $emailData['from'] ?? "" }}</p>
+    <p>Email: {{ $emailData['email'] ?? "" }}</p>
+    <p>Message: {{ $emailData['messageText']  ?? "" }}</p>
+</div>

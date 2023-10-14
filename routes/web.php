@@ -4,8 +4,10 @@ use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactUsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,20 @@ Route::get('/terms-and-conditions', function () {
 
 Route::get('/contact-us', function () {
     return view('contact-us');
+});
+
+Route::get('/faq', function () {
+   return view('faq');
+});
+
+Route::get('/get-faq', [ContactUsController::class, function() {
+    return DB::table('faq')->get();
+}]);
+
+Route::post('/submit-contact-form', [ContactUsController::class, 'submitContactUs']);
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
 });
 
 Route::middleware(['auth'])->group(function () {
