@@ -154,7 +154,6 @@ class UsersController extends Controller
             ]);
         } catch (\Illuminate\Validation\ValidationException $e ) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         $user = Auth::user();
@@ -180,7 +179,6 @@ class UsersController extends Controller
             ]);
         } catch (\Illuminate\Validation\ValidationException $e ) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         $user = Auth::user();

@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
-import {makeStyles} from "@material-ui/core/styles";
-import {CircularProgress} from "@mui/material";
-import Container from "@mui/material/Container";
-import {toast, ToastContainer} from "react-toastify";
+import React, { useState } from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+import { CircularProgress } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {useForm} from "react-hook-form";
-import {Link, useHistory} from "react-router-dom";
-import ApiClient from "../../utilities/ApiClient";
-
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import AxiosClient from "../../utlities/AxiosClient.jsx";
 
 const useStyles = makeStyles(theme => ({
     spinner: {
@@ -20,26 +18,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 const UpdateEmail = () => {
-
     const {register, handleSubmit} = useForm();
-    let authToken = localStorage.getItem('token');
-    let history = useHistory();
+    const navigate = useNavigate();
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
 
     const onSubmit = (data) => {
-        console.log("updateEmail: ", data.updateEmail);
 
         const formData = {
             updateEmail: data.updateEmail,
         };
 
-        const headers = {
-            "Accept": 'application/json',
-            "Authorization": `Bearer ${authToken}`
-        };
-
-        ApiClient.post('update-email', formData, {headers})
+        AxiosClient.post('update-email', formData)
             .then(resp => {
                 console.log(resp);
 
@@ -50,7 +40,7 @@ const UpdateEmail = () => {
                 });
 
                 setTimeout(() => {
-                    history.push("/gallery");
+                    navigate("/home");
                 }, 4000);
 
                 setLoading(true);
@@ -70,6 +60,7 @@ const UpdateEmail = () => {
     return (
         <>
             {loading && <CircularProgress className={classes.spinner}/>}
+
             <ToastContainer
                 hideProgressBar
                 closeButton={false}
@@ -82,11 +73,9 @@ const UpdateEmail = () => {
                 alignItems="center"
                 minHeight="100vh"
             >
-                <Link to="/gallery">
-                    <img
-                        src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent.png"
-                        className="pLogoPrizes" alt="Prize Page Logo"/>
-                </Link>
+
+                <h3 className="contact-form-title-text text-black mt-5"><u>Update Email</u></h3>
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         {...register('updateEmail')}

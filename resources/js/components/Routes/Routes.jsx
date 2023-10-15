@@ -6,6 +6,8 @@ import Support from "../Support/Support.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
 import Settings from "../Settings/Settings.jsx";
 import UpdatePassword from "../Settings/Update/UpdatePassword.jsx";
+import UpdateEmail from "../Settings/Update/UpdateEmail.jsx";
+import UpdateName from "../Settings/Update/UpdateName.jsx";
 
 function AppRoutes() {
     return (
@@ -17,6 +19,8 @@ function AppRoutes() {
                     <Route path="/support" element={<Support/>} />
                     <Route path="/settings" element={<Settings/>} />
                     <Route path="/updatePassword" element={<UpdatePassword/>} />
+                    <Route path="/updateEmail" element={<UpdateEmail/>} />
+                    {/*<Route path="/updateName" element={<UpdateName/>} />*/}
                 </Route>
             </Routes>
         </BrowserRouter>

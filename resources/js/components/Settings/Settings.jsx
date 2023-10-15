@@ -6,21 +6,13 @@ import Box from '@mui/material/Box';
 const Settings = () => {
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        console.log("Button clicked");
-    }
-
     const handleUpdatePasswordClick = () => {
        navigate('/updatePassword');
     };
-    //
-    // const handleUpdateEmailClick = () => {
-    //     history.push('/updateEmail');
-    // };
-    //
-    // const handleUpdateNameClick = () => {
-    //     history.push('/updateName');
-    // };
+
+    const handleUpdateEmailClick = () => {
+        navigate('/updateEmail');
+    };
 
     return (
         <Box
@@ -30,9 +22,6 @@ const Settings = () => {
             alignItems="center"
             minHeight="100vh"
         >
-            {/*<Link to="/gallery">*/}
-            {/*    <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent.png" className="pLogoPrizes" alt="Prize Page Logo"/>*/}
-            {/*</Link>*/}
             <Button
                 variant="contained"
                 onClick={handleUpdatePasswordClick}
@@ -50,7 +39,7 @@ const Settings = () => {
 
             <Button
                 variant="contained"
-                // onClick={handleUpdateEmailClick}
+                onClick={handleUpdateEmailClick}
                 sx={{
                     backgroundColor: '#000',
                     color: '#fff',
