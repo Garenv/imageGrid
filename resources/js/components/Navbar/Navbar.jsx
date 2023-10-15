@@ -12,7 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {Link as RouterLink, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 // const pages = ['Prize Status', 'Your Prizes', `This Week's Winners`, 'Support'];
 const pages = ['Past Uploads', 'Prize Status', 'Support'];
@@ -50,7 +50,7 @@ const Navbar = () => {
     };
 
     const handleSettingsClick = () => {
-        history.push('/settings');
+        navigate('/settings');
     };
 
     const pageSelection = (page) => {
@@ -72,6 +72,10 @@ const Navbar = () => {
         AxiosClient.post('/logout');
     }
 
+    const handleNavigation = () => {
+        navigate('/home');
+    };
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -79,8 +83,8 @@ const Navbar = () => {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="/home"
+                        component="div" // Must "div" and handling navigation with onClick
+                        onClick={handleNavigation}
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -88,10 +92,10 @@ const Navbar = () => {
                             fontWeight: 700,
                             color: 'inherit',
                             textDecoration: 'none',
+                            cursor: 'pointer'
                         }}
                     >
                         Phopixel
-
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -125,11 +129,14 @@ const Navbar = () => {
                         >
 
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography
-                                        component={RouterLink}
-                                        to={pageSelection(page)}
-                                    >
+                                <MenuItem
+                                    key={page}
+                                    onClick={() => {
+                                        handleCloseNavMenu();
+                                        navigate(pageSelection(page));
+                                    }}
+                                >
+                                    <Typography>
                                         {page}
                                     </Typography>
                                 </MenuItem>
@@ -140,8 +147,8 @@ const Navbar = () => {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="/home"
+                        component="div" // Must "div" and handling navigation with onClick*/}
+                        onClick={handleNavigation}
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -155,19 +162,18 @@ const Navbar = () => {
                         Phopixel
                     </Typography>
 
-
                     <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }} className={classes.centeredText}>
                         {pages.map((page) => (
-                            <a href={pageSelection(page)}>
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                    // component={RouterLink}
-                                >
-                                    {page}
-                                </Button>
-                            </a>
+                            <Button
+                                key={page}
+                                onClick={() => {
+                                    handleCloseNavMenu();
+                                    navigate(pageSelection(page));
+                                }}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                {page}
+                            </Button>
                         ))}
                     </Box>
 

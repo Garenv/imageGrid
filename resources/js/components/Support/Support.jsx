@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../../sass/Support/support.scss';
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import ApiClient from "../utlities/AxiosClient.jsx";
 import MenuItem from "@mui/material/MenuItem";
-import {FormControl, InputLabel, Select} from "@mui/material";
-import {makeStyles} from "@material-ui/core/styles";
+import { FormControl, InputLabel, Select } from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
-
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
         marginBottom: theme.spacing(2),
     },
+
     outlined: {
         borderColor: "#000000 !important"
     },
+
     whiteLabel: {
         color: "#fff",
         "&.Mui-focused": {
             color: "#fff",
         }
     }
+
 }));
 
 const Support = () => {
@@ -31,7 +32,6 @@ const Support = () => {
     const [messageText, setMessageText]                                    = useState("");
     const [subject, setSubject]                                            = useState('');
     const classes                                            = useStyles();
-    let authToken                                                      = localStorage.getItem('token');
 
     const handleDropdownChange = (event) => {
         setSubject(event.target.value);
@@ -88,8 +88,14 @@ const Support = () => {
                 closeButton={false}
             />
 
+            <div className="screen-body-item left">
+                <div className="contact-form-title">
+                    <h3 className="contact-form-title-text text-black mt-5">Questions, comments and/or concerns?  Let us know.</h3>
+                </div>
+            </div>
+
             <div className="background">
-                <div className="container">
+                <div className="container mt-5">
                     <div className="screen">
                         <div className="screen-header">
                             <div className="screen-header-left">
@@ -104,11 +110,6 @@ const Support = () => {
                             </div>
                         </div>
                         <div className="screen-body">
-                            <div className="screen-body-item left">
-                                <div className="contact-form-title">
-                                    <h3 className="contact-form-title-text">Questions, comments and/or concerns? Contact us! 🙂</h3>
-                                </div>
-                            </div>
                             <div className="screen-body-item">
                                 <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
                                     <div className="app-form">
