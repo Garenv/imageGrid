@@ -5,6 +5,7 @@ import ImageGrid from "../ImageGrid/ImageGrid.jsx";
 import Support from "../Support/Support.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
 import Settings from "../Settings/Settings.jsx";
+import UpdatePassword from "../Settings/Update/UpdatePassword.jsx";
 
 function AppRoutes() {
     return (
@@ -15,6 +16,7 @@ function AppRoutes() {
                     <Route path="/home" element={<ImageGrid/>} />
                     <Route path="/support" element={<Support/>} />
                     <Route path="/settings" element={<Settings/>} />
+                    <Route path="/updatePassword" element={<UpdatePassword/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

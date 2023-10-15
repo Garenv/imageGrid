@@ -111,13 +111,8 @@ class UsersController extends Controller
         return $this->__usersRepository->getDataFromUserLikesTable($loggedInUserId);
     }
 
-    public function getUserData() {
-        return Auth::user();
-    }
-
-    public function changePassword(Request $request)
+    public function updatePassword(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'currentPassword' => 'required',
             'newPassword' => [
@@ -128,7 +123,7 @@ class UsersController extends Controller
         ]);
 
         if($validator->fails()) {
-            $failedRules            = $validator->failed();
+            $failedRules = $validator->failed();
 
             if(isset($failedRules['newPassword']['Min'])) {
                 return response()->json(['status' => 'failed', 'message' => 'Password must contain 8 characters!'], 400);

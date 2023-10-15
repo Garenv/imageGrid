@@ -67,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
     Route::post('/support',                              [SupportController::class,    'support']);
 
+    Route::post('update-password',                      [UsersController::class,      'updatePassword']);
+    Route::post('update-email',                         [UsersController::class,      'updateEmail']);
+    Route::post('update-name',                          [UsersController::class,      'updateName']);
+
 });
 //Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
 //Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);

@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import {useForm} from "react-hook-form";
-import ApiClient from "../../utilities/ApiClient";
-import {toast, ToastContainer} from "react-toastify";
-import {Link, useHistory} from 'react-router-dom';
-import {makeStyles} from '@material-ui/core/styles';
-import {CircularProgress} from "@mui/material";
+import AxiosClient from "../../utlities/AxiosClient.jsx";
+import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from "react-toastify";
+import { makeStyles } from '@material-ui/core/styles';
+import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     spinner: {
@@ -20,28 +19,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UpdatePassword = () => {
-    const {register, handleSubmit} = useForm();
-    let authToken = localStorage.getItem('token');
-    let history = useHistory();
+    const { register, handleSubmit} = useForm();
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
-
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        console.log("currentPassword: ", data.currentPassword);
-        console.log("newPassword: ", data.newPassword);
 
         const formData = {
             currentPassword: data.currentPassword,
             newPassword: data.newPassword
         };
 
-        const headers = {
-            "Accept": 'application/json',
-            "Authorization": `Bearer ${authToken}`
-        };
-
-        ApiClient.post('update-password', formData, {headers})
+        AxiosClient.post('update-password', formData)
             .then(resp => {
                 console.log(resp);
 
@@ -52,7 +42,7 @@ const UpdatePassword = () => {
                 });
 
                 setTimeout(() => {
-                    history.push("/gallery");
+                    navigate("/home");
                 }, 4000);
 
                 setLoading(true);
@@ -72,6 +62,7 @@ const UpdatePassword = () => {
     return (
         <>
             {loading && <CircularProgress className={classes.spinner}/>}
+
             <ToastContainer
                 hideProgressBar
                 closeButton={false}
@@ -84,36 +75,38 @@ const UpdatePassword = () => {
                 alignItems="center"
                 minHeight="100vh"
             >
-                <Link to="/gallery">
-                    <img
-                        src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent.png"
-                        className="pLogoPrizes" alt="Prize Page Logo"/>
-                </Link>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextField
-                        {...register('currentPassword')}
-                        variant="standard"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="currentPassword"
-                        label="Current Password"
-                        name="currentPassword"
-                        type="password"
-                        autoFocus
-                    />
+                <h3 className="contact-form-title-text text-black mt-5"><u>Update Password</u></h3>
 
-                    <TextField
-                        {...register('newPassword')}
-                        variant="standard"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="newPassword"
-                        label="New Password"
-                        type="password"
-                        id="newPassword"
-                    />
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div style={{ width: '200px' }}>
+
+                        <TextField
+                            {...register('currentPassword')}
+                            variant="standard"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="currentPassword"
+                            label="Current Password"
+                            name="currentPassword"
+                            type="password"
+                            autoFocus
+                        />
+                    </div>
+
+                    <div style={{ width: '200px' }}>
+                        <TextField
+                            {...register('newPassword')}
+                            variant="standard"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="newPassword"
+                            label="New Password"
+                            type="password"
+                            id="newPassword"
+                        />
+                    </div>
 
                     <Button
                         type="submit"

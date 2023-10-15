@@ -1,18 +1,18 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
 const Settings = () => {
-    // const history = useHistory();
+    const navigate = useNavigate();
 
     const handleClick = () => {
         console.log("Button clicked");
     }
 
-    // const handleUpdatePasswordClick = () => {
-    //     history.push('/updatePassword');
-    // };
+    const handleUpdatePasswordClick = () => {
+       navigate('/updatePassword');
+    };
     //
     // const handleUpdateEmailClick = () => {
     //     history.push('/updateEmail');
@@ -35,7 +35,7 @@ const Settings = () => {
             {/*</Link>*/}
             <Button
                 variant="contained"
-                // onClick={handleUpdatePasswordClick}
+                onClick={handleUpdatePasswordClick}
                 sx={{
                     backgroundColor: '#000',
                     color: '#fff',
