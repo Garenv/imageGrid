@@ -7,11 +7,15 @@ const Settings = () => {
     const navigate = useNavigate();
 
     const handleUpdatePasswordClick = () => {
-       navigate('/updatePassword');
+       navigate('/update-password');
     };
 
     const handleUpdateEmailClick = () => {
-        navigate('/updateEmail');
+        navigate('/update-email');
+    };
+
+    const handleUpdateNameClick = () => {
+        navigate('/update-name');
     };
 
     return (
@@ -54,7 +58,7 @@ const Settings = () => {
 
             <Button
                 variant="contained"
-                // onClick={handleUpdateNameClick}
+                onClick={handleUpdateNameClick}
                 sx={{
                     backgroundColor: '#000',
                     color: '#fff',

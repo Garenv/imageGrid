@@ -18,9 +18,9 @@ function AppRoutes() {
                     <Route path="/home" element={<ImageGrid/>} />
                     <Route path="/support" element={<Support/>} />
                     <Route path="/settings" element={<Settings/>} />
-                    <Route path="/updatePassword" element={<UpdatePassword/>} />
-                    <Route path="/updateEmail" element={<UpdateEmail/>} />
-                    {/*<Route path="/updateName" element={<UpdateName/>} />*/}
+                    <Route path="/update-password" element={<UpdatePassword/>} />
+                    <Route path="/update-email" element={<UpdateEmail/>} />
+                    <Route path="/update-name" element={<UpdateName/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
