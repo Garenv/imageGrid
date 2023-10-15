@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import UserContext from "../UserContext.jsx";
 import ApiClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
@@ -6,9 +6,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import Navbar from "../Navbar/Navbar.jsx";
 
 const ImageGrid = () => {
-    const userId = useContext(UserContext);
+    const userId = useContext(UserContext).userId;
     const [userLikedPhotos, setUserLikedPhotos] = useState({});
     const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -199,6 +200,7 @@ const ImageGrid = () => {
 
     return(
         <>
+            {/*<Navbar/>*/}
             <div className="btn-wrapper">
                 <Form.Group controlId="formFile" className="mb-5">
                     <Form.Label>Upload Image</Form.Label>
@@ -254,7 +256,7 @@ const ImageGrid = () => {
                                                     closeButton={false}
                                                 />
 
-                                                <img src={photos.url} className="img-fluid" alt="photo" loading="lazy" key={index} />
+                                                <img src={photos.url} className="img-fluid" alt="photo" />
 
                                                 <div className="userDetails">
                                                     <span className="likesAmt" style={{color: '#000000'}}>❤️ {photos.likes}</span><br/>

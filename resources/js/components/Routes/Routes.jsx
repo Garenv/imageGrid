@@ -3,10 +3,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 import ImageGrid from "../ImageGrid/ImageGrid.jsx";
 import Support from "../Support/Support.jsx";
+import Navbar from "../Navbar/Navbar.jsx";
 
 function AppRoutes() {
     return (
         <BrowserRouter>
+            <Navbar/>
             <Routes>
                 <Route element={<ProtectedRoute/>}>
                     <Route path="/home" element={<ImageGrid/>} />
