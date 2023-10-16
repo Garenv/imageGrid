@@ -53,11 +53,13 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
 
+Route::get('/home',                                  [HomeController::class, 'index'])->middleware(['verified']);
+
+
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                [UsersController::class,      'getUserUploadsData']);
     Route::post('/like',                                 [UsersController::class,      'handleLike']);
     Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
-    Route::get('/home',                                  [HomeController::class, 'index'])->name('home');
 
     Route::get('/{any?}', function () {
         return view('home');

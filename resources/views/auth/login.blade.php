@@ -2,7 +2,15 @@
 
 @section('content')
     <div class="section">
+        <h1 class="text-black">FJIO</h1>
         <div class="container">
+            @if (Session::has('error'))
+                <div class="alert alert-danger">
+                    <ul>
+                        <li class="text-black">{{ Session::get('error') }}</li>
+                    </ul>
+                </div>
+            @endif
             <div class="row full-height justify-content-center">
                 <div class="col-12 text-center align-self-center py-5">
                     <div class="section pb-5 pt-5 pt-sm-2 text-center">

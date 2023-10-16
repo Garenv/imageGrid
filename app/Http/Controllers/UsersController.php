@@ -6,6 +6,7 @@ use App\Dal\Interfaces\IUsersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -173,6 +174,7 @@ class UsersController extends Controller
 
     public function updateName(Request $request)
     {
+
         try {
             $request->validate([
                 'updateName'=>'required|string|max:20'
@@ -185,6 +187,15 @@ class UsersController extends Controller
 
         if(!$user) {
             return response()->json(['message' => 'No authenticated user'], 401);
+        }
+
+        // Check the name for profanity using PurgoMalum API.
+        $response = Http::get(config('app.purgo_malum_profanity_filter'), [
+            'text' => $request->get('updateName')
+        ]);
+
+        if ($response->body() === 'true') {
+            return response()->json(['Name cannot contain profanity'], 422);
         }
 
         $user->name = $request->updateName;

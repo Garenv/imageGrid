@@ -24,6 +24,7 @@ return [
     'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
     'mailgun_secret' => env('MAILGUN_SECRET'),
     'mailgun_domain' => env('MAILGUN_DOMAIN'),
+    'purgo_malum_profanity_filter' => env('PURGO_MALUM_PROFANITY_FILTER'),
 
     /*
     |--------------------------------------------------------------------------

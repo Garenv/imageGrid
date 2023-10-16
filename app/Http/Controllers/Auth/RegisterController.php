@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Traits\ProfanityTrait;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
@@ -68,28 +74,27 @@ class RegisterController extends Controller
     {
         $locationData = Location::get();
 
-//        dd($locationData);
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'UserID' => 'u-' . Str::uuid()->toString(),
             'password' => Hash::make($data['password']),
-//            'ip' => $locationData->ip,
-//            'countryName' => $locationData->countryName,
-//            'countryCode' => $locationData->countryCode,
-//            'regionCode' => $locationData->regionCode,
-//            'regionName' => $locationData->regionName,
-//            'cityName' => $locationData->cityName,
-//            'zipCode' => $locationData->zipCode,
-//            'isoCode' => $locationData->isoCode,
-//            'postalCode' => $locationData->postalCode,
-//            'latitude' => $locationData->latitude,
-//            'longitude' => $locationData->longitude,
-//            'metroCode' => $locationData->metroCode,
-//            'areaCode' => $locationData->areaCode,
-//            'timezone' => $locationData->timezone
+            'ip' => $locationData->ip,
+            'countryName' => $locationData->countryName,
+            'countryCode' => $locationData->countryCode,
+            'regionCode' => $locationData->regionCode,
+            'regionName' => $locationData->regionName,
+            'cityName' => $locationData->cityName,
+            'zipCode' => $locationData->zipCode,
+            'isoCode' => $locationData->isoCode,
+            'postalCode' => $locationData->postalCode,
+            'latitude' => $locationData->latitude,
+            'longitude' => $locationData->longitude,
+            'metroCode' => $locationData->metroCode,
+            'areaCode' => $locationData->areaCode,
+            'timezone' => $locationData->timezone
         ]);
 
     }
+
 }
