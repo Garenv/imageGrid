@@ -195,7 +195,7 @@ class UsersController extends Controller
         ]);
 
         if ($response->body() === 'true') {
-            return response()->json(['Name cannot contain profanity'], 422);
+            return response()->json(['message' => 'Name cannot contain profanity'], 422);
         }
 
         $user->name = $request->updateName;

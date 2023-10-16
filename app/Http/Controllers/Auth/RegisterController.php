@@ -31,6 +31,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    use ProfanityTrait;
 
     /**
      * Where to redirect users after registration.
