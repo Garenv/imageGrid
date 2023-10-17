@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import Navbar from "../Navbar/Navbar.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
@@ -200,7 +199,6 @@ const ImageGrid = () => {
 
     return(
         <>
-            {/*<Navbar/>*/}
             <div className="btn-wrapper">
                 <Form.Group controlId="formFile" className="mb-5">
                     <Form.Label>Upload Image</Form.Label>

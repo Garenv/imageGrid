@@ -4,6 +4,7 @@ namespace App\Dal\Repositories;
 
 
 use App\Dal\Interfaces\IUsersRepository;
+use App\Models\LegacyUploads;
 use App\Models\Uploads;
 use App\Models\UserLikes;
 use Illuminate\Support\Facades\DB;
@@ -75,13 +76,9 @@ class UsersRepository implements IUsersRepository
         return UserLikes::where(['user_id' => $loggedInUserId])->get();
     }
 
-    public function getUserFinalData()
+    public function getUsersPastUploads($loggedInUserId)
     {
-        return DB::table('user_likes')
-            ->select( 'uploads.UserID', 'uploads.photo_id', 'user_likes.user_id','user_likes.photo_id')
-            ->join('uploads', 'uploads.UserID', '=', 'user_likes.user_id')
-            ->join('user_likes', 'uploads.photo_id', '=', 'user_likes.photo_id')
-            ->get();
+        return LegacyUploads::select('url', 'likes')->where('UserID', '=', $loggedInUserId)->get();
     }
 
 }

@@ -207,4 +207,9 @@ class UsersController extends Controller
         return response()->json(['message' => 'Name updated successfully'], 200);
     }
 
+    public function getUsersPastUploads() {
+        $loggedInUserId = Auth::user()['UserID'];
+        return $this->__usersRepository->getUsersPastUploads($loggedInUserId);
+    }
+
 }
