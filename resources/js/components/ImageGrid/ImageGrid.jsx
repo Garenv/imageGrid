@@ -13,9 +13,13 @@ const ImageGrid = () => {
     const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [show, setShow] = useState(false);
+    const [showVerifyDelete, setShowVerifyDelete] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const handleVerifyDeleteClose = () => setShowVerifyDelete(false);
+    const handleVerifyDeleteShow = () => setShowVerifyDelete(true);
 
     const queryClient = useQueryClient();
 
@@ -197,6 +201,25 @@ const ImageGrid = () => {
         },
     });
 
+    const verifyDelete = (userId) => {
+        return(
+            <Modal show={showVerifyDelete} onHide={handleVerifyDeleteClose} centered size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title className="text-black">Photo Deletion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="d-flex justify-content-center">
+                    <h1 className="text-black text-center">Are you sure you want to delete your photo?</h1>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleVerifyDeleteClose}>
+                        Close
+                    </Button>
+                    <Button className="bg-danger" onClick={() => {deleteMutation.mutate(userId); handleVerifyDeleteClose()}}>Delete</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    };
+
     return(
         <>
             <div className="btn-wrapper">
@@ -240,6 +263,8 @@ const ImageGrid = () => {
                 </Modal.Footer>
             </Modal>
 
+            {verifyDelete(userId)}
+
             {
                 gridData && gridData.map ?
                     <section className="gallery">
@@ -264,7 +289,7 @@ const ImageGrid = () => {
                                                     }
                                                     <br/>
                                                     <span style={{ color: "black" }}>{photos.name} {userId === photos.UserID ? <h6 style={{ color: "black" }}>(You)</h6> : null}</span>
-                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => deleteMutation.mutate(photos.UserID)}>Delete</Button> : null}
+                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => handleVerifyDeleteShow(photos.UserID)}>Delete</Button> : null}
                                                 </div>
 
                                                 <br/>
