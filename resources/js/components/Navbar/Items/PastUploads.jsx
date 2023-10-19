@@ -13,7 +13,7 @@ const PastUploads = () => {
 
     return(
         <>
-            <h3 className="contact-form-title-text text-black mt-5"><u>Past Uploads</u></h3>
+            <h3 className="contact-form-title-text text-black mt-5 pt-5"><u>Past Uploads</u></h3>
             {
                 gridData && gridData.map ?
                     <section className="gallery">

@@ -222,7 +222,7 @@ const ImageGrid = () => {
 
     return(
         <>
-            <div className="btn-wrapper">
+            <div className="btn-wrapper pt-5">
                 <Form.Group controlId="formFile" className="mb-5">
                     <Form.Label>Upload Image</Form.Label>
                     <div className="custom-file-upload pt-5">
