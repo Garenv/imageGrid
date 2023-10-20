@@ -4,6 +4,7 @@ namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IWinnersRepository;
 use App\Models\Prizes;
+use App\Models\Winners;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -46,6 +47,10 @@ class WinnersRepository implements IWinnersRepository
             ->select('legacy_winners.UserID', 'legacy_winners.likes', 'legacy_winners.place', 'legacy_winners.name', 'legacy_winners.url', 'prizes.prizeName')
             ->join('prizes', 'legacy_winners.prizeId', '=', 'prizes.prizeId')
             ->get();
+    }
+
+    public function getThisWeeksWinners($loggedInUserId) {
+        return Winners::select('place', 'url')->where('UserID', $loggedInUserId)->first();
     }
 
 }

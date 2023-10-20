@@ -8,4 +8,5 @@ interface IWinnersRepository
     public function getTopThreeWinnersFromUploadsTable();
     public function getTopThreeWinnersFromWinnersTable();
     public function getAllWinnersFromLegacyWinnersTable();
+    public function getThisWeeksWinners($loggedInUserId);
 }

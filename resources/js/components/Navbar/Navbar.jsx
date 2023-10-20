@@ -25,11 +25,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const csrfToken = useContext(UserContext).csrfToken;
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -54,13 +52,12 @@ const Navbar = () => {
     };
 
     const pageSelection = (page) => {
+        console.log(page)
         switch (page) {
             case "Past Uploads":
                 return "/past-uploads";
-            // case "Your Prizes":
-            //     return "/yourPrizes";
-            // case "This Week's Winners":
-            //     return "/thisWeeksWinners"
+            case "Prize Status":
+                return "/prize-status"
             case "Support":
                 return "/support"
             default:

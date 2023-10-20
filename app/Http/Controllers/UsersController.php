@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dal\Interfaces\IUsersRepository;
+use App\Dal\Interfaces\IWinnersRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,9 +18,15 @@ class UsersController extends Controller
      */
     protected $__usersRepository;
 
-    public function __construct(IUsersRepository $usersRepository)
+    /**
+     * @var IWinnersRepository
+     */
+    protected $__winnersRepository;
+
+    public function __construct(IUsersRepository $usersRepository, IWinnersRepository $winnersRepository)
     {
         $this->__usersRepository = $usersRepository;
+        $this->__winnersRepository = $winnersRepository;
     }
 
     public function handleLike(Request $request)
@@ -210,6 +217,11 @@ class UsersController extends Controller
     public function getUsersPastUploads() {
         $loggedInUserId = Auth::user()['UserID'];
         return $this->__usersRepository->getUsersPastUploads($loggedInUserId);
+    }
+
+    public function getThisWeeksWinners() {
+        $loggedInUserId = Auth::user()['UserID'];
+        return $this->__winnersRepository->getThisWeeksWinners($loggedInUserId);
     }
 
 }

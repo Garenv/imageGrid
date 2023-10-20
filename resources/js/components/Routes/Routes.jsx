@@ -9,6 +9,7 @@ import UpdatePassword from "../Settings/Update/UpdatePassword.jsx";
 import UpdateEmail from "../Settings/Update/UpdateEmail.jsx";
 import UpdateName from "../Settings/Update/UpdateName.jsx";
 import PastUploads from "../Navbar/Items/PastUploads.jsx";
+import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 
 function AppRoutes() {
     return (
@@ -23,6 +24,7 @@ function AppRoutes() {
                     <Route path="/update-email" element={<UpdateEmail/>} />
                     <Route path="/update-name" element={<UpdateName/>} />
                     <Route path="/past-uploads" element={<PastUploads/>} />
+                    <Route path="/prize-status" element={<PrizeStatus/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -53,28 +53,30 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
 
-Route::get('/home',                                  [HomeController::class, 'index'])->middleware(['verified']);
-
+Route::get('/home',                                       [HomeController::class, 'index'])->middleware(['verified']);
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get( '/get-user-uploads-data',                [UsersController::class,      'getUserUploadsData']);
-    Route::post('/like',                                 [UsersController::class,      'handleLike']);
-    Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
+    Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsData']);
+    Route::post('/like',                                  [UsersController::class,      'handleLike']);
+    Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
 
-    Route::get('/get-users-past-uploads',                [UsersController::class,      'getUsersPastUploads']);
+    Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
+
+    Route::get('/get-this-weeks-winners',                 [UsersController::class,      'getThisWeeksWinners']);
+
 
     Route::get('/{any?}', function () {
         return view('home');
     })->where('any', '.*');
 
-    Route::post('/file-upload',                          [FileUploadController::class, 'fileUpload']);
-    Route::delete('/delete-user-upload',                 [UsersController::class,      'deleteUserUpload']);
-    Route::post('/support',                              [SupportController::class,    'support']);
+    Route::post('/file-upload',                           [FileUploadController::class, 'fileUpload']);
+    Route::delete('/delete-user-upload',                  [UsersController::class,      'deleteUserUpload']);
+    Route::post('/support',                               [SupportController::class,    'support']);
 
-    Route::post('update-password',                      [UsersController::class,      'updatePassword']);
-    Route::post('update-email',                         [UsersController::class,      'updateEmail']);
-    Route::post('update-name',                          [UsersController::class,      'updateName']);
+    Route::post('/update-password',                       [UsersController::class,      'updatePassword']);
+    Route::post('/update-email',                          [UsersController::class,      'updateEmail']);
+    Route::post('/update-name',                           [UsersController::class,      'updateName']);
 
 
 });
