@@ -5,12 +5,41 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from "react-toastify";
+// import { CircularProgress } from "@mui/material";
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+    heartbeatIcon: {
+        animation: '$heartbeat 1s infinite'
+    },
+
+    '@keyframes heartbeat': {
+        '0%': {
+            transform: 'scale(1)',
+        },
+        '50%': {
+            transform: 'scale(1.1)',
+        },
+        '100%': {
+            transform: 'scale(1)',
+        },
+    },
+
+    centered: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: 'grey',
+        zIndex: 1000,
+    },
+}));
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
-    // const [uploadedImage, setUploadedImage] = useState(null);
     const fileInputRef = useRef(null);
     const queryClient = useQueryClient();
+    const classes = useStyles();
 
     useEffect(() => {
         AxiosClient.get('/get-profile-data')
@@ -51,10 +80,6 @@ const Profile = () => {
             queryClient.setQueryData('userAvatar', {avatarImage: data});
         },
 
-        onError: () => {
-            queryClient.setQueryData('userAvatar', previousAvatar);
-        },
-
         onSettled: () => {
             queryClient.invalidateQueries('userAvatar');
         }
@@ -62,22 +87,14 @@ const Profile = () => {
 
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
+
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const formData = new FormData();
                 formData.append('avatar', file);
 
-                // optimistic update but with a 9 seconds timeout to be consistent with the successful HTTP request
-                // of user's update of the avatar image
-                const previousAvatar = queryClient.getQueryData('userAvatar');
-
                 mutation.mutate(formData, {
-                    onError: () => {
-                        // If there's an error, rollback to the previous avatar.
-                        queryClient.setQueryData('userAvatar', previousAvatar);
-                    },
-
                     onSettled: () => {
                         queryClient.invalidateQueries('userAvatar');
                     }
@@ -101,6 +118,14 @@ const Profile = () => {
             {
                 profileData ?
                 <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                    {/* Center CircularProgress in the middle of the screen */}
+
+                    {mutation.isLoading && (
+                        <div className={classes.centered}>
+                            <img src="https://phopixel.s3.amazonaws.com/assets/images/logos/phopixelSpinner-nobackground-v2.png" alt="Icon" className={classes.heartbeatIcon} />
+                        </div>
+                    )}
+
                     <Card style={{ width: '18rem' }}>
 
                         {/*<Card.Body>*/}
@@ -114,6 +139,7 @@ const Profile = () => {
                             <ListGroup.Item>{profileData.name}</ListGroup.Item>
                             <ListGroup.Item>{profileData.email}</ListGroup.Item>
                         </ListGroup>
+
 
                         <Button
                             variant="outline-primary"
