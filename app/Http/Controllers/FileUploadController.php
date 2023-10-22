@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Aws\Rekognition\RekognitionClient;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class FileUploadController extends Controller
@@ -67,12 +68,11 @@ class FileUploadController extends Controller
             $currentWeekNumber = date('W');
             $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
 
-            if ($weekday !== 'Wednesday' && ($currentWeekNumber !== $uploadedWeekNumber)) {
+            if ($weekday !== 'Sunday' && ($currentWeekNumber !== $uploadedWeekNumber)) {
                 $this->insertSetStoreAsset($file, $path, $imgName, $data);
                 return $isImageUploadedAppropriate;
             }
 
-            return response()->json(['status' => 'failed', 'message' => "You have already uploaded a photo this week!"], 500);
 
         } catch (RekognitionException $e) {
             Log::error($e->getMessage());
@@ -143,5 +143,45 @@ class FileUploadController extends Controller
             'message' => 'Image uploaded!',
             'isInappropriate' => false
         ]);
+    }
+
+    public function uploadAvatarImage(Request $request) {
+        try {
+            $path                       = config('app.aws_s3_path_phopixel');
+            $file                       = $request->file('avatar');
+            $imgName                    = $file->getClientOriginalName();
+            $bucket                     = config('app.aws_bucket_phopixel');
+            $avatarImageUrl             = "https://{$bucket}.s3.amazonaws.com{$path}{$imgName}";
+            $userId                     = Auth::user()['UserID'];
+
+            $avatarImage = $this->isImageUploadedAppropriate(file_get_contents($file->path()));
+
+            $pathWithImageName = $path.$imgName;
+
+            if($avatarImage->getStatusCode() === 200) {
+                Storage::disk('s3_phopixel')->put($pathWithImageName, file_get_contents($file));
+                $this->__uploadsRepository->updateUserAvatarImage($userId, $avatarImageUrl);
+
+                return response()->json(['message' => 'Avatar image uploaded!']);
+            }
+
+            return response()->json(['message' => "Something's wrong with your upload!"], 400);
+
+        } catch (RekognitionException $e) {
+            Log::error($e->getMessage());
+
+            // grab the previous Guzzle exception since the Rekognition API
+            // disallows access to the appropriate status codes
+            $previousException = $e->getPrevious();
+
+            if($previousException->getCode() !== 200) {
+                return response()->json(['status' => 'failed', 'message' => "Something's wrong with your upload!"], $previousException->getCode());
+            }
+        }
+    }
+
+    public function getAvatarImage() {
+        $userId = Auth::user()['UserID'];
+        return $this->__uploadsRepository->getAvatarImage($userId);
     }
 }

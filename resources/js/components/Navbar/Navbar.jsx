@@ -1,5 +1,6 @@
-import {useState, useContext, useEffect} from "react";
+import { useState } from "react";
 import UserContext from "../UserContext.jsx";
+import {useQuery, useQueryClient} from 'react-query';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -31,6 +32,24 @@ const Navbar = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
+    // const { data: avatar } = useQuery('userAvatar', () => null, {
+    //     staleTime: Infinity
+    // });
+
+    const { data: avatarData } = useQuery('userAvatar', getAvatar);
+
+    const avatarUrl = avatarData?.avatarImage;
+
+    async function getAvatar() {
+        const response = await AxiosClient.get('/get-avatar-image');
+
+        if(response.status !== 200) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.data;
+    }
+
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -47,8 +66,20 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
+    const logout = () => {
+        AxiosClient.post('/logout');
+    }
+
     const handleSettingsClick = () => {
         navigate('/settings');
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+    };
+
+    const handleNavigation = () => {
+        navigate('/home');
     };
 
     const pageSelection = (page) => {
@@ -63,14 +94,6 @@ const Navbar = () => {
             default:
                 return "Not Found";
         }
-    };
-
-    const logout = () => {
-        AxiosClient.post('/logout');
-    }
-
-    const handleNavigation = () => {
-        navigate('/home');
     };
 
     return (
@@ -177,7 +200,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" />
+                                <Avatar src={avatarUrl} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -199,6 +222,12 @@ const Navbar = () => {
 
                         <Button variant="text" onClick={handleSettingsClick}>
                             Settings
+                        </Button>
+
+                        <br/>
+
+                        <Button variant="text" onClick={handleProfileClick}>
+                            Profile
                         </Button>
 
                         <br/>

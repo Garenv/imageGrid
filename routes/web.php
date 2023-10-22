@@ -60,10 +60,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsData']);
     Route::post('/like',                                  [UsersController::class,      'handleLike']);
     Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
-
     Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
-
     Route::get('/get-this-weeks-winners',                 [UsersController::class,      'getThisWeeksWinners']);
+    Route::get('/get-profile-data',                       [UsersController::class,      'getProfileData']);
+    Route::get('/get-avatar-image',                       [FileUploadController::class, 'getAvatarImage']);
 
 
     Route::get('/{any?}', function () {
@@ -73,11 +73,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/file-upload',                           [FileUploadController::class, 'fileUpload']);
     Route::delete('/delete-user-upload',                  [UsersController::class,      'deleteUserUpload']);
     Route::post('/support',                               [SupportController::class,    'support']);
-
     Route::post('/update-password',                       [UsersController::class,      'updatePassword']);
     Route::post('/update-email',                          [UsersController::class,      'updateEmail']);
     Route::post('/update-name',                           [UsersController::class,      'updateName']);
-
+    Route::post('/upload-avatar-image',                   [FileUploadController::class, 'uploadAvatarImage']);
 
 });
 //Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);

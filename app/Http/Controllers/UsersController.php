@@ -224,4 +224,8 @@ class UsersController extends Controller
         return $this->__winnersRepository->getThisWeeksWinners($loggedInUserId);
     }
 
+    public function getProfileData() {
+        return Auth::user();
+    }
+
 }
