@@ -49,6 +49,14 @@ const Profile = () => {
     }, {
         onSuccess: (data) => {
             queryClient.setQueryData('userAvatar', {avatarImage: data});
+        },
+
+        onError: () => {
+            queryClient.setQueryData('userAvatar', previousAvatar);
+        },
+
+        onSettled: () => {
+            queryClient.invalidateQueries('userAvatar');
         }
     });
 
@@ -63,9 +71,6 @@ const Profile = () => {
                 // optimistic update but with a 9 seconds timeout to be consistent with the successful HTTP request
                 // of user's update of the avatar image
                 const previousAvatar = queryClient.getQueryData('userAvatar');
-                setTimeout(() => {
-                    queryClient.setQueryData('userAvatar', {avatarImage: e.target.result});
-                }, 9000);
 
                 mutation.mutate(formData, {
                     onError: () => {
