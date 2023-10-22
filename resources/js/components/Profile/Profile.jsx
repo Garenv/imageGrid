@@ -20,20 +20,31 @@ const Profile = () => {
     }, []);
 
     const mutation = useMutation(async (formData) => {
-        // Prepare the file for sending
-        // const formData = new FormData();
-        // formData.append('avatar', newAvatar); // 'avatar' is the field name. You can adjust as per your server's requirements
 
-        // Send the avatar to the server
         return AxiosClient.post('/upload-avatar-image', formData)
             .then(resp => {
                 console.log(resp);
-                // If you want to update the cache with a response from the server (e.g., a new image URL or some confirmation), you can do it here
+
+                toast.success(resp.data.message, {
+                    closeOnClick: false,
+                    closeButton: false,
+                    autoClose: 1000
+                });
+
                 return resp.data;
             })
             .catch(err => {
-                console.log(err);
-                throw err; // Ensures the mutation catches this as an error
+                console.log(err.response.data);
+
+                let errorMessage = err.response.data.message;
+
+                toast.error(errorMessage, {
+                    closeOnClick: false,
+                    closeButton: false,
+                    autoClose: 1000
+                });
+
+                throw new Error('Upload failed');
             });
     }, {
         onSuccess: (data) => {
@@ -49,17 +60,20 @@ const Profile = () => {
                 const formData = new FormData();
                 formData.append('avatar', file);
 
-                // Provide an optimistic update.
+                // optimistic update but with a 9 seconds timeout to be consistent with the successful HTTP request
+                // of user's update of the avatar image
                 const previousAvatar = queryClient.getQueryData('userAvatar');
-                queryClient.setQueryData('userAvatar', {avatarImage: e.target.result});
+                setTimeout(() => {
+                    queryClient.setQueryData('userAvatar', {avatarImage: e.target.result});
+                }, 9000);
 
                 mutation.mutate(formData, {
                     onError: () => {
                         // If there's an error, rollback to the previous avatar.
                         queryClient.setQueryData('userAvatar', previousAvatar);
                     },
+
                     onSettled: () => {
-                        // Refetch the data after the mutation is done (whether it's successful or failed)
                         queryClient.invalidateQueries('userAvatar');
                     }
                 });
@@ -67,9 +81,6 @@ const Profile = () => {
             reader.readAsDataURL(file);
         }
     }, [mutation, queryClient]);
-
-
-
 
     const onImageClick = useCallback(() => {
         fileInputRef.current.click();

@@ -224,7 +224,7 @@ const ImageGrid = () => {
         <>
             <div className="btn-wrapper pt-5">
                 <Form.Group controlId="formFile" className="mb-5">
-                    <Form.Label>Upload Image</Form.Label>
+                    {/*<Form.Label>Upload Image</Form.Label>*/}
                     <div className="custom-file-upload pt-5">
                         <label htmlFor="file" className="btn btn-outline-secondary">
                             Upload

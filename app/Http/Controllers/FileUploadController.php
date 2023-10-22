@@ -156,13 +156,17 @@ class FileUploadController extends Controller
 
             $avatarImage = $this->isImageUploadedAppropriate(file_get_contents($file->path()));
 
+            if($avatarImage->getStatusCode() === 400) {
+                return $avatarImage->setStatusCode(400);
+            }
+
             $pathWithImageName = $path.$imgName;
 
             if($avatarImage->getStatusCode() === 200) {
                 Storage::disk('s3_phopixel')->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->updateUserAvatarImage($userId, $avatarImageUrl);
 
-                return response()->json(['message' => 'Avatar image uploaded!']);
+                return response()->json(['message' => 'Avatar image updated!']);
             }
 
             return response()->json(['message' => "Something's wrong with your upload!"], 400);

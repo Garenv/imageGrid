@@ -32,7 +32,9 @@ const Navbar = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    const { data: avatarData } = useQuery('userAvatar', getAvatar);
+    const { data: avatarData } = useQuery('userAvatar', getAvatar, {
+        refetchOnWindowFocus: false, // disable background refetching upon window focus
+    });
 
     const avatarUrl = avatarData?.avatarImage;
 
@@ -79,7 +81,6 @@ const Navbar = () => {
     };
 
     const pageSelection = (page) => {
-        console.log(page)
         switch (page) {
             case "Past Uploads":
                 return "/past-uploads";
