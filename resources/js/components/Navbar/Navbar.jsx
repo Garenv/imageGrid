@@ -32,10 +32,6 @@ const Navbar = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    // const { data: avatar } = useQuery('userAvatar', () => null, {
-    //     staleTime: Infinity
-    // });
-
     const { data: avatarData } = useQuery('userAvatar', getAvatar);
 
     const avatarUrl = avatarData?.avatarImage;

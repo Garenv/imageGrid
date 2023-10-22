@@ -19,10 +19,10 @@ const Profile = () => {
             })
     }, []);
 
-    const mutation = useMutation(async (newAvatar) => {
+    const mutation = useMutation(async (formData) => {
         // Prepare the file for sending
-        const formData = new FormData();
-        formData.append('avatar', newAvatar); // 'avatar' is the field name. You can adjust as per your server's requirements
+        // const formData = new FormData();
+        // formData.append('avatar', newAvatar); // 'avatar' is the field name. You can adjust as per your server's requirements
 
         // Send the avatar to the server
         return AxiosClient.post('/upload-avatar-image', formData)
@@ -44,9 +44,31 @@ const Profile = () => {
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
         if (file) {
-            mutation.mutate(file); // Directly send the File object instead of a Data URL
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                // Provide an optimistic update.
+                const previousAvatar = queryClient.getQueryData('userAvatar');
+                queryClient.setQueryData('userAvatar', {avatarImage: e.target.result});
+
+                mutation.mutate(formData, {
+                    onError: () => {
+                        // If there's an error, rollback to the previous avatar.
+                        queryClient.setQueryData('userAvatar', previousAvatar);
+                    },
+                    onSettled: () => {
+                        // Refetch the data after the mutation is done (whether it's successful or failed)
+                        queryClient.invalidateQueries('userAvatar');
+                    }
+                });
+            };
+            reader.readAsDataURL(file);
         }
-    }, [mutation]);
+    }, [mutation, queryClient]);
+
+
 
 
     const onImageClick = useCallback(() => {
