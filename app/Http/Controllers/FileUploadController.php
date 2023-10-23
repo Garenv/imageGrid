@@ -58,37 +58,22 @@ class FileUploadController extends Controller
                 return $isImageUploadedAppropriate->setStatusCode(400);
             }
 
-            if (!empty($checkIfUserHasUploaded)) {
-                $this->insertSetStoreAsset($file, $path, $imgName, $data);
-//                return $isImageUploadedAppropriate;
-            }
+            $pathWithImageName = $path.$imgName;
 
-//            $existingUploadedTimestamp = $checkIfUserHasUploaded->timeStamp;
-//            $weekday = date('l', strtotime($existingUploadedTimestamp));
-//            $currentWeekNumber = date('W');
-//            $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
-//
-//            if ($weekday !== 'Sunday' && ($currentWeekNumber !== $uploadedWeekNumber)) {
-//                $this->insertSetStoreAsset($file, $path, $imgName, $data);
-//                return $isImageUploadedAppropriate;
-//            }
-
-            $existingUploadedTimestamp = $checkIfUserHasUploaded->timeStamp;
-
-            // Check if the existing upload date belongs to the current week
-            $currentWeekNumber = date('W');
-            $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
-
-            // If the uploaded week number is the same as the current week number, prevent the upload
-            if ($uploadedWeekNumber == $currentWeekNumber) {
-                // Handle the error (e.g., throw an exception, return an error message, etc.)
-                return Response::json(['message' => "You've already uploaded a photo this week!"]);
-            } else {
-                $this->insertSetStoreAsset($file, $path, $imgName, $data);
+            if (empty($checkIfUserHasUploaded)) {
+                Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
+                $this->__uploadsRepository->insertUserUploadedAsset($data);
+                // Redis::set("uploadId:$insertUploadDataAndGetUploadId", json_encode($data));
                 return $isImageUploadedAppropriate;
             }
 
+            $existingUploadedTimestamp = $checkIfUserHasUploaded->timeStamp;
+            $currentWeekNumber = date('W');
+            $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
 
+            if ($uploadedWeekNumber == $currentWeekNumber) {
+                return Response::json(['message' => "You've already uploaded a photo this week!"],400);
+            }
 
         } catch (RekognitionException $e) {
             Log::error($e->getMessage());
@@ -103,18 +88,6 @@ class FileUploadController extends Controller
 
         }
 
-    }
-
-    public function insertSetStoreAsset($file, $path, $imgName, $data) {
-        $file->storeAs(
-            $path, // Folder
-            $imgName, // Name of image
-            's3' // Disk Name
-        );
-
-        DB::table('uploads')->insertGetId($data);
-        LegacyUploads::create($data);
-//        Redis::set("uploadId:$insertUploadDataAndGetUploadId", json_encode($data));
     }
 
     public function isImageUploadedAppropriate($file) {
@@ -163,7 +136,7 @@ class FileUploadController extends Controller
 
     public function uploadAvatarImage(Request $request) {
         try {
-            $path                       = config('app.AWS_S3_PATH_STAGE');
+            $path                       = getS3PathForEnv().'/avatarImages/';
             $file                       = $request->file('avatar');
             $imgName                    = $file->getClientOriginalName();
             $bucket                     = config('app.aws_bucket');
@@ -179,7 +152,7 @@ class FileUploadController extends Controller
             $pathWithImageName = $path.$imgName;
 
             if($avatarImage->getStatusCode() === 200) {
-                Storage::disk('s3_phopixel_stage')->put($pathWithImageName, file_get_contents($file));
+                Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->updateUserAvatarImage($userId, $avatarImageUrl);
 
                 return response()->json(['message' => 'Avatar image updated!']);

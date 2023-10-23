@@ -22,6 +22,8 @@ return [
     'aws_bucket' => env('AWS_BUCKET'),
     'aws_secret_access_key' => env('AWS'),
     'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
+    'filesystem_disk_stage' => env('FILESYSTEM_DISK_STAGE'),
+    'filesystem_disk_prod' => env('FILESYSTEM_DISK_PROD'),
     'mailgun_secret' => env('MAILGUN_SECRET'),
     'mailgun_domain' => env('MAILGUN_DOMAIN'),
     'purgo_malum_profanity_filter' => env('PURGO_MALUM_PROFANITY_FILTER'),

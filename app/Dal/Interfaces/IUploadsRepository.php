@@ -12,6 +12,6 @@ interface IUploadsRepository
 
     public function getAvatarImage($userId);
 
-    public function insertUserUploadedAsset();
+    public function insertUserUploadedAsset($data);
 }
 

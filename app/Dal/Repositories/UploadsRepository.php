@@ -3,6 +3,7 @@
 namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IUploadsRepository;
+use App\Models\LegacyUploads;
 use App\Models\Uploads;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -28,5 +29,8 @@ class UploadsRepository implements IUploadsRepository
         return User::select('avatarImage')->where('UserID', $userId)->first();
     }
 
-    public function
+    public function insertUserUploadedAsset($data) {
+        Uploads::create($data);
+        LegacyUploads::create($data);
+    }
 }
