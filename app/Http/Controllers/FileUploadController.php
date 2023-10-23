@@ -32,7 +32,7 @@ class FileUploadController extends Controller
     public function fileUpload(Request $request) {
 
         try {
-            $path                       = config('app.aws_s3_path');
+            $path                       = getS3PathForEnv().'/userUploads/';
             $file                       = $request->file('image');
             $imgName                    = $file->getClientOriginalName();
             $bucket                     = config('app.aws_bucket');
@@ -55,23 +55,39 @@ class FileUploadController extends Controller
             ];
 
             if ($isImageUploadedAppropriate->getStatusCode() == 400) {
-                return $isImageUploadedAppropriate;
+                return $isImageUploadedAppropriate->setStatusCode(400);
             }
 
-            if (count($checkIfUserHasUploaded) === 0) {
+            if (!empty($checkIfUserHasUploaded)) {
                 $this->insertSetStoreAsset($file, $path, $imgName, $data);
-                return $isImageUploadedAppropriate;
+//                return $isImageUploadedAppropriate;
             }
 
-            $existingUploadedTimestamp = $checkIfUserHasUploaded[0]->timeStamp;
-            $weekday = date('l', strtotime($existingUploadedTimestamp));
+//            $existingUploadedTimestamp = $checkIfUserHasUploaded->timeStamp;
+//            $weekday = date('l', strtotime($existingUploadedTimestamp));
+//            $currentWeekNumber = date('W');
+//            $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
+//
+//            if ($weekday !== 'Sunday' && ($currentWeekNumber !== $uploadedWeekNumber)) {
+//                $this->insertSetStoreAsset($file, $path, $imgName, $data);
+//                return $isImageUploadedAppropriate;
+//            }
+
+            $existingUploadedTimestamp = $checkIfUserHasUploaded->timeStamp;
+
+            // Check if the existing upload date belongs to the current week
             $currentWeekNumber = date('W');
             $uploadedWeekNumber = date('W', strtotime($existingUploadedTimestamp));
 
-            if ($weekday !== 'Sunday' && ($currentWeekNumber !== $uploadedWeekNumber)) {
+            // If the uploaded week number is the same as the current week number, prevent the upload
+            if ($uploadedWeekNumber == $currentWeekNumber) {
+                // Handle the error (e.g., throw an exception, return an error message, etc.)
+                return Response::json(['message' => "You've already uploaded a photo this week!"]);
+            } else {
                 $this->insertSetStoreAsset($file, $path, $imgName, $data);
                 return $isImageUploadedAppropriate;
             }
+
 
 
         } catch (RekognitionException $e) {
@@ -147,10 +163,10 @@ class FileUploadController extends Controller
 
     public function uploadAvatarImage(Request $request) {
         try {
-            $path                       = config('app.aws_s3_path_phopixel');
+            $path                       = config('app.AWS_S3_PATH_STAGE');
             $file                       = $request->file('avatar');
             $imgName                    = $file->getClientOriginalName();
-            $bucket                     = config('app.aws_bucket_phopixel');
+            $bucket                     = config('app.aws_bucket');
             $avatarImageUrl             = "https://{$bucket}.s3.amazonaws.com{$path}{$imgName}";
             $userId                     = Auth::user()['UserID'];
 
@@ -163,7 +179,7 @@ class FileUploadController extends Controller
             $pathWithImageName = $path.$imgName;
 
             if($avatarImage->getStatusCode() === 200) {
-                Storage::disk('s3_phopixel')->put($pathWithImageName, file_get_contents($file));
+                Storage::disk('s3_phopixel_stage')->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->updateUserAvatarImage($userId, $avatarImageUrl);
 
                 return response()->json(['message' => 'Avatar image updated!']);

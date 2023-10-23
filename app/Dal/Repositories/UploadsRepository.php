@@ -13,7 +13,7 @@ class UploadsRepository implements IUploadsRepository
         return DB::table('uploads')
             ->select('UserId', 'isUploaded', 'timeStamp')
             ->where('UserID', $userId)
-            ->get();
+            ->first();
     }
 
     public function getAllUploadsData() {
@@ -27,4 +27,6 @@ class UploadsRepository implements IUploadsRepository
     public function getAvatarImage($userId) {
         return User::select('avatarImage')->where('UserID', $userId)->first();
     }
+
+    public function
 }
