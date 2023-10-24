@@ -1,11 +1,12 @@
 import React, {useContext, useState} from 'react';
 import UserContext from "../UserContext.jsx";
-import ApiClient from "../utlities/AxiosClient.jsx";
+import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from "react-toastify";
 import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
@@ -24,7 +25,7 @@ const ImageGrid = () => {
     const queryClient = useQueryClient();
 
     const fetchUserUploads = async () => {
-        const { data } = await ApiClient.get('/get-user-uploads-data');
+        const { data } = await AxiosClient.get('/get-user-uploads-data');
         return data;
     };
 
@@ -33,7 +34,7 @@ const ImageGrid = () => {
         formData.append("image", file);
 
         try {
-            const response = await ApiClient.post('/file-upload', formData);
+            const response = await AxiosClient.post('/file-upload', formData);
 
             let okStatus= response.status;
             let successMessage = response.data.message;
@@ -113,10 +114,11 @@ const ImageGrid = () => {
         toast.success(`You liked ${userName}'s photo!`, {
             closeOnClick: false,
             progress: false,
-            closeButton: false
+            closeButton: false,
+            autoClose: 1100
         });
 
-        ApiClient.post('/like', data).catch(err => { console.log(err); });
+        AxiosClient.post('/like', data).catch(err => { console.log(err); });
 
         setUserLikedPhotos({...userLikedPhotos});
     };
@@ -137,10 +139,11 @@ const ImageGrid = () => {
         toast.error(`You disliked ${userName}'s photo!`, {
             closeOnClick: false,
             progress: false,
-            closeButton: false
+            closeButton: false,
+            autoClose: 1100
         });
 
-        ApiClient.post('/dislike', data).catch(err => {console.log(err);});
+        AxiosClient.post('/dislike', data).catch(err => {console.log(err);});
 
         setUserLikedPhotos({...userLikedPhotos});
 
@@ -148,7 +151,7 @@ const ImageGrid = () => {
 
     const deleteUserUpload = (likedPhotoUserId) => {
 
-        ApiClient.delete(`/delete-user-upload?UserID=${likedPhotoUserId}`)
+        AxiosClient.delete(`/delete-user-upload?UserID=${likedPhotoUserId}`)
             .then(resp => {
                 let okStatus       = resp.status;
                 let successMessage = resp.data.message;
@@ -222,9 +225,11 @@ const ImageGrid = () => {
 
     return(
         <>
+
+            {uploadMutation.isLoading && <LoadingSpinner/>}
+
             <div className="btn-wrapper pt-5">
                 <Form.Group controlId="formFile" className="mb-5">
-                    {/*<Form.Label>Upload Image</Form.Label>*/}
                     <div className="custom-file-upload pt-5">
                         <label htmlFor="file" className="btn btn-outline-secondary">
                             Upload
@@ -255,10 +260,10 @@ const ImageGrid = () => {
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => uploadMutation.mutate(file)}
+                        onClick={() => {uploadMutation.mutate(file); handleClose()}}
                         disabled={uploadMutation.isLoading}
                     >
-                        {uploadMutation.isLoading ? 'Uploading...' : 'Submit'}
+                        Submit
                     </Button>
                 </Modal.Footer>
             </Modal>

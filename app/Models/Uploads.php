@@ -29,6 +29,7 @@ class Uploads extends Model
         'isUploaded',
         'timeStamp',
         'likes',
-        'uploadId'
+        'uploadId',
+        'photo_id'
     ];
 }

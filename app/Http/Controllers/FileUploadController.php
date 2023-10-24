@@ -42,8 +42,10 @@ class FileUploadController extends Controller
             $time                       = Carbon::now();
             $timeStamp                  = $time->toDateTimeString();
             $photoId                    = 'p-' . Str::uuid()->toString();
+
             $checkIfUserHasUploaded     = $this->__uploadsRepository->checkIfUserHasUploaded($userId);
             $isImageUploadedAppropriate = $this->isImageUploadedAppropriate(file_get_contents($file->path()));
+
 
             $data = [
                 'url'                   => $url,
@@ -54,13 +56,17 @@ class FileUploadController extends Controller
                 'photo_id'              => $photoId
             ];
 
+
             if ($isImageUploadedAppropriate->getStatusCode() == 400) {
                 return $isImageUploadedAppropriate->setStatusCode(400);
             }
 
             $pathWithImageName = $path.$imgName;
 
+
+
             if (empty($checkIfUserHasUploaded)) {
+
                 Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->insertUserUploadedAsset($data);
                 // Redis::set("uploadId:$insertUploadDataAndGetUploadId", json_encode($data));
