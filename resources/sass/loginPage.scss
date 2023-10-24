@@ -11,7 +11,7 @@ a { cursor: pointer; transition: all 200ms linear; }
 
 a:hover { text-decoration: none; }
 
-.link { color: #fff; }
+//.link { color: #fff; }
 
 .link:hover { color: #1E90FF; }
 
@@ -31,8 +31,8 @@ h6 span{
 }
 .full-height{ min-height: 100vh; }
 
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked){
+#reg-log[type="checkbox"]:checked,
+#reg-log[type="checkbox"]:not(:checked){
     position: absolute;
     left: -9999px;
 }
@@ -93,7 +93,7 @@ h6 span{
 }
 .card-front, .card-back {
     width: 100%;
-    height: 100%;
+    height: 120%;
     background-color: #2a2b38;
     position: absolute;
     border-radius: 6px;
