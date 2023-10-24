@@ -26,7 +26,7 @@ Route::get('/check-session', [HomeController::class, 'checkSession']);
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('/home');
+        return redirect('/grid');
     }
     return view('welcome');
 });
@@ -53,7 +53,7 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
 
-Route::get('/home',                                       [HomeController::class, 'index'])->middleware(['verified']);
+Route::get('/grid',                                       [HomeController::class, 'index'])->middleware(['verified']);
 
 
 Route::middleware(['auth'])->group(function () {

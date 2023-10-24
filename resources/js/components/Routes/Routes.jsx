@@ -18,7 +18,7 @@ function AppRoutes() {
             <Navbar/>
             <Routes>
                 <Route element={<ProtectedRoute/>}>
-                    <Route path="/home" element={<ImageGrid/>} />
+                    <Route path="/grid" element={<ImageGrid/>} />
                     <Route path="/support" element={<Support/>} />
                     <Route path="/settings" element={<Settings/>} />
                     <Route path="/update-password" element={<UpdatePassword/>} />

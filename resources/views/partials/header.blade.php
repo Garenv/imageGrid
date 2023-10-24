@@ -13,7 +13,7 @@
         </nav>
 
         @if (Route::has('login'))
-            <a href="{{ url('/home') }}" class="get-started-btn">Get Started</a>
+            <a href="{{ url('/grid') }}" class="get-started-btn">Get Started</a>
         @endif
 
     </div>

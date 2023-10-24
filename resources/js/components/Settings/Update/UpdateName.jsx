@@ -40,7 +40,7 @@ const UpdateName = () => {
                 });
 
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate("/grid");
                 }, 4000);
 
                 setLoading(true);

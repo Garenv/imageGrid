@@ -77,7 +77,7 @@ const Navbar = () => {
     };
 
     const handleNavigation = () => {
-        navigate('/home');
+        navigate('/grid');
     };
 
     const pageSelection = (page) => {

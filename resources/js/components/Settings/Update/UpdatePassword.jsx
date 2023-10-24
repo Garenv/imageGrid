@@ -42,7 +42,7 @@ const UpdatePassword = () => {
                 });
 
                 setTimeout(() => {
-                    navigate("/home");
+                    navigate("/grid");
                 }, 4000);
 
                 setLoading(true);
