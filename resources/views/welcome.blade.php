@@ -22,7 +22,7 @@
     <link href="{{ asset('build/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('build/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-    @vite('resources/css/style.css')
+    @vite(['resources/css/style.css'])
 </head>
 
 <body>
