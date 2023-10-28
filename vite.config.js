@@ -34,7 +34,7 @@ export default defineConfig({
     ],
     build: {
         rollupOptions: {
-            input: ['resources/js/app.js', 'resources/css/app.css']
+            input: ['resources/js/app.js', 'resources/css/style.css']
         },
         base: process.env.VITE_APP_ENV === 'stage' ? process.env.VITE_APP_URL + '/build/' : '/'
     }
