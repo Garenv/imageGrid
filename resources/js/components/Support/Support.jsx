@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../../sass/Support/support.scss';
+import '../../../sass/support/support.scss';
 import { toast, ToastContainer } from "react-toastify";
 import ApiClient from "../utlities/AxiosClient.jsx";
 import MenuItem from "@mui/material/MenuItem";
