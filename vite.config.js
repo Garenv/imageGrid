@@ -1,7 +1,13 @@
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
 import copy from 'rollup-plugin-copy'
+import { configDotenv } from "dotenv";
+
+configDotenv();
+
+console.log("VITE_APP_ENV", process.env.VITE_APP_ENV);
+console.log("VITE_APP_URL", process.env.VITE_APP_URL);
 
 export default defineConfig({
     plugins: [
@@ -21,7 +27,16 @@ export default defineConfig({
             targets: [
                 { src: 'resources/assets/vendor/*', dest: 'public/build/assets/vendor' }
             ],
-            hook: 'writeBundle' // ensure the copy is done after writing the bundle
-        })
+            // ensure the copy is done after writing the bundle
+            // this line is crucial otherwise assets won't load properly
+            hook: 'writeBundle'
+        }),
     ],
+    build: {
+        rollupOptions: {
+            input: ['resources/js/app.js', 'resources/css/app.css']
+        },
+        base: process.env.VITE_APP_ENV === 'stage' ? process.env.VITE_APP_URL + '/build/' : '/'
+    }
+
 });
