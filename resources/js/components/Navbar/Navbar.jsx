@@ -24,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
     centeredText: {
         justifyContent: 'center'
     },
+
+    noAnimation: {
+        animation: 'none !important',
+        transform: 'none !important',
+        transition: 'none !important'
+    }
 }));
 
 const Navbar = () => {
@@ -145,6 +151,7 @@ const Navbar = () => {
                             }}
                         >
 
+                            {/* Mobile hamburger menu */}
                             {pages.map((page) => (
                                 <MenuItem
                                     key={page}
@@ -179,7 +186,8 @@ const Navbar = () => {
                         Phopixel
                     </Typography>
 
-                    <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }} className={classes.centeredText}>
+                    {/* Desktop AppBar Pages */}
+                    <Box sx={{ flexGrow: 2, display: { xs: 'none', md: 'flex' } }} className={`${classes.centeredText} ${classes.noAnimation}`}>
                         {pages.map((page) => (
                             <Button
                                 key={page}

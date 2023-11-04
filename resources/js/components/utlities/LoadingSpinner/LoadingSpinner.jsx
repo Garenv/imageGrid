@@ -3,10 +3,10 @@ import React from 'react';
 
 const useStyles = makeStyles(() => ({
     spinIcon: {
-        animation: '$spin 1s infinite linear'
+        animation: '$uniqueSpinner 1s infinite linear'
     },
 
-    '@keyframes spin': {
+    '@keyframes uniqueSpinner': {
         '0%': {
             transform: 'rotate(0deg)',
         },
