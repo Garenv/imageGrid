@@ -9,6 +9,8 @@
     <!-- Link Alpine.js for interactive functionality -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Contact Form</title>
 
     <script>
