@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dal\Interfaces\IUploadsRepository;
-use App\Models\LegacyUploads;
-use Aws\Exception\AwsException;
 use Aws\Rekognition\Exception\RekognitionException;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Aws\Rekognition\RekognitionClient;
@@ -44,7 +42,7 @@ class FileUploadController extends Controller
             $photoId                    = 'p-' . Str::uuid()->toString();
 
             $checkIfUserHasUploaded     = $this->__uploadsRepository->checkIfUserHasUploaded($userId);
-            $isImageUploadedAppropriate = $this->isImageUploadedAppropriate(file_get_contents($file->path()));
+            $isImageUploadedAppropriate = $this->isImageUploadedAppropriate(File::get($file->path()));
 
 
             $data = [
