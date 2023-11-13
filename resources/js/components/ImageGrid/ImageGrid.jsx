@@ -272,7 +272,7 @@ const ImageGrid = () => {
 
             {
                 gridData && gridData.map ?
-                    <section className="gallery">
+                    <section className="gallery overflow-auto vh-100">
                         <div className="container">
                             <div className="img-container">
                                 {
