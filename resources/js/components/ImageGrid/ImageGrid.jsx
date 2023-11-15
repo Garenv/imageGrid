@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +7,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import BottomBar from "../Navbar/BottomBar.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
@@ -20,9 +21,24 @@ const ImageGrid = () => {
     const handleShow = () => setShow(true);
 
     const handleVerifyDeleteClose = () => setShowVerifyDelete(false);
+
     const handleVerifyDeleteShow = () => setShowVerifyDelete(true);
 
     const queryClient = useQueryClient();
+
+    const handleScroll = useCallback(() => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            // Load more content
+            console.log('Reached bottom');
+        }
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+
+        // Make sure to remove the event listener when the component unmounts
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [handleScroll]);
 
     const fetchUserUploads = async () => {
         const { data } = await AxiosClient.get('/get-user-uploads-data');
@@ -228,28 +244,28 @@ const ImageGrid = () => {
 
             {uploadMutation.isLoading && <LoadingSpinner/>}
 
-            <div className="btn-wrapper pt-5">
-                <Form.Group controlId="formFile" className="mb-5">
-                    <div className="custom-file-upload pt-5">
-                        <label htmlFor="file" className="btn btn-outline-secondary">
-                            Upload
-                        </label>
-                        <input
-                            id="file"
-                            type="file"
-                            onChange={handleImageChange}
-                            style={{ display: "none" }}
-                            accept=".jpg, .jpeg, .png, .heic"
-                        />
-                    </div>
-                </Form.Group>
-            </div>
+            {/*<div className="btn-wrapper pt-5">*/}
+            {/*    <Form.Group controlId="formFile" className="mb-5">*/}
+            {/*        <div className="custom-file-upload pt-5">*/}
+            {/*            <label htmlFor="file" className="btn btn-outline-secondary">*/}
+            {/*                Upload*/}
+            {/*            </label>*/}
+            {/*            <input*/}
+            {/*                id="file"*/}
+            {/*                type="file"*/}
+            {/*                onChange={handleImageChange}*/}
+            {/*                style={{ display: "none" }}*/}
+            {/*                accept=".jpg, .jpeg, .png, .heic"*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*    </Form.Group>*/}
+            {/*</div>*/}
 
-            <Modal show={show} onHide={handleClose} centered size="lg">
+            <Modal show={show} onHide={handleClose} centered size="lg" style={{ overflowY: "scroll"}}>
                 <Modal.Header closeButton>
                     <Modal.Title>Image Preview</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="d-flex justify-content-center">
+                <Modal.Body className="d-flex justify-content-center" style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
                     {imagePreview && (
                         <img src={imagePreview} alt="preview" className="img-fluid" />
                     )}
@@ -272,7 +288,7 @@ const ImageGrid = () => {
 
             {
                 gridData && gridData.map ?
-                    <section className="gallery vh-100">
+                    <section className="gallery vh-100 pt-5">
                         <div className="container">
                             <div className="img-container">
                                 {
@@ -284,7 +300,9 @@ const ImageGrid = () => {
                                                     closeButton={false}
                                                 />
 
-                                                <img src={photos.url} className="img-fluid" alt="photo" />
+                                                <div className="image-container">
+                                                    <img src={photos.url} className="img-fluid uploaded-image" alt="photo" />
+                                                </div>
 
                                                 <div className="userDetails">
                                                     <span className="likesAmt" style={{color: '#000000'}}>❤️ {photos.likes}</span><br/>
@@ -306,6 +324,7 @@ const ImageGrid = () => {
                         </div>
                     </section> : <h1>No Uploads, yet.  Be the first to upload!</h1>
             }
+            <BottomBar onFileSelect={handleImageChange} />
         </>
     );
 }
