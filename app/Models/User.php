@@ -24,7 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'UserID',
-        'dateOfBirth',
         'password',
         'ip',
         'countryName',
@@ -33,6 +32,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'regionName',
         'cityName',
         'zipCode',
+        'latitude',
+        'areaCode',
+        'timezone',
         'email_verified_at'
     ];
 

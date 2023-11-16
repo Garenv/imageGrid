@@ -68,10 +68,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $ipAddress = request()->ip();
         $locationData = Location::get($ipAddress);
-
-        dd($locationData);
 
         return User::create([
             'name' => $data['name'],
