@@ -6,13 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Traits\ProfanityTrait;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
@@ -73,7 +68,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $locationData = Location::get();
+        $ipAddress = request()->ip();
+        $locationData = Location::get($ipAddress);
 
         return User::create([
             'name' => $data['name'],
