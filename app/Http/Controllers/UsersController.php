@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dal\Interfaces\IUsersRepository;
 use App\Dal\Interfaces\IWinnersRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -51,7 +52,10 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
+
+            if($e->getCode()) {
+                return response()->json(['message' => 'Something went wrong!'], 500);
+            }
         }
 
     }
@@ -78,7 +82,10 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
+
+            if($e->getCode()) {
+                return response()->json(['message' => 'Something went wrong!'], 500);
+            }
         }
 
     }
@@ -105,18 +112,6 @@ class UsersController extends Controller
     {
         $loggedInUserId = Auth::user()['UserID'];
         return $this->__usersRepository->getUploads($loggedInUserId);
-    }
-
-    public function getUserLikes($userId)
-    {
-        return $this->__usersRepository->getUserLikes($userId);
-    }
-
-    public function getDataFromUserLikesTable()
-    {
-        $loggedInUserId = Auth::user()['UserID'];
-
-        return $this->__usersRepository->getDataFromUserLikesTable($loggedInUserId);
     }
 
     public function updatePassword(Request $request)

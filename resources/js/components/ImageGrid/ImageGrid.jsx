@@ -107,20 +107,35 @@ const ImageGrid = () => {
             'likedPhotoId' : likedPhotoId
         };
 
-        userLikedPhotos[likedPhotoUserId] = true;
-        gridData.find(photo => photo.UserID === likedPhotoUserId).likes++;
-        gridData.find(photo => photo.UserID === likedPhotoUserId).is_liked = 1;
+        AxiosClient.post('/like', data)
+            .then(resp => {
 
-        toast.success(`You liked ${userName}'s photo!`, {
-            closeOnClick: false,
-            progress: false,
-            closeButton: false,
-            autoClose: 1100
-        });
+                if(resp.status === 200) {
+                    userLikedPhotos[likedPhotoUserId] = true;
+                    gridData.find(photo => photo.UserID === likedPhotoUserId).likes++;
+                    gridData.find(photo => photo.UserID === likedPhotoUserId).is_liked = 1;
+                    setUserLikedPhotos({...userLikedPhotos});
 
-        AxiosClient.post('/like', data).catch(err => { console.log(err); });
+                    toast.success(`You liked ${userName}'s photo!`, {
+                        closeOnClick: false,
+                        progress: false,
+                        closeButton: false,
+                        autoClose: 1100
+                    });
+                }
 
-        setUserLikedPhotos({...userLikedPhotos});
+            }).catch(err => {
+
+                if(err.response.status !== 200) {
+                    toast.error(err.response.data.message, {
+                        closeOnClick: false,
+                        progress: false,
+                        closeButton: false,
+                        autoClose: 1100
+                    });
+                }
+
+            });
     };
 
     const handleDislike = (likedPhotoUserId, userName, likedPhotoId) => {
@@ -131,22 +146,33 @@ const ImageGrid = () => {
             'dislikedPhotoId' : likedPhotoId
         };
 
-        // dislike
-        delete userLikedPhotos[likedPhotoUserId];
-        gridData.find(photo => photo.UserID === likedPhotoUserId).likes--;
-        gridData.find(photo => photo.UserID === likedPhotoUserId).is_liked = 0;
+        AxiosClient.post('/dislike', data)
+            .then(resp => {
+                console.log(resp);
+                if(resp.status === 200) {
+                    delete userLikedPhotos[likedPhotoUserId];
+                    gridData.find(photo => photo.UserID === likedPhotoUserId).likes--;
+                    gridData.find(photo => photo.UserID === likedPhotoUserId).is_liked = 0;
+                    setUserLikedPhotos({...userLikedPhotos});
 
-        toast.error(`You disliked ${userName}'s photo!`, {
-            closeOnClick: false,
-            progress: false,
-            closeButton: false,
-            autoClose: 1100
-        });
+                    toast.error(`You disliked ${userName}'s photo!`, {
+                        closeOnClick: false,
+                        progress: false,
+                        closeButton: false,
+                        autoClose: 1100
+                    });
+                }
+            }).catch(err => {
 
-        AxiosClient.post('/dislike', data).catch(err => {console.log(err);});
-
-        setUserLikedPhotos({...userLikedPhotos});
-
+                if(err.response.status !== 200) {
+                    toast.error(err.response.data.message, {
+                        closeOnClick: false,
+                        progress: false,
+                        closeButton: false,
+                        autoClose: 1100
+                    });
+                }
+            });
     };
 
     const deleteUserUpload = (likedPhotoUserId) => {

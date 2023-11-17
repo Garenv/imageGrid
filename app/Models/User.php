@@ -15,6 +15,9 @@ class User extends Authenticatable implements MustVerifyEmail
     // Placed here after deleting updated_at column since it's not needed.
     public $timestamps = false;
 
+    protected $primaryKey = 'UserID';
+    public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *

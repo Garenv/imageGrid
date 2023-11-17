@@ -44,7 +44,6 @@ class FileUploadController extends Controller
             $checkIfUserHasUploaded     = $this->__uploadsRepository->checkIfUserHasUploaded($userId);
             $isImageUploadedAppropriate = $this->isImageUploadedAppropriate(File::get($file->path()));
 
-
             $data = [
                 'url'                   => $url,
                 'UserID'                => $userId,
@@ -54,17 +53,13 @@ class FileUploadController extends Controller
                 'photo_id'              => $photoId
             ];
 
-
             if ($isImageUploadedAppropriate->getStatusCode() == 400) {
                 return $isImageUploadedAppropriate->setStatusCode(400);
             }
 
             $pathWithImageName = $path.$imgName;
 
-
-
             if (empty($checkIfUserHasUploaded)) {
-
                 Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->insertUserUploadedAsset($data);
                 // Redis::set("uploadId:$insertUploadDataAndGetUploadId", json_encode($data));
