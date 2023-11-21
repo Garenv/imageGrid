@@ -15,13 +15,12 @@ const useStyles = makeStyles(() => ({
         },
     },
 
-
     centered: {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        zIndex: 1000,
+        zIndex: 10000
     },
 }));
 
@@ -33,6 +32,7 @@ const LoadingSpinner = () => {
             <img src="https://phopixel.s3.amazonaws.com/stage/assets/images/logos/phopixel_icon_small.png" alt="Icon" className={classes.spinIcon} />
         </div>
     );
+
 };
 
 export default LoadingSpinner;

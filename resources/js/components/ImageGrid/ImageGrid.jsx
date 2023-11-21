@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +7,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import { useSharedStyles } from "../utlities/SharedStyles.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
@@ -15,6 +16,7 @@ const ImageGrid = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [show, setShow] = useState(false);
     const [showVerifyDelete, setShowVerifyDelete] = useState(false);
+    const sharedClasses = useSharedStyles();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -26,6 +28,7 @@ const ImageGrid = () => {
 
     const fetchUserUploads = async () => {
         const { data } = await AxiosClient.get('/get-user-uploads-data');
+        console.log(data);
         return data;
     };
 
@@ -66,7 +69,7 @@ const ImageGrid = () => {
         }
     };
 
-    const { data: gridData } = useQuery('userUploads', fetchUserUploads);
+    const { data: gridData, isLoading } = useQuery('userUploads', fetchUserUploads);
 
     const uploadMutation = useMutation(uploadImage, {
         onSuccess: (newImage) => {
@@ -249,6 +252,14 @@ const ImageGrid = () => {
         );
     };
 
+    const noUploadsYet = () => {
+        if(uploadMutation.isLoading) {
+            return;
+        }
+
+        return <h1 className={sharedClasses.centered}>No Uploads, yet.  Be the first to upload!</h1>
+    };
+
     return(
         <>
 
@@ -297,7 +308,7 @@ const ImageGrid = () => {
             {verifyDelete(userId)}
 
             {
-                gridData && gridData.map ?
+                gridData && gridData.length !== 0 ?
                     <section className="gallery vh-100">
                         <div className="container">
                             <div className="img-container">
@@ -330,7 +341,7 @@ const ImageGrid = () => {
                                 }
                             </div>
                         </div>
-                    </section> : <h1>No Uploads, yet.  Be the first to upload!</h1>
+                    </section> : noUploadsYet()
             }
         </>
     );
