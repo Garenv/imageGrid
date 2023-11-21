@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Traits\MailgunTrait;
 
-class WeeklyWinnersService
+class WinnersService
 {
     use MailgunTrait;
 
@@ -162,4 +162,9 @@ class WeeklyWinnersService
             throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    public function truncateWeeklyWinners() {
+        Winners::truncate();
+    }
+
 }

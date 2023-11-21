@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AxiosClient from "../../utlities/AxiosClient.jsx";
+import { useSharedStyles } from "../../utlities/SharedStyles.jsx";
 
 const PrizeStatus = () => {
     const [thisWeeksWinnerData, setThisWeeksWinnerData] = useState(null);
+    const sharedStyles = useSharedStyles();
 
     useEffect(() => {
         AxiosClient.get('/get-this-weeks-winners')
@@ -14,7 +16,6 @@ const PrizeStatus = () => {
 
     return(
         <>
-
             {
                 thisWeeksWinnerData ?
                     <section className="gallery" style={{ paddingTop: "5rem" }}>
@@ -28,7 +29,7 @@ const PrizeStatus = () => {
                                 }
                             </div>
                         </div>
-                    </section> : <h1>You didn't win this week.</h1>
+                    </section> : <h1 className={sharedStyles.centered}>You didn't win this week.</h1>
             }
         </>
     );

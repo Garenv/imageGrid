@@ -77,7 +77,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-email',                          [UsersController::class,      'updateEmail']);
     Route::post('/update-name',                           [UsersController::class,      'updateName']);
     Route::post('/upload-avatar-image',                   [FileUploadController::class, 'uploadAvatarImage']);
-
 });
 //Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
 //Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);
