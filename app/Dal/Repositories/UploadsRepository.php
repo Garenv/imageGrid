@@ -30,7 +30,13 @@ class UploadsRepository implements IUploadsRepository
     }
 
     public function insertUserUploadedAsset($data) {
-        Uploads::create($data);
-        LegacyUploads::create($data);
+        if(Uploads::count() < 200) {
+            Uploads::create($data);
+            LegacyUploads::create($data);
+
+            return ['status' => 200];
+        }
+
+        return ['status' => 400];
     }
 }

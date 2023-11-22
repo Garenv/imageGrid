@@ -61,7 +61,11 @@ class FileUploadController extends Controller
 
             if (empty($checkIfUserHasUploaded)) {
                 Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
-                $this->__uploadsRepository->insertUserUploadedAsset($data);
+
+                if($this->__uploadsRepository->insertUserUploadedAsset($data)['status'] === 400) {
+                    return response()->json(['message' => 'Upload limit has been reached for this week!'], 400);
+                }
+
                 // Redis::set("uploadId:$insertUploadDataAndGetUploadId", json_encode($data));
                 return $isImageUploadedAppropriate;
             }

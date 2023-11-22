@@ -28,7 +28,6 @@ const ImageGrid = () => {
 
     const fetchUserUploads = async () => {
         const { data } = await AxiosClient.get('/get-user-uploads-data');
-        console.log(data);
         return data;
     };
 
@@ -179,23 +178,20 @@ const ImageGrid = () => {
     };
 
     const deleteUserUpload = (likedPhotoUserId) => {
-
         AxiosClient.delete(`/delete-user-upload?UserID=${likedPhotoUserId}`)
             .then(resp => {
-                let okStatus       = resp.status;
-                let successMessage = resp.data.message;
+                console.log(resp.status);
 
-                if(okStatus) {
-                    setShow(false);
+                if(resp.status === 200) {
+                    toast.success(resp.data.message, {
+                        closeOnClick: false,
+                        closeButton: false,
+                        autoClose: 1100
+                    });
                 }
 
-                toast.success(successMessage, {
-                    closeOnClick: false,
-                    closeButton: false,
-                    autoClose: 1100
-                });
-
             }).catch(error => {
+
             let errorMessage       = error.response.data.message;
 
             toast.error(errorMessage, {
@@ -203,7 +199,6 @@ const ImageGrid = () => {
                 closeButton: false,
                 autoClose: 1400
             });
-
         });
     }
 
@@ -265,6 +260,11 @@ const ImageGrid = () => {
 
             {uploadMutation.isLoading && <LoadingSpinner/>}
 
+            <ToastContainer
+                hideProgressBar
+                closeButton={false}
+            />
+
             <div className="btn-wrapper pt-5">
                 <Form.Group controlId="formFile" className="mb-5">
                     <div className="custom-file-upload pt-5">
@@ -316,11 +316,6 @@ const ImageGrid = () => {
                                     gridData.map((photos, index) => {
                                         return (
                                             <>
-                                                <ToastContainer
-                                                    hideProgressBar
-                                                    closeButton={false}
-                                                />
-
                                                 <img src={photos.url} className="img-fluid" alt="photo" />
 
                                                 <div className="userDetails">
