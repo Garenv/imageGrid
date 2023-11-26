@@ -107,7 +107,8 @@
 
             <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
             <p class="mb-4">If you have any questions or concerns about this privacy policy, please contact us at
-                info@phopixel.com.</p>
+                <a href="mailto:support@phopixel.com">support@phopixel.com</a>.
+            </p>
         </section>
     </body>
 
