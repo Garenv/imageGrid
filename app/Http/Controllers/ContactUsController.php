@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SupportMail;
+use App\Mail\ContactUs;
 use App\Traits\MailgunTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +46,7 @@ class ContactUsController extends Controller
                 'messageText' => $request->get('messageText')
             ];
 
-            Mail::to('phopixelmain@gmail.com')->send(new SupportMail($emailData));
+            Mail::to('phopixelmain@gmail.com')->send(new ContactUs($emailData));
 
             return response()->json(['message' => "Message sent successfully!"]);
 

@@ -125,7 +125,6 @@ const Support = () => {
                                             >
                                                 <MenuItem value="Website loading slowly">Website loading slowly</MenuItem>
                                                 <MenuItem value="My Prize Has Not Been Sent Yet">My Prize Has Not Been Sent Yet</MenuItem>
-                                                <MenuItem value="Suggestions">Suggestions</MenuItem>
                                                 <MenuItem value="Other">Other</MenuItem>
                                             </Select>
                                         </FormControl>

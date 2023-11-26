@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Support;
 use App\Traits\MailgunTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class SupportController extends Controller
@@ -40,23 +42,14 @@ class SupportController extends Controller
             $file->move($publicPath, $fileName);
 
             $emailData = [
-                'to' => 'phopixelmain@gmail.com',
                 'from' => Auth::user()['email'],
                 'subject' => $subject,
-                'html' => htmlEmail('emails.support.support', [
-                    'name' => Auth::user()['name'],
-                    'messageText' => $messageText
-                ]),
-                'attachment' => [
-                    ['filePath' => $fullFilePath, 'filename' => $fileName]
-                ]
+                'name' => Auth::user()['name'],
+                'messageText' => $messageText,
+                'attachment' => ['filePath' => $fullFilePath]
             ];
 
-            $response = $this->mailgunSendMessage($emailData);
-
-            if(!$response) {
-                return response()->json(['status' => 'failed', 'message' => 'Message not sent!  We have been notified and are looking into it!'], 422);
-            }
+            Mail::to('phopixelmain@gmail.com')->send(new Support($emailData));
 
             return response()->json(['status' => 'success', 'message' => "Successfully Sent! We'll get back to you as soon as possible!"]);
 

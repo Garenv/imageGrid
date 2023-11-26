@@ -5,22 +5,20 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SupportMail extends Mailable
+class WeeklyWinners extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $emailData;
     /**
      * Create a new message instance.
      */
-    public function __construct($emailData)
+    public function __construct()
     {
-        $this->emailData = $emailData;
+        //
     }
 
     /**
@@ -29,7 +27,7 @@ class SupportMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Support Mail'
+            subject: 'Weekly Winners',
         );
     }
 
@@ -39,7 +37,7 @@ class SupportMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contactUs.contact-us'
+            view: 'view.name',
         );
     }
 
@@ -52,5 +50,4 @@ class SupportMail extends Mailable
     {
         return [];
     }
-
 }
