@@ -39,29 +39,14 @@ class Support extends Mailable
      */
     public function content(): Content
     {
-
         return new Content(
             view: 'emails.support.support',
             with: [
-                'name' => $this->emailData['from'],
+                'name' => $this->emailData['name'],
                 'messageText' => $this->emailData['messageText']
             ]
         );
     }
-
-
-//$emailData = [
-//'to' => 'phopixelmain@gmail.com',
-//'from' => Auth::user()['email'],
-//'subject' => $subject,
-//'html' => htmlEmail('emails.support.support', [
-//'name' => Auth::user()['name'],
-//'messageText' => $messageText
-//]),
-//'attachment' => [
-//['filePath' => $fullFilePath, 'filename' => $fileName]
-//]
-//];
 
     /**
      * Get the attachments for the message.
@@ -70,8 +55,13 @@ class Support extends Mailable
      */
     public function attachments(): array
     {
-        return [
-            Attachment::fromPath($this->emailData['attachment']['filePath'])
-        ];
+        if(isset($this->emailData['attachment']['filePath']) && $this->emailData['attachment']['filePath'] !== "") {
+            return [
+                Attachment::fromPath($this->emailData['attachment']['filePath'])
+            ];
+        }
+
+        return [];
+
     }
 }

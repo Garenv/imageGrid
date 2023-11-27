@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel, Select } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
+import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -31,11 +32,8 @@ const Support = () => {
     const [fileContent, setFileContent]                                           = useState(null);
     const [messageText, setMessageText]                                    = useState("");
     const [subject, setSubject]                                            = useState('');
-    const classes                                            = useStyles();
-
-    const handleDropdownChange = (event) => {
-        setSubject(event.target.value);
-    };
+    const [isSpinning, setIsSpinning]                                    = useState(false);
+    const classes                                           = useStyles();
 
     // Create a reference to the hidden file input element
     const hiddenFileInput = React.useRef(null);
@@ -55,21 +53,29 @@ const Support = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsSpinning(true);
 
         let data = new FormData();
         data.append('subject', subject)
         data.append('messageText', messageText);
-        data.append('file', fileContent);
+
+        if(fileContent !== null) {
+            data.append('file', fileContent);
+        }
 
         ApiClient.post('/support', data)
             .then(resp => {
-                let statusMessage = resp.data.message;
+                setIsSpinning(false);
 
-                toast.success(statusMessage, {
-                    closeOnClick: false,
-                    closeButton: false,
-                    autoClose: 1400,
-                });
+                if(resp.status === 200) {
+
+                    toast.success(resp.data.message, {
+                        closeOnClick: false,
+                        closeButton: false,
+                        autoClose: 1400,
+                    });
+                }
+
             }).catch(error => {
             let errorMessage       = error.response.data.message;
 
@@ -83,6 +89,9 @@ const Support = () => {
 
     return(
         <>
+
+            {isSpinning && <LoadingSpinner/>}
+
             <ToastContainer
                 hideProgressBar
                 closeButton={false}
@@ -124,7 +133,7 @@ const Support = () => {
                                                 className={classes.outlined}
                                             >
                                                 <MenuItem value="Website loading slowly">Website loading slowly</MenuItem>
-                                                <MenuItem value="My Prize Has Not Been Sent Yet">My Prize Has Not Been Sent Yet</MenuItem>
+                                                <MenuItem value="My Prize Has Not Been Sent Yet">I haven't received my prize</MenuItem>
                                                 <MenuItem value="Other">Other</MenuItem>
                                             </Select>
                                         </FormControl>

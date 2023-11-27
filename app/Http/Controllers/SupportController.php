@@ -17,12 +17,11 @@ class SupportController extends Controller
     public function support(Request $request)
     {
         try {
-            $file                        = $request->file('file');
             $subject                     = $request->get('subject');
             $messageText                 = $request->get('messageText');
 
             $validator = Validator::make($request->all() , [
-                'file'                   => 'mimes:png,jpeg,jpg,heic,mov,mp4|max:2048',
+                'file'                   => 'sometimes|mimes:png,jpeg,jpg,heic,mov,mp4|max:2048',
                 'messageText'            => 'required|min:10'
             ]);
 
@@ -33,21 +32,25 @@ class SupportController extends Controller
                     return response()->json(['status' => 'failed', 'message' => 'Message is too short!'], 422);
                 }
 
+                return response()->json(['errors' => $validator->errors()], 422);
+
             }
-
-            $publicPath = public_path('/attachments/');
-            $fileName = $file->getClientOriginalName();
-            $fullFilePath = $publicPath . $fileName;
-
-            $file->move($publicPath, $fileName);
 
             $emailData = [
                 'from' => Auth::user()['email'],
                 'subject' => $subject,
                 'name' => Auth::user()['name'],
                 'messageText' => $messageText,
-                'attachment' => ['filePath' => $fullFilePath]
             ];
+
+            if($request->hasFile('file')) {
+                $file = $request->file('file');
+                $publicPath = public_path('/attachments/');
+                $fileName = $file->getClientOriginalName();
+                $fullFilePath = $publicPath . $fileName;
+                $emailData['attachment'] = ['filePath' => $fullFilePath];
+                $file->move($publicPath, $fileName);
+            }
 
             Mail::to('phopixelmain@gmail.com')->send(new Support($emailData));
 
@@ -55,7 +58,6 @@ class SupportController extends Controller
 
         } catch(\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
 
     }
