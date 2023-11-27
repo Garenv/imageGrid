@@ -9,7 +9,6 @@ const PrizeStatus = () => {
     useEffect(() => {
         AxiosClient.get('/get-this-weeks-winners')
             .then(resp => {
-                console.log(resp.data);
                 setThisWeeksWinnerData(resp.data);
             })
     }, []);

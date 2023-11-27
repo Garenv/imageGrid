@@ -3,17 +3,17 @@
 namespace App\Services;
 
 use App\Dal\Interfaces\IWinnersRepository;
+use App\Mail\WeeklyWinners;
 use App\Models\LegacyWinners;
 use App\Models\Uploads;
 use App\Models\Winners;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Traits\MailgunTrait;
 
 class WinnersService
 {
-    use MailgunTrait;
 
     protected $__winnersRepository;
 
@@ -66,45 +66,32 @@ class WinnersService
             $thirdPlaceEmail = $topThreeWinners[2]->email;
 
             $emailDataFirstPlace = [
-                'from' => 'Phopixel Team <noreply@phopixel.com>',
                 'to' => $firstPlaceEmail,
+                'from' => 'noreply@phopixel.com',
                 'place' => "1st Place",
-                'name' => $firstPlaceName,
-                'subject' => "You're the 1st Place Winner!",
-                'html' => htmlEmail('emails.winners.winners_email', [
-                    'winnerData' => $firstPlaceName,
-                    'place' => '1st Place'
-                ])
+                'winnerName' => $firstPlaceName,
+                'subject' => "You're the 1st Place Winner!"
             ];
-
 
             $emailDataSecondPlace = [
                 'to' => $secondPlaceEmail,
-                'from' => 'Phopixel Team <noreply@phopixel.com>',
+                'from' => 'noreply@phopixel.com',
                 'place' => "2nd Place",
-                'name' => $secondPlaceName,
-                'subject' => "You're the 2nd Place Winner!",
-                'html' => htmlEmail('emails.winners.winners_email', [
-                    'winnerData' => $secondPlaceName,
-                    'place' => '2nd Place'
-                ])
+                'winnerName' => $secondPlaceName,
+                'subject' => "You're the 2nd Place Winner!"
             ];
 
             $emailDataThirdPlace = [
                 'to' => $thirdPlaceEmail,
-                'from' => 'Phopixel Team <noreply@phopixel.com>',
+                'from' => 'noreply@phopixel.com',
                 'place' => "3rd Place",
-                'name' => $thirdPlaceName,
-                'subject' => "You're the 3rd Place Winner!",
-                'html' => htmlEmail('emails.winners.winners_email', [
-                    'winnerData' => $thirdPlaceName,
-                    'place' => '3rd Place'
-                ])
+                'winnerName' => $thirdPlaceName,
+                'subject' => "You're the 3rd Place Winner!"
             ];
 
-            $this->mailgunSendMessage($emailDataFirstPlace);
-            $this->mailgunSendMessage($emailDataSecondPlace);
-            $this->mailgunSendMessage($emailDataThirdPlace);
+            Mail::to($firstPlaceEmail)->send(new WeeklyWinners($emailDataFirstPlace));
+            Mail::to($secondPlaceEmail)->send(new WeeklyWinners($emailDataSecondPlace));
+            Mail::to($thirdPlaceEmail)->send(new WeeklyWinners($emailDataThirdPlace));
 
             $winnersDataFirstPlace = [
                 'UserID' => $firstPlaceUserId,

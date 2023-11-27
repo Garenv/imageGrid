@@ -13,12 +13,13 @@ class WeeklyWinners extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $emailData;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($emailData)
     {
-        //
+        $this->emailData = $emailData;
     }
 
     /**
@@ -27,7 +28,8 @@ class WeeklyWinners extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Weekly Winners',
+            subject: $this->emailData['subject'],
+            from: $this->emailData['from']
         );
     }
 
@@ -36,8 +38,13 @@ class WeeklyWinners extends Mailable
      */
     public function content(): Content
     {
+
         return new Content(
-            view: 'view.name',
+            view: 'emails.winners.winners_email',
+            with: [
+                'winnerName' => $this->emailData['winnerName'],
+                'place' => $this->emailData['place'],
+            ]
         );
     }
 

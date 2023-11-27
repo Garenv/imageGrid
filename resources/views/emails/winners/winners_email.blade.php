@@ -117,7 +117,7 @@
         <tr>
             <td style="width: 596px; vertical-align: top; padding-left: 30px; padding-right: 30px; padding-top: 30px; padding-bottom: 40px;" width="596">
                 @if(in_array($place ?? '', ['1st Place', '2nd Place', '3rd Place']))
-                    <b>Congratulations, {{ $winnerData }}!  You're our {{ $place }} winner of this week!</b>
+                    <b>Congratulations, {{ $winnerName }}!  You're our {{ $place }} winner of this week!</b>
                     <br>
                     <br>
                     <b>We'll email you your prize in less than one business day, be on the lookout!</b>
