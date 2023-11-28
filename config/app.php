@@ -18,6 +18,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'aws_s3_path_stage' => env('AWS_S3_PATH_STAGE'),
+    'aws_s3_path_prod' => env('AWS_S3_PATH_PROD'),
     'aws_default_region' => env('AWS_DEFAULT_REGION'),
     'aws_bucket' => env('AWS_BUCKET'),
     'aws_secret_access_key' => env('AWS'),
