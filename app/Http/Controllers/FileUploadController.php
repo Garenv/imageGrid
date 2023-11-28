@@ -60,7 +60,7 @@ class FileUploadController extends Controller
             $pathWithImageName = $path.$imgName;
 
             if (empty($checkIfUserHasUploaded)) {
-                Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
+                Storage::disk('s3')->put($pathWithImageName, file_get_contents($file));
 
                 if($this->__uploadsRepository->insertUserUploadedAsset($data)['status'] === 400) {
                     return response()->json(['message' => 'Upload limit has been reached for this week!'], 400);
@@ -155,7 +155,7 @@ class FileUploadController extends Controller
             $pathWithImageName = $path.$imgName;
 
             if($avatarImage->getStatusCode() === 200) {
-                Storage::disk(getFileSystemDiskForEnv())->put($pathWithImageName, file_get_contents($file));
+                Storage::disk('s3')->put($pathWithImageName, file_get_contents($file));
                 $this->__uploadsRepository->updateUserAvatarImage($userId, $avatarImageUrl);
 
                 return response()->json(['message' => 'Avatar image updated!']);
@@ -178,6 +178,7 @@ class FileUploadController extends Controller
 
     public function getAvatarImage() {
         $userId = Auth::user()['UserID'];
+
         return $this->__uploadsRepository->getAvatarImage($userId);
     }
 }

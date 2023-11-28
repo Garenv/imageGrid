@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactUs;
-use App\Traits\MailgunTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ContactUsController extends Controller
 {
-    use MailgunTrait;
     public function submitContactUs(Request $request) {
 
         try {

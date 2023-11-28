@@ -29,13 +29,26 @@
         <div class="py-3">
             <details class="group">
                 <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
-                    <span> Is it free and is there a catch?</span>
+                    <span>Is it free and is there a catch?</span>
                     <span class="transition group-open:rotate-180">
                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    There's no catch at all, it's completely free to participate and ALWAYS will be.  We'll NEVER ask you for payment information simply because, again, it's completely free.
+                    There's no catch at all, it's completely free to participate and always will be.  We'll never ask you for payment information simply because, again, it's completely free.
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>What prizes can I win?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    At the time of writing this, we're awarding gift cards to winners.  However, this will change overtime for more appealing prizes.
                 </p>
             </details>
         </div>
@@ -63,7 +76,7 @@
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    It's simple! All you need to do is upload a photo and every Sunday at midnight there will be a 1st, 2nd and 3rd place winner based on the number of likes your photo accumulated over the week.  Each winner will receive a prize consistent with which place they got in.
+                    It's simple! All you need to do is upload a photo and every Sunday at 12:00am EST there will be a 1st, 2nd and 3rd place winner based on the number of likes your photo accumulated over the week.  Each winner will receive a prize consistent with which place they got in.
                 </p>
             </details>
         </div>
@@ -78,6 +91,20 @@
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
                     Phopixel is a combination of two words - Photo and Pixel which's what the product revolves around.
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>Can international users win prizes?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+</svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    Yes, international winners will receive prizes that are most suitable for the country in which they reside.
                 </p>
             </details>
         </div>

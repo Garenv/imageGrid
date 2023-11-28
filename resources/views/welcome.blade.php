@@ -39,7 +39,7 @@
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
             <div class="col-xl-6 col-lg-8">
                 <h1>Win prizes for uploading appealing photos</h1>
-                <h2>The first website ever to give out prizes based on how much people admire your taste in photos!</h2>
+                <h2>The first website ever to award prizes contingent on how well-liked the photos are</h2>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
                 <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
                     <h3>What is Phopixel?</h3>
                     <p>
-                        Phopixel is the first website that gives everyone an equal chance of winning prizes solely based on the appealingness of your uploaded photo.
+                        Phopixel is the first website that ensures a fair opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
                         The goal of Phopixel is to give something back to the world in a fair, concise and honest way
                         <br>
                         <br>
@@ -100,8 +100,8 @@
                     </p>
                     <ul>
                         <li><i class="ri-check-double-line"></i>It's free to join and participate</li>
+                        <li><i class="ri-check-double-line"></i>Available worldwide</li>
                         <li><i class="ri-check-double-line"></i>Prizes are given out weekly</li>
-                        <li><i class="ri-check-double-line"></i>Available around the world</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
                     </ul>
 
@@ -193,7 +193,9 @@
 
     <div class="container">
         <div class="copyright">
-            &copy; Copyright <strong><span>Phopixel</span></strong>. All Rights Reserved
+             Copyright &copy; <strong><span>2023 Phopixel</span></strong>
+            <br>
+            All Rights Reserved.
         </div>
     </div>
 </footer><!-- End Footer -->
