@@ -6,16 +6,16 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>Phopixel</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    <meta content="og:title" name="Phopixel">
+    <meta property="og:description" content="Win prizes based on the number of likes on your photo">
+    <meta name="google-adsense-account" content="ca-pub-7469058557975267">
 
     <!-- Favicons -->
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7469058557975267"
-            crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7469058557975267" crossorigin="anonymous"></script>
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('build/assets/vendor/aos/aos.css') }}" rel="stylesheet">
