@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -8,22 +6,15 @@ import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AxiosClient from "../../utlities/AxiosClient.jsx";
+import LoadingSpinner from "../../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
-const useStyles = makeStyles(theme => ({
-    spinner: {
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-    },
-}));
 const UpdateName = () => {
     const {register, handleSubmit} = useForm();
-    const classes = useStyles();
-    const [loading, setLoading] = useState(false);
+    const [isSpinning, setIsSpinning] = useState(false);
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
+        setIsSpinning(true);
 
         const formData = {
             updateName: data.updateName
@@ -31,35 +22,38 @@ const UpdateName = () => {
 
         AxiosClient.post('update-name', formData)
             .then(resp => {
-                console.log(resp);
 
-                toast.success(resp.data.message, {
-                    closeOnClick: false,
-                    closeButton: false,
-                    autoClose: 1400,
-                });
+                if(resp.status === 200) {
+                    setIsSpinning(false);
+
+                    toast.success(resp.data.message, {
+                        closeOnClick: false,
+                        closeButton: false,
+                        autoClose: 1400,
+                    });
+                }
 
                 setTimeout(() => {
                     navigate("/grid");
-                }, 4000);
-
-                setLoading(true);
+                }, 2500);
 
             }).catch(error => {
 
-            setLoading(false);
+            if(error.response.data.status !== 200) {
+                setIsSpinning(false);
 
-            toast.error(error.response.data.message, {
-                closeOnClick: false,
-                closeButton: false,
-                autoClose: 5000
-            });
+                toast.error(error.response.data.message, {
+                    closeOnClick: false,
+                    closeButton: false,
+                    autoClose: 20000
+                });
+            }
         });
     }
 
     return (
         <>
-            {loading && <CircularProgress className={classes.spinner}/>}
+            {isSpinning && <LoadingSpinner/>}
 
             <ToastContainer
                 hideProgressBar

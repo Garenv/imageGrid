@@ -65,9 +65,9 @@ const Support = () => {
 
         ApiClient.post('/support', data)
             .then(resp => {
-                setIsSpinning(false);
 
                 if(resp.status === 200) {
+                    setIsSpinning(false);
 
                     toast.success(resp.data.message, {
                         closeOnClick: false,
