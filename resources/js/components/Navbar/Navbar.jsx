@@ -1,6 +1,5 @@
 import { useState } from "react";
-import UserContext from "../UserContext.jsx";
-import {useQuery, useQueryClient} from 'react-query';
+import { useQuery } from 'react-query';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,10 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
 import AxiosClient from "../utlities/AxiosClient.jsx";
-// const pages = ['Prize Status', 'Your Prizes', `This Week's Winners`, 'Support'];
 const pages = ['Past Uploads', 'Prize Status', 'Support'];
 import { makeStyles } from '@material-ui/core/styles';
-const settings = ['Profile', 'Account', 'Gallery', 'Logout'];
 
 const useStyles = makeStyles((theme) => ({
     centeredText: {
@@ -76,14 +73,17 @@ const Navbar = () => {
 
     const handleSettingsClick = () => {
         navigate('/settings');
+        setAnchorElUser(null);
     };
 
     const handleProfileClick = () => {
         navigate('/profile');
+        setAnchorElUser(null);
     };
 
     const handleNavigation = () => {
         navigate('/grid');
+        setAnchorElUser(null);
     };
 
     const pageSelection = (page) => {
@@ -225,23 +225,23 @@ const Navbar = () => {
                             onClose={handleCloseUserMenu}
                         >
 
-                        <Button variant="text" onClick={handleSettingsClick}>
-                            Settings
-                        </Button>
-
-                        <br/>
-
-                        <Button variant="text" onClick={handleProfileClick}>
-                            Profile
-                        </Button>
-
-                        <br/>
-
-                        <a href="/" className="myButton" onClick={logout}>
-                            <Button onClick={logout} variant="text">
-                                Logout
+                            <Button variant="text" onClick={handleSettingsClick}>
+                                Settings
                             </Button>
-                        </a>
+
+                            <br/>
+
+                            <Button variant="text" onClick={handleProfileClick}>
+                                Profile
+                            </Button>
+
+                            <br/>
+
+                            <a href="/" className="myButton" onClick={logout}>
+                                <Button onClick={logout} variant="text">
+                                    Logout
+                                </Button>
+                            </a>
                         </Menu>
                     </Box>
                 </Toolbar>
