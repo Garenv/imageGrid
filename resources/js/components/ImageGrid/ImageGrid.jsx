@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,12 +11,14 @@ import { useSharedStyles } from "../utlities/SharedStyles.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
+    const queryClient = useQueryClient();
     const [userLikedPhotos, setUserLikedPhotos] = useState({});
     const [file, setFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [show, setShow] = useState(false);
     const [showVerifyDelete, setShowVerifyDelete] = useState(false);
     const sharedClasses = useSharedStyles();
+    const [isScrollToTheTopArrowVisible, setIsScrollToTheTopArrowVisible] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -24,7 +26,28 @@ const ImageGrid = () => {
     const handleVerifyDeleteClose = () => setShowVerifyDelete(false);
     const handleVerifyDeleteShow = () => setShowVerifyDelete(true);
 
-    const queryClient = useQueryClient();
+    const toggleVisibility = () => {
+        if (window.pageYOffset > 100) {
+            setIsScrollToTheTopArrowVisible(true);
+        } else {
+            setIsScrollToTheTopArrowVisible(false);
+        }
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', toggleVisibility);
+
+        return () => {
+            window.removeEventListener('scroll', toggleVisibility);
+        };
+    }, []);
 
     const fetchUserUploads = async () => {
         const { data } = await AxiosClient.get('/get-user-uploads-data');
@@ -150,7 +173,7 @@ const ImageGrid = () => {
 
         AxiosClient.post('/dislike', data)
             .then(resp => {
-                console.log(resp);
+
                 if(resp.status === 200) {
                     delete userLikedPhotos[likedPhotoUserId];
                     gridData.find(photo => photo.UserID === likedPhotoUserId).likes--;
@@ -163,6 +186,7 @@ const ImageGrid = () => {
                         closeButton: false,
                         autoClose: 1100
                     });
+
                 }
             }).catch(err => {
 
@@ -180,7 +204,6 @@ const ImageGrid = () => {
     const deleteUserUpload = (likedPhotoUserId) => {
         AxiosClient.delete(`/delete-user-upload?UserID=${likedPhotoUserId}`)
             .then(resp => {
-                console.log(resp.status);
 
                 if(resp.status === 200) {
                     toast.success(resp.data.message, {
@@ -190,15 +213,15 @@ const ImageGrid = () => {
                     });
                 }
 
-            }).catch(error => {
+            }).catch(err => {
 
-            let errorMessage       = error.response.data.message;
-
-            toast.error(errorMessage, {
-                closeOnClick: false,
-                closeButton: false,
-                autoClose: 1400
-            });
+            if(err.response.status !== 200) {
+                toast.error(err.response.data.message, {
+                    closeOnClick: false,
+                    closeButton: false,
+                    autoClose: 1400
+                });
+            }
         });
     }
 
@@ -259,6 +282,12 @@ const ImageGrid = () => {
         <>
 
             {uploadMutation.isLoading && <LoadingSpinner/>}
+
+            {isScrollToTheTopArrowVisible && (
+                <button onClick={scrollToTop} className="scroll-to-top">
+                    ↑
+                </button>
+            )}
 
             <ToastContainer
                 hideProgressBar

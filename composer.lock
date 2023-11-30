@@ -4195,16 +4195,16 @@
         },
         {
             "name": "stevebauman/location",
-            "version": "v7.0.0",
+            "version": "v7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stevebauman/location.git",
-                "reference": "88c04ff7a89cf394ec1290dd9b664b2ae39e8ba1"
+                "reference": "e77c663dc33ae978aa23b76c1fb3950078f68d33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stevebauman/location/zipball/88c04ff7a89cf394ec1290dd9b664b2ae39e8ba1",
-                "reference": "88c04ff7a89cf394ec1290dd9b664b2ae39e8ba1",
+                "url": "https://api.github.com/repos/stevebauman/location/zipball/e77c663dc33ae978aa23b76c1fb3950078f68d33",
+                "reference": "e77c663dc33ae978aa23b76c1fb3950078f68d33",
                 "shasum": ""
             },
             "require": {
@@ -4257,9 +4257,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stevebauman/location/issues",
-                "source": "https://github.com/stevebauman/location/tree/v7.0.0"
+                "source": "https://github.com/stevebauman/location/tree/v7.0.1"
             },
-            "time": "2023-07-05T19:02:02+00:00"
+            "time": "2023-09-29T22:49:11+00:00"
         },
         {
             "name": "symfony/console",
