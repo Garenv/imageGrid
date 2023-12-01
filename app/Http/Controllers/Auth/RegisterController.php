@@ -53,17 +53,33 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param array $data
+     * @return \Illuminate\Validation\Validator
      */
     protected function validator(array $data)
     {
+
+        $messages = [
+            'registerPassword.required' => 'The password is required.',
+            'registerPassword.min' => 'The password must be at least 10 characters.',
+            'registerPassword.confirmed' => 'The password confirmation does not match.',
+            'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+        ];
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'registerPassword' => [
+                'required',
+                'string',
+                'min:2',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,}$/'
+            ],
+        ], $messages);
+
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -79,7 +95,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'UserID' => 'u-' . Str::uuid()->toString(),
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['registerPassword']),
             'ip' => $locationData->ip,
             'countryName' => $locationData->countryName,
             'countryCode' => $locationData->countryCode,

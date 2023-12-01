@@ -1,6 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
+    @error('name')
+    <span class="invalid-feedback" role="alert">
+        <strong>{{ $message }}</strong>
+    </span>
+    @enderror
+
+    @error('email')
+    <div class="alert alert-danger" role="alert">
+        <strong>{{ $message }}</strong>
+    </div>
+    @enderror
+
+    @error('registerPassword')
+    <div class="alert alert-danger" role="alert">
+        {{ $message }}
+    </div>
+    @enderror
+
+    @error('registerPassword_confirmation')
+    <div class="alert alert-danger" role="alert">
+        <strong>{{ $message }}</strong>
+    </div>
+    @enderror
     <div class="container-fluid">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center">
@@ -24,22 +47,12 @@
                                             <input id="email" type="email" placeholder="Email Address"
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
-                                            @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
                                             <i class="input-icon uil uil-at"></i>
                                         </div>
                                         <div class="form-group mt-2">
                                             <input id="password" type="password" placeholder="Password"
                                                    class="form-style @error('password') is-invalid @enderror"
                                                    name="password" required autocomplete="current-password">
-                                            @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
                                         <button type="submit" class="btn mt-4">{{ __('Login') }}</button>
@@ -64,42 +77,30 @@
                                             <input id="logname" type="text" placeholder="Name"
                                                    class="form-style @error('name') is-invalid @enderror" name="name"
                                                    value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                            @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
                                             <input id="email" type="email" placeholder="Email"
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
-                                            @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+
                                             <i class="input-icon uil uil-at"></i>
                                         </div>
 
                                         <div class="form-group mt-2">
                                             <input id="password" type="password" placeholder="Password"
-                                                   class="form-style @error('password') is-invalid @enderror"
-                                                   name="password" required autocomplete="new-password">
+                                                   class="form-style @error('registerPassword') is-invalid @enderror"
+                                                   name="registerPassword" required autocomplete="new-password">
 
-                                            @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
 
                                         <div class="form-group mt-2">
-                                            <input id="password" type="password" placeholder="Confirm Password"
-                                                   class="form-style @error('password') is-invalid @enderror"
-                                                   name="password_confirmation" required autocomplete="new-password">
+                                            <input id="password-confirmation" type="password" placeholder="Confirm Password"
+                                                   class="form-style @error('registerPassword_confirmation') is-invalid @enderror"
+                                                   name="registerPassword_confirmation" required autocomplete="new-password">
+
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
 
@@ -118,4 +119,35 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        window.onload = function() {
+
+            var toggleCheckbox = document.getElementById('reg-log');
+
+            toggleCheckbox.addEventListener('change', function () {
+                if(this.checked) {
+                    console.log('Checkbox is checked');
+                } else {
+                    console.log('Checkbox is not checked');
+                }
+            })
+
+            // Check if there are errors related to registration
+            if ({{ $errors->has('registerPassword') || $errors->has('registerPassword_confirmation') ? 'true' : 'false' }}) {
+                // If there are registration errors, show the register form
+                toggleCheckbox.checked = true; // Adjust this based on how your checkbox works
+            } else {
+                // Otherwise, show the login form
+                toggleCheckbox.checked = false; // Adjust this based on how your checkbox works
+            }
+
+            toggleCheckbox.addEventListener('change', function() {
+                localStorage.setItem('toggleState', this.checked ? 'checked' : 'unchecked');
+            });
+
+        };
+    </script>
 @endsection
+
