@@ -30,6 +30,8 @@ class Uploads extends Model
         'timeStamp',
         'likes',
         'uploadId',
-        'photo_id'
+        'photo_id',
+        'browser',
+        'browser_version'
     ];
 }

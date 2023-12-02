@@ -50,7 +50,9 @@ class FileUploadController extends Controller
                 'isUploaded'            => true,
                 'timeStamp'             => $timeStamp,
                 'likes'                 => 0,
-                'photo_id'              => $photoId
+                'photo_id'              => $photoId,
+                'browser'               => getUserBrowserData()['browser'],
+                'browser_version'       => getUserBrowserData()['browser_version']
             ];
 
             if ($isImageUploadedAppropriate->getStatusCode() == 400) {

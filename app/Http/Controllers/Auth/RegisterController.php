@@ -85,7 +85,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $locationData = Location::get(getUserIpAddr());
+        $locationData = Location::get(getSiteEnv() === 'stage' || getSiteEnv() === 'prod' ?? getUserIpAddr());
+        $device = getUserDeviceData()['device'];
+        $deviceOs = getUserDeviceData()['device_os'];
+        $osVersion = getUserDeviceData()['os_version'];
 
         return User::create([
             'name' => $data['name'],
@@ -105,7 +108,10 @@ class RegisterController extends Controller
             'longitude' => $locationData->longitude,
             'metroCode' => $locationData->metroCode,
             'areaCode' => $locationData->areaCode,
-            'timezone' => $locationData->timezone
+            'timezone' => $locationData->timezone,
+            'device' => $device,
+            'device_os' => $deviceOs,
+            'os_version' => $osVersion
         ]);
 
     }

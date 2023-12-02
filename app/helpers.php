@@ -1,5 +1,7 @@
 <?php
 
+use Jenssegers\Agent\Agent;
+
 function getS3PathForEnv() {
     return config('app.env') === "local" || config('app.env') === "stage" ? config('app.aws_s3_path_stage') : config('app.aws_s3_path_prod');
 }
@@ -15,4 +17,46 @@ function getUserIpAddr()
     else if(isset($_SERVER['REMOTE_ADDR'])) $ipaddress = $_SERVER['REMOTE_ADDR'];
     else $ipaddress = 'UNKNOWN';
     return $ipaddress;
+}
+
+function getSiteEnv()
+{
+    switch(config('app.env')) {
+        case "local":
+            return "local";
+        case "stage":
+            return "stage";
+        case "prod":
+            return "prod";
+    }
+
+    return "Unknown Environment";
+}
+
+function getUserDeviceData()
+{
+    $agent = new Agent();
+
+    $deviceOs = $agent->platform();
+    $osVersion = $agent->version($deviceOs);
+    $device = $agent->device();
+
+    return [
+        'device_os' => $deviceOs,
+        'os_version' => $osVersion,
+        'device' => $device
+    ];
+}
+
+function getUserBrowserData()
+{
+    $agent = new Agent();
+
+    $browser = $agent->browser();
+    $browserVersion = $agent->version($browser);
+
+    return [
+        'browser' => $browser,
+        'browser_version' => $browserVersion
+    ];
 }
