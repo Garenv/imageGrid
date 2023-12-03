@@ -245,6 +245,9 @@ const ImageGrid = () => {
         },
         onError: (err, variables, context) => {
             // if deletion fails, go back to the previous state
+            console.log(err);
+            console.log(variables);
+            console.log(context);
             if(context?.previousData) {
                 queryClient.setQueryData('userUploads', context.previousData);
             }
