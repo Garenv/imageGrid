@@ -250,6 +250,10 @@ const ImageGrid = () => {
                 console.log('Reverted to previous data:', context.previousData);
             }
         },
+        onSettled: () => {
+            // Always refetch after mutation completes or fails
+            queryClient.invalidateQueries('userUploads');
+        },
     });
 
     const verifyDelete = (userId) => {
