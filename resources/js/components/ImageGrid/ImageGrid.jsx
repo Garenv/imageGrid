@@ -227,10 +227,10 @@ const ImageGrid = () => {
 
     const deleteMutation = useMutation(deleteUserUpload, {
         onMutate: async (likedPhotoUserId) => {
-            await queryClient.cancelQueries('userUploads');
+            // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+            queryClient.cancelQueries('userUploads');
 
             const previousData = queryClient.getQueryData('userUploads');
-            console.log('Previous data:', previousData);
 
             // Optimistically update to the new value
             if (previousData) {
@@ -243,20 +243,14 @@ const ImageGrid = () => {
             return { previousData };
         },
         onError: (err, variables, context) => {
-            console.log('Error:', err);
-            // Roll back to previous state
-            if (context?.previousData) {
-                queryClient.setQueryData('userUploads', context.previousData);
-            }
+            // If the mutation fails, use the context returned from onMutate to roll back
+            queryClient.setQueryData('userUploads', context?.previousData);
         },
         onSettled: () => {
-            // Always refetch after mutation completes or fails
+            // After mutation or error, refetch the userUploads query
             queryClient.invalidateQueries('userUploads');
         },
     });
-
-// Button component
-
 
     const verifyDelete = (userId) => {
         return(
