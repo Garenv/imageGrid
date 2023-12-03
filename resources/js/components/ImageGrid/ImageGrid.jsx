@@ -233,8 +233,8 @@ const ImageGrid = () => {
             await queryClient.cancelQueries('userUploads');
 
             const previousData = queryClient.getQueryData('userUploads');
+            console.log('Previous data:', previousData);
 
-            // remove the deleted item from the UI
             const newData = previousData.filter(
                 (photo) => photo.UserID !== likedPhotoUserId
             );
@@ -244,12 +244,10 @@ const ImageGrid = () => {
             return { previousData };
         },
         onError: (err, variables, context) => {
-            // if deletion fails, go back to the previous state
-            console.log(err);
-            console.log(variables);
-            console.log(context);
+            console.log('Error:', err);
             if(context?.previousData) {
                 queryClient.setQueryData('userUploads', context.previousData);
+                console.log('Reverted to previous data:', context.previousData);
             }
         },
     });
