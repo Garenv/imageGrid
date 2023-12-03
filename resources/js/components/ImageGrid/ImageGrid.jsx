@@ -226,28 +226,27 @@ const ImageGrid = () => {
     }
 
     const deleteMutation = useMutation(deleteUserUpload, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('userUploads');
-        },
         onMutate: async (likedPhotoUserId) => {
             await queryClient.cancelQueries('userUploads');
 
             const previousData = queryClient.getQueryData('userUploads');
             console.log('Previous data:', previousData);
 
-            const newData = previousData.filter(
-                (photo) => photo.UserID !== likedPhotoUserId
-            );
-
-            queryClient.setQueryData('userUploads', newData);
+            // Optimistically update to the new value
+            if (previousData) {
+                const newData = previousData.filter(
+                    (photo) => photo.UserID !== likedPhotoUserId
+                );
+                queryClient.setQueryData('userUploads', newData);
+            }
 
             return { previousData };
         },
         onError: (err, variables, context) => {
             console.log('Error:', err);
-            if(context?.previousData) {
+            // Roll back to previous state
+            if (context?.previousData) {
                 queryClient.setQueryData('userUploads', context.previousData);
-                console.log('Reverted to previous data:', context.previousData);
             }
         },
         onSettled: () => {
@@ -255,6 +254,9 @@ const ImageGrid = () => {
             queryClient.invalidateQueries('userUploads');
         },
     });
+
+// Button component
+
 
     const verifyDelete = (userId) => {
         return(
