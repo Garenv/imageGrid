@@ -42,6 +42,32 @@
         <div class="py-3">
             <details class="group">
                 <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>Where's Phopixel based?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    We're based in the city that never sleeps, NYC!
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>How many photos can the grid contain?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    The grid can only hold 200 photos per week so it's imperative to upload your photo early in the week so you have more time to accumulate likes and increase your chance of winning!
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
                     <span>What prizes can I win?</span>
                     <span class="transition group-open:rotate-180">
                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>

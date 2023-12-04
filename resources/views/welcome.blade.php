@@ -93,16 +93,17 @@
                     <h3>What is Phopixel?</h3>
                     <p>
                         Phopixel is the first website that ensures a fair opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
-                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way
+                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way.
                         <br>
                         <br>
                         Here are a few things to note:
                     </p>
                     <ul>
                         <li><i class="ri-check-double-line"></i>It's free to join and participate</li>
-                        <li><i class="ri-check-double-line"></i>Available worldwide</li>
-                        <li><i class="ri-check-double-line"></i>Prizes are given out weekly</li>
+                        <li><i class="ri-check-double-line"></i>Prizes are given out weekly to the top 3 like amounts for that week</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
+                        <li><i class="ri-check-double-line"></i>Available worldwide</li>
+                        <li><i class="ri-check-double-line"></i>Visit the <a href="/faq">FAQ</a> section for more info!</li>
                     </ul>
 
                 </div>
