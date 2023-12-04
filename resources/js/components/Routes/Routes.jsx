@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 import ImageGrid from "../ImageGrid/ImageGrid.jsx";
-import Support from "../Support/Support.jsx";
+import Support from "../Navbar/Items/Support.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
 import Settings from "../Settings/Settings.jsx";
 import UpdatePassword from "../Settings/Update/UpdatePassword.jsx";
@@ -11,6 +11,7 @@ import UpdateName from "../Settings/Update/UpdateName.jsx";
 import PastUploads from "../Navbar/Items/PastUploads.jsx";
 import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 import Profile from "../Profile/Profile.jsx";
+import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
 
 function AppRoutes() {
     return (
@@ -27,6 +28,7 @@ function AppRoutes() {
                     <Route path="/past-uploads" element={<PastUploads/>} />
                     <Route path="/prize-status" element={<PrizeStatus/>} />
                     <Route path="/profile" element={<Profile/>} />
+                    <Route path="/last-weeks-winners" element={<LastWeeksWinners/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

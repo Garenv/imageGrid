@@ -48,6 +48,17 @@ function getUserDeviceData()
     ];
 }
 
+function isUserOnMobile()
+{
+    $agent = new Agent();
+
+    if ($agent->isMobile()) {
+        return true;
+    }
+
+    return false;
+}
+
 function getUserBrowserData()
 {
     $agent = new Agent();

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Dal\Interfaces\IUsersRepository;
 use App\Dal\Interfaces\IWinnersRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -212,11 +211,6 @@ class UsersController extends Controller
     public function getUsersPastUploads() {
         $loggedInUserId = Auth::user()['UserID'];
         return $this->__usersRepository->getUsersPastUploads($loggedInUserId);
-    }
-
-    public function getThisWeeksWinners() {
-        $loggedInUserId = Auth::user()['UserID'];
-        return $this->__winnersRepository->getThisWeeksWinners($loggedInUserId);
     }
 
     public function getProfileData() {

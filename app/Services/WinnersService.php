@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dal\Interfaces\IWinnersRepository;
 use App\Mail\WeeklyWinners;
+use App\Models\LastWeeksWinners;
 use App\Models\LegacyWinners;
 use App\Models\Uploads;
 use App\Models\Winners;
@@ -134,7 +135,7 @@ class WinnersService
             Winners::create($winnersDataSecondPlace);
             Winners::create($winnersDataThirdPlace);
 
-            // store in legacy winners table
+            // store winners in the legacy_winners table
             LegacyWinners::create($winnersDataFirstPlace);
             LegacyWinners::create($winnersDataSecondPlace);
             LegacyWinners::create($winnersDataThirdPlace);

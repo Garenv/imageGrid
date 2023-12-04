@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\WinnersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/like',                                  [UsersController::class,      'handleLike']);
     Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
     Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
-    Route::get('/get-this-weeks-winners',                 [UsersController::class,      'getThisWeeksWinners']);
+    Route::get('/get-this-weeks-winners',                 [WinnersController::class,    'getThisWeeksWinners']);
+    Route::get('/get-last-weeks-winners',                 [WinnersController::class,    'getLastWeeksWinners']);
     Route::get('/get-profile-data',                       [UsersController::class,      'getProfileData']);
     Route::get('/get-avatar-image',                       [FileUploadController::class, 'getAvatarImage']);
 

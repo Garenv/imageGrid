@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import '../../../sass/support/support.scss';
+import '../../../../sass/support/support.scss';
 import { toast, ToastContainer } from "react-toastify";
-import ApiClient from "../utlities/AxiosClient.jsx";
+import ApiClient from "../../utlities/AxiosClient.jsx";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel, Select } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
-import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import LoadingSpinner from "../../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {

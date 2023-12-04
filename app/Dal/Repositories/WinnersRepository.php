@@ -19,25 +19,25 @@ class WinnersRepository implements IWinnersRepository
 
     public function getTopThreeWinnersFromUploadsTable()
     {
-        $wednesdayThisWeek = Carbon::now()->startOfWeek()->addDays(3); // This gets the date for Wednesday this week.
-        $wednesdayNextWeek = $wednesdayThisWeek->copy()->addWeek()->subSecond(); // This gets the date for Wednesday next week.
+        // Assuming you are using Carbon for date manipulation
+        $startOfSunday = Carbon::now('America/New_York')->startOfWeek()->subDay(); // This gets the date for Sunday this week at 12:00 AM EST
+        $endOfSunday = $startOfSunday->copy()->addWeek()->subSecond(); // This gets the date for the following Sunday at 11:59 PM EST
 
         return DB::table('uploads')
             ->select('users.name', 'uploads.likes', 'uploads.url', 'uploads.UserID', 'users.email', 'uploads.timestamp')
             ->join('users', 'users.UserID', '=', 'uploads.UserID')
-//            ->whereBetween('uploads.timestamp', [$wednesdayThisWeek, $wednesdayNextWeek])
+            ->whereBetween('uploads.timestamp', [$startOfSunday, $endOfSunday]) // Adjusted to the new time range
             ->orderBy('uploads.likes', 'desc')
             ->limit(3)
             ->get();
     }
 
-    public function getTopThreeWinnersFromWinnersTable()
+    public function getLastWeeksWinners()
     {
         return DB::table('winners')
             ->select('users.name', 'winners.likes', 'winners.url', 'winners.place', 'users.UserID')
             ->join('users', 'users.UserID', '=', 'winners.UserID')
             ->orderBy('likes', 'desc')
-            ->limit(3)
             ->get();
     }
 

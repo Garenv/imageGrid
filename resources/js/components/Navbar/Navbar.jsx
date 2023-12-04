@@ -14,7 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
 import AxiosClient from "../utlities/AxiosClient.jsx";
-const pages = ['Past Uploads', 'Prize Status', 'Support'];
+const pages = ['Your Past Uploads', "Last Week's Winners", 'Prize Status', 'Support'];
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -88,12 +88,14 @@ const Navbar = () => {
 
     const pageSelection = (page) => {
         switch (page) {
-            case "Past Uploads":
+            case "Your Past Uploads":
                 return "/past-uploads";
             case "Prize Status":
                 return "/prize-status"
             case "Support":
                 return "/support"
+            case "Last Week's Winners":
+                return "/last-weeks-winners"
             default:
                 return "Not Found";
         }
