@@ -45,10 +45,12 @@
 
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
             <div class="col-xl-2 col-md-4">
+                <a href="/login">
                 <div class="icon-box">
                     <i class="ri-account-box-line text-black"></i>
-                    <h3><a href="">Create account</a></h3><h1> > </h1>
+                    <h3 class="text-white">Create account</h3><h1> > </h1>
                 </div>
+                </a>
             </div>
             <div class="col-xl-2 col-md-4">
                 <div class="icon-box">
@@ -115,9 +117,8 @@
     <!-- ======= Features Section ======= -->
     <section id="features" class="features">
         <div class="container" data-aos="fade-up">
-
             <div class="row">
-                <div class="image col-lg-6" style='background-image: url("https://ichef.bbci.co.uk/news/1024/cpsprodpb/14202/production/_108243428_gettyimages-871148930.jpg");' data-aos="fade-right"></div>
+                <div class="image col-lg-6" style='background-image: url("https://phopixel.s3.amazonaws.com/landingPage/anime_robot.png"); background-size: 150%;' data-aos="fade-right"></div>
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
                     <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-check-shield text-black"></i>
