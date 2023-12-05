@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Support;
-use App\Traits\MailgunTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -12,8 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class SupportController extends Controller
 {
-    use MailgunTrait;
-
     public function support(Request $request)
     {
         try {
@@ -21,7 +18,7 @@ class SupportController extends Controller
             $messageText                 = $request->get('messageText');
 
             $validator = Validator::make($request->all() , [
-                'file'                   => 'sometimes|mimes:png,jpeg,jpg,heic,mov,mp4|max:2048',
+                'file'                   => 'nullable|mimes:png,jpeg,jpg,heic,mov,mp4|max:2048',
                 'messageText'            => 'required|min:10'
             ]);
 
@@ -38,9 +35,10 @@ class SupportController extends Controller
 
             $emailData = [
                 'from' => Auth::user()['email'],
-                'subject' => $subject,
                 'name' => Auth::user()['name'],
-                'messageText' => $messageText,
+                'UserID' => Auth::user()['UserID'],
+                'subject' => $subject,
+                'messageText' => $messageText
             ];
 
             if($request->hasFile('file')) {
@@ -52,7 +50,11 @@ class SupportController extends Controller
                 $file->move($publicPath, $fileName);
             }
 
-            Mail::to('phopixelmain@gmail.com')->send(new Support($emailData));
+            try {
+                Mail::to('support@phopixel.com')->send(new Support($emailData));
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
 
             return response()->json(['status' => 'success', 'message' => "Successfully Sent! We'll get back to you as soon as possible!"]);
 

@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -30,7 +29,7 @@ class Support extends Mailable
     {
         return new Envelope(
             subject: $this->emailData['subject'],
-            from: $this->emailData['from']
+            replyTo: $this->emailData['from']
         );
     }
 
@@ -43,25 +42,23 @@ class Support extends Mailable
             view: 'emails.support.support',
             with: [
                 'name' => $this->emailData['name'],
-                'messageText' => $this->emailData['messageText']
+                'messageText' => $this->emailData['messageText'],
+                'userId' => $this->emailData['UserID']
             ]
         );
     }
 
     /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array
      */
     public function attachments(): array
     {
-        if(isset($this->emailData['attachment']['filePath']) && $this->emailData['attachment']['filePath'] !== "") {
-            return [
-                Attachment::fromPath($this->emailData['attachment']['filePath'])
-            ];
-        }
+        $hasAttachment = isset($this->emailData['attachment']['filePath']);
 
-        return [];
+        $filePathNotEmpty = $hasAttachment && $this->emailData['attachment']['filePath'] !== "";
 
+        return $filePathNotEmpty ? [Attachment::fromPath($this->emailData['attachment']['filePath'])] : [];
     }
+
+
 }

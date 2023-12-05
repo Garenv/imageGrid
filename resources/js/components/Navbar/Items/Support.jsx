@@ -7,6 +7,7 @@ import { FormControl, InputLabel, Select } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@mui/material/TextField";
 import LoadingSpinner from "../../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import { useSharedStyles } from "../../utlities/SharedStyles.jsx";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -34,6 +35,7 @@ const Support = () => {
     const [subject, setSubject]                                            = useState('');
     const [isSpinning, setIsSpinning]                                    = useState(false);
     const classes                                           = useStyles();
+    const sharedStyles = useSharedStyles();
 
     // Create a reference to the hidden file input element
     const hiddenFileInput = React.useRef(null);
@@ -97,10 +99,8 @@ const Support = () => {
                 closeButton={false}
             />
 
-            <div className="screen-body-item left">
-                <div className="contact-form-title">
-                    <h3 className="contact-form-title-text text-black mt-5">Questions, comments and/or concerns?  Let us know.</h3>
-                </div>
+            <div className="contact-form-title pt-5">
+                <h3 className="contact-form-title-text text-black mt-5">Questions, comments and/or concerns?  Let us know.</h3>
             </div>
 
             <div className="background">
