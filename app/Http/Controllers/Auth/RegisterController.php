@@ -101,7 +101,10 @@ class RegisterController extends Controller
 
         try {
             if ($existingUser) {
-                session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
+                if($existingUser['ip'] === $getUserIpAddress) {
+                    session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
+                    return null;
+                }
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
