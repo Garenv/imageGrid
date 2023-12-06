@@ -100,7 +100,7 @@ class RegisterController extends Controller
 
         if ($existingUser) {
             session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
-            return null;
+            throw new \Exception('A user with this IP address has already registered.');
         }
 
         return User::create([
