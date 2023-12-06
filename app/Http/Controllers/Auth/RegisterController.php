@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Traits\ProfanityTrait;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
@@ -98,9 +99,12 @@ class RegisterController extends Controller
 
         $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
-        if ($existingUser) {
-            session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
-            throw new \Exception('A user with this IP address has already registered.');
+        try {
+            if ($existingUser) {
+                session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
         }
 
         return User::create([
