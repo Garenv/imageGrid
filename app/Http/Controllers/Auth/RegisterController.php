@@ -7,7 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Traits\ProfanityTrait;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -83,6 +86,27 @@ class RegisterController extends Controller
 
     }
 
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $getUserIpAddress = getUserIpAddr();
+
+        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
+
+        if ($existingUser['ip'] === $getUserIpAddress) {
+            return redirect()->back()->with('userTryingToCreateMultipleAccountsError', 'A user with this IP address has already registered.');
+        }
+
+        $user = $this->create($request->all());
+
+        event(new Registered($user));
+
+        $this->guard()->login($user);
+
+        return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
+    }
+
 
     /**
      * @param array $data
@@ -96,18 +120,6 @@ class RegisterController extends Controller
         $device = getUserDeviceData()['device'];
         $deviceOs = getUserDeviceData()['device_os'];
         $osVersion = getUserDeviceData()['os_version'];
-
-        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
-
-        try {
-            if ($existingUser) {
-                if($existingUser['ip'] === $getUserIpAddress) {
-                    session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
-                }
-            }
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
 
         return User::create([
             'name' => $data['name'],
