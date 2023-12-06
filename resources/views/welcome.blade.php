@@ -97,7 +97,7 @@
                     <h3>What is Phopixel?</h3>
                     <p>
                         Phopixel is the first website that ensures a fair opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
-                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way.
+                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way
                         <br>
                         <br>
                         Here are a few things to note:
@@ -125,7 +125,7 @@
                     <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-check-shield text-black"></i>
                         <h4>Integrity</h4>
-                        <p>We utilize both AI and ML, specifically through deep learning models, to analyze and identify elements within images to ensure nothing inappropriate gets uploaded ranging from thirst trap photos to violence to hate and much more.</p>
+                        <p>We utilize both AI and ML, specifically through deep learning models, to analyze and identify elements within images to ensure nothing inappropriate gets uploaded ranging from thirst trap photos to violence to hate and much more</p>
                     </div>
                     <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-user text-black"></i>
@@ -148,7 +148,6 @@
         <div class="container" data-aos="fade-up">
 
             <div class="section-title">
-{{--                <h2>Services</h2>--}}
                 <p class="text-center">Here are some of the many prizes you could win!</p>
             </div>
 
