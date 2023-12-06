@@ -90,10 +90,9 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $getSiteEnv = getSiteEnv();
         $getUserIpAddress = getUserIpAddr();
 
-        $existingUser = $this->__usersRepository->getIpAddresses($getSiteEnv === 'stage' || $getSiteEnv === 'prod' ?? $getUserIpAddress);
+        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
         if(isset($existingUser)) {
             if ($existingUser['ip'] === $getUserIpAddress) {
