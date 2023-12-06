@@ -116,9 +116,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $getSiteEnv = getSiteEnv();
-        $getUserIpAddress = getUserIpAddr();
-        $locationData = Location::get($getSiteEnv === 'stage' || $getSiteEnv === 'prod' ?? $getUserIpAddress);
+        $locationData = Location::get();
         $device = getUserDeviceData()['device'];
         $deviceOs = getUserDeviceData()['device_os'];
         $osVersion = getUserDeviceData()['os_version'];
@@ -128,7 +126,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'UserID' => 'u-' . Str::uuid()->toString(),
             'password' => Hash::make($data['registerPassword']),
-            'ip' => $locationData->ip,
+            'ip' =>  getUserIpAddr(),
             'countryName' => $locationData->countryName,
             'countryCode' => $locationData->countryCode,
             'regionCode' => $locationData->regionCode,
