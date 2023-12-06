@@ -24,6 +24,19 @@
         <strong>{{ $message }}</strong>
     </div>
     @enderror
+
+{{--    @if ($errors->has('userTryingToCreateMultipleAccountsError'))--}}
+{{--        <div class="alert alert-danger">--}}
+{{--            {{ $errors->first('userTryingToCreateMultipleAccountsError') }}--}}
+{{--        </div>--}}
+{{--    @endif--}}
+
+    @if(session('userTryingToCreateMultipleAccountsError'))
+        <div class="alert alert-danger">
+            {{ session('userTryingToCreateMultipleAccountsError') }}
+        </div>
+    @endif
+
     <div class="container-fluid">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center">

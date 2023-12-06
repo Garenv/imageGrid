@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Dal\Interfaces\IUsersRepository;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -36,12 +37,18 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * @var IUsersRepository
+     */
+    protected $__usersRepository;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(IUsersRepository $usersRepository)
     {
+        $this->__usersRepository = $usersRepository;
         $this->middleware('guest');
     }
 
@@ -77,18 +84,24 @@ class RegisterController extends Controller
 
 
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse|void
      */
     protected function create(array $data)
     {
-
-        $locationData = Location::get(getSiteEnv() === 'stage' || getSiteEnv() === 'prod' ?? getUserIpAddr());
+        $getSiteEnv = getSiteEnv();
+        $getUserIpAddress = getUserIpAddr();
+        $locationData = Location::get($getSiteEnv === 'stage' || $getSiteEnv === 'prod' ?? $getUserIpAddress);
         $device = getUserDeviceData()['device'];
         $deviceOs = getUserDeviceData()['device_os'];
         $osVersion = getUserDeviceData()['os_version'];
+
+        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
+
+        if ($existingUser) {
+            session()->flash('userTryingToCreateMultipleAccountsError', "You may not create additional accounts to upload more photos in order to increase your odds of winning");
+            throw new \Exception('A user with this IP address has already registered.');
+        }
 
         return User::create([
             'name' => $data['name'],

@@ -31,6 +31,20 @@ h6 {
   font-family: "Raleway", sans-serif;
 }
 
+.text-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.heroSection {
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
+.parkPictures {
+  width: 10px; /* Ensure the image takes the full width of the column */
+}
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
@@ -1555,3 +1569,4 @@ section {
   font-size: 13px;
   color: #fff;
 }
+

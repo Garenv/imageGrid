@@ -14,4 +14,6 @@ interface IUsersRepository
     public function updateDisklikesData($loggedInUserId, $dislikedPhotoId);
     public function getDataFromUserLikesTable($loggedInUserId);
     public function getUsersPastUploads($loggedInUserId);
+
+    public function getIpAddresses($ip);
 }

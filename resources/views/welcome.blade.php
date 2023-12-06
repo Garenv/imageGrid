@@ -41,6 +41,10 @@
                 <h1>Win prizes for uploading appealing photos</h1>
                 <h2>The first website ever to award prizes contingent on how well-liked the photos are</h2>
             </div>
+
+{{--            <div class="col-xl-6 col-lg-8">--}}
+{{--                <svg class="image col-lg-6" style='background-image: url("https://phopixel.s3.amazonaws.com/landingPage/park_pictures.png"); background-size: 150% 150%;' data-aos="fade-right"></svg>--}}
+{{--            </div>--}}
         </div>
 
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
@@ -77,11 +81,9 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section><!-- End Hero -->
 
-<main id="main">
 
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
@@ -175,7 +177,6 @@
     </section><!-- End Services Section -->
     <h1 class="text-center pb-5">And more...</h1>
 
-</main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
 <footer id="footer">
