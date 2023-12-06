@@ -95,7 +95,7 @@ class RegisterController extends Controller
         $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
         if ($existingUser['ip'] === $getUserIpAddress) {
-            return redirect()->back()->with('userTryingToCreateMultipleAccountsError', 'A user with this IP address has already registered.');
+            return redirect()->back()->with('userTryingToCreateMultipleAccountsError', "You may not create multiple accounts in order to gain advantage by uploading additional photos.");
         }
 
         $user = $this->create($request->all());
