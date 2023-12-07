@@ -17,14 +17,11 @@ trait ProfanityTrait
         }
     }
 
-    public function checkForProfanityWhenRegistering($name) {
+    public function checkNameForProfanityWhenRegistering($name) {
 
-        $response = Http::get(config('app.purgo_malum_profanity_filter'), [
+       return Http::get(config('app.purgo_malum_profanity_filter'), [
             'text' => $name
-        ]);
+        ])->status();
 
-        if ($response->body() === 'true') {
-            return redirect('/login')->with('error', "Names cannot contain any profanity");
-        }
     }
 }

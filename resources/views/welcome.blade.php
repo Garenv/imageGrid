@@ -39,7 +39,7 @@
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
             <div class="col-xl-6 col-lg-8">
                 <h1>Win prizes for uploading appealing photos</h1>
-                <h2>The first website ever to award prizes contingent on how well-liked the photos are</h2>
+                <h2>The first website ever to award prizes contingent on how well-liked photos are</h2>
             </div>
 
 {{--            <div class="col-xl-6 col-lg-8">--}}
@@ -96,7 +96,7 @@
                 <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
                     <h3>What is Phopixel?</h3>
                     <p>
-                        Phopixel is the first website that ensures a fair opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
+                        Phopixel is the first website that ensures a fair and amiable opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
                         The goal of Phopixel is to give something back to the world in a fair, concise and honest way
                         <br>
                         <br>

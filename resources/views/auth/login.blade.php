@@ -37,6 +37,12 @@
         </div>
     @endif
 
+    @if(session('profanityNameWhenRegistering'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('profanityNameWhenRegistering') }}
+        </div>
+    @endif
+
     <div class="container-fluid">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center">
@@ -60,7 +66,7 @@
                                             <input id="email" type="email" placeholder="Email Address"
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
-                                            <i class="input-icon uil uil-at"></i>
+                                            <i class="input-icon uil uil-mailbox"></i>
                                         </div>
                                         <div class="form-group mt-2">
                                             <input id="password" type="password" placeholder="Password"
@@ -87,7 +93,7 @@
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3 text-white">Sign Up</h4>
                                         <div class="form-group">
-                                            <input id="logname" type="text" placeholder="Name"
+                                            <input id="logname" type="text" placeholder="Username"
                                                    class="form-style @error('name') is-invalid @enderror" name="name"
                                                    value="{{ old('name') }}" required autocomplete="name" autofocus>
 
@@ -98,7 +104,7 @@
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
 
-                                            <i class="input-icon uil uil-at"></i>
+                                            <i class="input-icon uil uil-mailbox"></i>
                                         </div>
 
                                         <div class="form-group mt-2">

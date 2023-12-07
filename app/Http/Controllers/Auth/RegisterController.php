@@ -88,6 +88,8 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        $name = $request->all()['name'];
+
         $this->validator($request->all())->validate();
 
         $getUserIpAddress = getUserIpAddr();
@@ -98,6 +100,12 @@ class RegisterController extends Controller
             if ($existingUser['ip'] === $getUserIpAddress) {
                 return redirect()->back()->with('userTryingToCreateMultipleAccountsError', "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.");
             }
+        }
+
+        $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
+
+        if($checkNameForProfanityWhenRegistering === 200) {
+            return redirect()->back()->with('profanityNameWhenRegistering', "Names may not contain any profanity");
         }
 
         $user = $this->create($request->all());
