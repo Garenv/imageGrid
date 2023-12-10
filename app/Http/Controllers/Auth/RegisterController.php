@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Dal\Interfaces\IUsersRepository;
 use App\Http\Controllers\Controller;
+use App\Mail\WeeklyWinners;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Traits\ProfanityTrait;
@@ -13,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
@@ -104,7 +106,7 @@ class RegisterController extends Controller
 
         $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
 
-        if($checkNameForProfanityWhenRegistering === 200) {
+        if($checkNameForProfanityWhenRegistering === 'true') {
             return redirect()->back()->with('profanityNameWhenRegistering', "Names may not contain any profanity");
         }
 
@@ -113,6 +115,8 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         $this->guard()->login($user);
+
+//        Mail::to($firstPlaceEmail)->send(new WeeklyWinners($emailDataFirstPlace));
 
         return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
     }

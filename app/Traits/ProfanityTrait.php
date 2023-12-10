@@ -21,7 +21,7 @@ trait ProfanityTrait
 
        return Http::get(config('app.purgo_malum_profanity_filter'), [
             'text' => $name
-        ])->status();
+        ])->body();
 
     }
 }
