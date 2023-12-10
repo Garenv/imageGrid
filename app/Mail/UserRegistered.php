@@ -13,12 +13,14 @@ class UserRegistered extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $registeredUserData;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($registeredUserData)
     {
-        //
+        $this->registeredUserData = $registeredUserData;
     }
 
     /**
@@ -27,7 +29,7 @@ class UserRegistered extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Registered',
+            subject: 'A New User Has Registered!',
         );
     }
 
@@ -37,7 +39,13 @@ class UserRegistered extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.registered-user',
+            with: [
+                'name' => $this->registeredUserData['name'],
+                'email' => $this->registeredUserData['email'],
+                'regionName' => $this->registeredUserData['regionName'],
+                'cityName' => $this->registeredUserData['cityName'],
+            ]
         );
     }
 

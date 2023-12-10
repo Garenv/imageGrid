@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Dal\Interfaces\IUsersRepository;
 use App\Http\Controllers\Controller;
-use App\Mail\WeeklyWinners;
+use App\Mail\UserRegistered;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Traits\ProfanityTrait;
@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -98,16 +97,16 @@ class RegisterController extends Controller
 
         $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
-        if(isset($existingUser)) {
-            if ($existingUser['ip'] === $getUserIpAddress) {
-                return redirect()->back()->with('userTryingToCreateMultipleAccountsError', "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.");
-            }
-        }
-
         $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
 
         if($checkNameForProfanityWhenRegistering === 'true') {
             return redirect()->back()->with('profanityNameWhenRegistering', "Names may not contain any profanity");
+        }
+
+        if(isset($existingUser)) {
+            if ($existingUser['ip'] === $getUserIpAddress) {
+                return redirect()->back()->with('userTryingToCreateMultipleAccountsError', "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.");
+            }
         }
 
         $user = $this->create($request->all());
@@ -116,7 +115,14 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-//        Mail::to($firstPlaceEmail)->send(new WeeklyWinners($emailDataFirstPlace));
+        $registeredUserData = [
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'regionName' => $user['regionName'],
+            'cityName' => $user['cityName']
+        ];
+
+        Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
 
         return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
     }
