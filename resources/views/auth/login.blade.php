@@ -1,58 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    @error('name')
-    <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-    </span>
-    @enderror
-
-    @error('email')
-    <div class="alert alert-danger" role="alert">
-        <strong>{{ $message }}</strong>
-    </div>
-    @enderror
-
-    @error('registerPassword')
-    <div class="alert alert-danger" role="alert">
-        {{ $message }}
-    </div>
-    @enderror
-
-    @error('registerPassword_confirmation')
-    <div class="alert alert-danger" role="alert">
-        <strong>{{ $message }}</strong>
-    </div>
-    @enderror
-
-{{--    @if ($errors->has('userTryingToCreateMultipleAccountsError'))--}}
-{{--        <div class="alert alert-danger">--}}
-{{--            {{ $errors->first('userTryingToCreateMultipleAccountsError') }}--}}
-{{--        </div>--}}
-{{--    @endif--}}
-
-    @if(session('userTryingToCreateMultipleAccountsError'))
-        <div class="alert alert-danger">
-            {{ session('userTryingToCreateMultipleAccountsError') }}
-        </div>
-    @endif
-
-    @if(session('profanityNameWhenRegistering'))
-        <div class="alert alert-danger" role="alert">
-            {{ session('profanityNameWhenRegistering') }}
-        </div>
-    @endif
-
-    <div class="container-fluid">
+    <div class="container-fluid loginPageParent">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center">
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
                     <div class="phopixelTitleContainer">
-              <span data-title="Phopixel" class="text">
-                Phopixel
-              </span>
+                        <span data-title="Phopixel" class="text">Phopixel</span>
+                        <img src="https://phopixel.s3.amazonaws.com/assets/Phopixel_camera.png" class="cameraImg img-fluid" alt="">
                     </div>
-                    <h6 class="mb-0 pb-3 text-black"><span>Log In </span><span>Sign Up</span></h6>
+                    <h6 class="mb-0 pb-3 text-black"><span class="text-white">Log In </span><span class="text-white">Sign Up</span></h6>
                     <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                     <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
@@ -146,14 +103,13 @@
             var toggleCheckbox = document.getElementById('reg-log');
 
             toggleCheckbox.addEventListener('change', function () {
-                if(this.checked) {
+                if (this.checked) {
                     console.log('Checkbox is checked');
                 } else {
                     console.log('Checkbox is not checked');
                 }
             })
 
-            // Check if there are errors related to registration
             if ({{ $errors->has('registerPassword') || $errors->has('registerPassword_confirmation') ? 'true' : 'false' }}) {
                 // If there are registration errors, show the register form
                 toggleCheckbox.checked = true; // Adjust this based on how your checkbox works
@@ -162,11 +118,55 @@
                 toggleCheckbox.checked = false; // Adjust this based on how your checkbox works
             }
 
-            toggleCheckbox.addEventListener('change', function() {
+            toggleCheckbox.addEventListener('change', function () {
                 localStorage.setItem('toggleState', this.checked ? 'checked' : 'unchecked');
             });
+        }
 
-        };
+        document.addEventListener('DOMContentLoaded', function () {
+            @if($errors->any())
+                @foreach($errors->all() as $error)
+                    Toastify({
+                        text: "{{ $error }}",
+                        duration: 6000,
+                        close: true,
+                        gravity: "top", // "top" or "bottom"
+                        position: "right", // "left", "center" or "right"
+                        style: {
+                            background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                        },
+                    }).showToast();
+                @endforeach
+            @endif
+
+            @if(session('userTryingToCreateMultipleAccountsError'))
+                Toastify({
+                    text: "{{ session('userTryingToCreateMultipleAccountsError') }}",
+                    duration: 6000,
+                    close: true,
+                    gravity: "top", // "top" or "bottom"
+                    position: "right", // "left", "center" or "right"
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    },
+                }).showToast();
+            @endif
+
+            @if(session('profanityNameWhenRegistering'))
+                Toastify({
+                    text: "{{ session('profanityNameWhenRegistering') }}",
+                    duration: 6000,
+                    close: true,
+                    gravity: "top", // "top" or "bottom"
+                    position: "right", // "left", "center" or "right"
+                    style: {
+                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    },
+                }).showToast();
+            @endif
+        });
+
+
     </script>
 @endsection
 

@@ -13,3 +13,4 @@ import './bootstrap';
  */
 import './components/App.jsx';
 import './components/LandingPage/ContactUs.jsx';
+import Toastify from 'toastify-js';
