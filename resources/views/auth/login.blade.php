@@ -43,7 +43,10 @@
         </div>
     @endif
 
-    <div class="container-fluid">
+    <div class="space stars1"></div>
+    <div class="space stars2"></div>
+    <div class="space stars3"></div>
+    <div class="container-fluid spaceBackground">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center">
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
@@ -52,7 +55,7 @@
                 Phopixel
               </span>
                     </div>
-                    <h6 class="mb-0 pb-3 text-black"><span>Log In </span><span>Sign Up</span></h6>
+                    <h6 class="mb-0 pb-3 text-black"><span class="text-white">Log In </span><span class="text-white">Sign Up</span></h6>
                     <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                     <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
