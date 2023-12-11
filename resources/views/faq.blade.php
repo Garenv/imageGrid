@@ -42,6 +42,20 @@
         <div class="py-3">
             <details class="group">
                 <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
+                    <span>How does it work?</span>
+                    <span class="transition group-open:rotate-180">
+                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
+</svg>
+              </span>
+                </summary>
+                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
+                    It's simple! All you need to do is upload a photo and every Sunday at 12:00am EST there will be a 1st, 2nd and 3rd place winner based on the number of likes your photo accumulated over the week.  Each winner will receive a prize consistent with which place they came in.
+                </p>
+            </details>
+        </div>
+        <div class="py-3">
+            <details class="group">
+                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
                     <span>Where's Phopixel based?</span>
                     <span class="transition group-open:rotate-180">
                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
@@ -61,7 +75,7 @@
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    The grid can only hold 200 photos per week so it's imperative to upload your photo early in the week so you have more time to accumulate likes and increase your chance of winning!
+                    The grid can only hold 200 photos per week, so it's imperative to upload your photo early in the week so you have more time to accumulate likes and increase your chances of winning!
                 </p>
             </details>
         </div>
@@ -74,7 +88,7 @@
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    At the time of writing this, we're awarding gift cards to winners.  However, this will change overtime for more appealing prizes.
+                    At the time of writing this, we're awarding gift cards to winners.  However, this will change overtime for more appealing prizes as the product grows.
                 </p>
             </details>
         </div>
@@ -89,20 +103,6 @@
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
                     Our goal is to give something back to the world and what better way to do that than giving out prizes to people who won them fair and square?
-                </p>
-            </details>
-        </div>
-        <div class="py-3">
-            <details class="group">
-                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
-                    <span>How does it work?</span>
-                    <span class="transition group-open:rotate-180">
-                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path>
-</svg>
-              </span>
-                </summary>
-                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    It's simple! All you need to do is upload a photo and every Sunday at 12:00am EST there will be a 1st, 2nd and 3rd place winner based on the number of likes your photo accumulated over the week.  Each winner will receive a prize consistent with which place they got in.
                 </p>
             </details>
         </div>
@@ -130,7 +130,7 @@
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    Yes, international winners will receive prizes that are most suitable for the country in which they reside.
+                    Yes, international winners will receive prizes that are most suitable for the country in which they reside.  The support team will personally reach out to international winners to make the process smoother for them.
                 </p>
             </details>
         </div>

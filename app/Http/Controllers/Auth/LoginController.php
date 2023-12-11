@@ -29,4 +29,13 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    public function showLoginForm()
+    {
+        if (Auth::check()) {
+            return redirect('/grid');
+        }
+
+        return view('auth.login');
+    }
+
 }

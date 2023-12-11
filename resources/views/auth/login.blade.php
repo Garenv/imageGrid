@@ -87,7 +87,9 @@
 
                                         <button type="submit" class="btn mt-4">{{ __('Register') }}</button>
                                     </div>
+
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -95,6 +97,10 @@
             </div>
         </div>
     </div>
+    <div class="bottom-right">
+        <h6><i><u>Version 1.0</u></i></h6>
+    </div>
+
 
     <script>
 
