@@ -97,10 +97,6 @@
             </div>
         </div>
     </div>
-    <div class="bottom-right">
-        <h6><i><u>Version 1.0</u></i></h6>
-    </div>
-
 
     <script>
 
