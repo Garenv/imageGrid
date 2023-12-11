@@ -103,10 +103,11 @@
                         Here are a few things to note:
                     </p>
                     <ul>
+                        <li><i class="ri-check-double-line"></i>Available worldwide</li>
                         <li><i class="ri-check-double-line"></i>It's free to join and participate</li>
                         <li><i class="ri-check-double-line"></i>Prizes are given out weekly to the top 3 like amounts for that week</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
-                        <li><i class="ri-check-double-line"></i>Available worldwide</li>
+                        <li><i class="ri-check-double-line"></i>You may only upload one photo per week</li>
                         <li><i class="ri-check-double-line"></i>Visit the <a href="/faq">FAQ</a> section for more info!</li>
                     </ul>
 
