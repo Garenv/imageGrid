@@ -346,20 +346,27 @@ const ImageGrid = () => {
                                     gridData.map((photos, index) => {
                                         return (
                                             <>
-                                                <img src={photos.url} className="img-fluid" alt="photo" />
+                                                <div className="card-container">
+                                                    <div className="card">
+                                                        <div className="card-image">
+                                                            <img src={photos.url} alt="User Images"/>
+                                                        </div>
+                                                        <div className="card-content">
+                                                            <div className="like-section">
+                                                                <span className="likes">❤️ {photos.likes}</span>
+                                                            </div>
+                                                            {!photos.is_liked ?
+                                                                <Button className="bg-success" onClick={() => handleLike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👍</Button> :
+                                                                <Button className="bg-danger" onClick={() => handleDislike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👎</Button>
+                                                            }
+                                                            <div className="user-info">
+                                                                <span style={{color: "black"}}>{photos.name} {userId === photos.UserID ? <h6 style={{color: "black"}}>(You)</h6> : null}</span>
+                                                                {userId === photos.UserID ? <Button className="bg-danger" onClick={() => handleVerifyDeleteShow(photos.UserID)}>Delete</Button> : null}
+                                                            </div>
 
-                                                <div className="userDetails">
-                                                    <span className="likesAmt" style={{color: '#000000'}}>❤️ {photos.likes}</span><br/>
-                                                    {!photos.is_liked ?
-                                                        <Button className="bg-success" onClick={() => handleLike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👍</Button> :
-                                                        <Button className="bg-danger" onClick={() => handleDislike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👎</Button>
-                                                    }
-                                                    <br/>
-                                                    <span style={{ color: "black" }}>{photos.name} {userId === photos.UserID ? <h6 style={{ color: "black" }}>(You)</h6> : null}</span>
-                                                    {userId === photos.UserID ? <Button className="bg-danger" onClick={() => handleVerifyDeleteShow(photos.UserID)}>Delete</Button> : null}
+                                                        </div>
+                                                    </div>
                                                 </div>
-
-                                                <br/>
                                             </>
                                         )
                                     })

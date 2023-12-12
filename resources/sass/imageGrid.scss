@@ -23,18 +23,57 @@ label.form-label {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  // Add more styles here for the button appearance
+  z-index: 10000;
 }
 
+.card-container {
+    perspective: 1000px;
+    //height: 100vh; //Full height to maintain centering vertically
+    display: flex;
+    justify-content: center; //Center horizontally
+    align-items: center; //Center vertically
+    background-color: #f7f7f7;
+    padding: 20px; //Add some padding
+}
 
-//.img-container {
-//  width: 200px; /* Fixed width */
-//  height: 200px; /* Fixed height */
-//  overflow: hidden;
-//}
-//
-//.img-container img {
-//  width: 100%; /* Make the image fill the container */
-//  height: 100%; /* Make the image fill the container */
-//  object-fit: contain; /* Maintains aspect ratio and fits entire image within the container */
-//}
+.card {
+    max-width: 90%; //Max width to prevent it from being too wide on landscape
+    margin: auto; //Auto margins for centering
+    transform-style: preserve-3d; //Enable 3D transformations
+    transition: transform 0.5s; //Smooth transition for the transform
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); //Add some shadow for depth
+}
+
+.card-image img {
+    width: 100%; //Make the image fill the container
+    display: block;
+    max-height: 65vh; //Maximum height to maintain aspect ratio
+    object-fit: cover; //Ensure the image covers the area without distortion
+}
+
+.card-content {
+    padding: 20px;
+    background-color: white;
+}
+
+.like-section {
+    margin-bottom: 10px;
+}
+
+//Responsive layout adjustments for landscape mode
+@media screen and (orientation: landscape) {
+    .card-container {
+        flex-direction: row; //Cards side by side
+        align-items: flex-start; //Align to the top
+    }
+
+    .card {
+        width: auto; //Auto width for landscape
+        height: auto; //Adjust height automatically
+    }
+
+    .card-image img {
+        max-height: 100%; //Image should not exceed its container height
+    }
+}
+
