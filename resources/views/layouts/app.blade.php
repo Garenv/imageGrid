@@ -24,7 +24,7 @@
     </script>
 
     @viteReactRefresh
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss', 'node_modules/push.js/bin/serviceWorker.min.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
 </head>
 <body>
     <div id="app">
