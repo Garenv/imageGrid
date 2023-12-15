@@ -15,15 +15,21 @@ export default defineConfig({
                 'resources/sass/loginPage.scss',
                 'resources/sass/support/support.scss',
                 'resources/css/style.css',
-                'resources/js/main.js',
-                'node_modules/push.js/bin/serviceWorker.min.js'
+                'resources/js/main.js'
             ],
             refresh: true,
         }),
         react(),
         copy({
             targets: [
-                { src: 'resources/assets/vendor/*', dest: 'public/build/assets/vendor' }
+                {
+                    src: 'resources/assets/vendor/*',
+                    dest: 'public/build/assets/vendor'
+                },
+                {
+                    src: 'node_modules/push.js/bin/serviceWorker.min.js',
+                    dest: 'public/build/assets'
+                }
             ],
             // ensure the copy is done after writing the bundle
             // this line is crucial otherwise assets won't load properly
@@ -38,8 +44,7 @@ export default defineConfig({
                 'resources/sass/loginPage.scss',
                 'resources/sass/support/support.scss',
                 'resources/css/style.css',
-                'resources/js/main.js',
-                'node_modules/push.js/bin/serviceWorker.min.js'
+                'resources/js/main.js'
             ]
         },
         base: process.env.VITE_APP_URL + '/build/'
