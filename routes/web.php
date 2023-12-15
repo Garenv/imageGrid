@@ -56,6 +56,10 @@ Route::get('/privacy-policy', function () {
 
 Route::get('/grid',                                       [HomeController::class, 'index'])->middleware(['verified']);
 
+Route::get('/ads.txt',function(){
+    return view('ads');
+});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsData']);
