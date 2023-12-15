@@ -15,7 +15,8 @@ export default defineConfig({
                 'resources/sass/loginPage.scss',
                 'resources/sass/support/support.scss',
                 'resources/css/style.css',
-                'resources/js/main.js'
+                'resources/js/main.js',
+                'node_modules/push.js/bin/serviceWorker.min.js'
             ],
             refresh: true,
         }),
@@ -37,7 +38,8 @@ export default defineConfig({
                 'resources/sass/loginPage.scss',
                 'resources/sass/support/support.scss',
                 'resources/css/style.css',
-                'resources/js/main.js'
+                'resources/js/main.js',
+                'node_modules/push.js/bin/serviceWorker.min.js'
             ]
         },
         base: process.env.VITE_APP_URL + '/build/'

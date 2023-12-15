@@ -15,10 +15,16 @@
 
     <script>
         let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};
+
+        Push.create('Welcome Garen!', {
+            Body:"Welcome to the dashboard!",
+            timeout:5000
+        });
+
     </script>
 
     @viteReactRefresh
-    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss', 'node_modules/push.js/bin/serviceWorker.min.js'])
 </head>
 <body>
     <div id="app">
