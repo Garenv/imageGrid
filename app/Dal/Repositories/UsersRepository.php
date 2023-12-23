@@ -29,19 +29,21 @@ class UsersRepository implements IUsersRepository
             ->get();
     }
 
-    public function getUploads($loggedInUserId)
+    public function getUserUploadsForThisWeek($loggedInUserId, $sortByLikes)
     {
         return DB::table('uploads')
             ->select('uploads.url', 'uploads.likes', 'users.name', 'users.UserID', 'uploads.photo_id', 'user_likes.is_liked')
             ->leftJoin('users', 'users.UserID', '=', 'uploads.UserID')
             ->leftJoin('user_likes', function ($q) use ($loggedInUserId) {
-                $q->where('user_likes.user_id', '=', "$loggedInUserId")
+                $q->where('user_likes.user_id', '=', $loggedInUserId)
                     ->on('user_likes.photo_id', '=', 'uploads.photo_id');
             })
             // assigns a lower value (0) when the UserID of the upload matches the loggedInUserId, making these rows appear first in the results
             // after sorting by user priority, the results are further sorted by timeStamp in descending order
             // the logged in user ID is passed as a parameter to the raw query to prevent SQL injection
-            ->orderByRaw("CASE WHEN uploads.UserID = ? THEN 0 ELSE 1 END, uploads.timeStamp DESC", [$loggedInUserId])
+            ->orderByRaw("CASE WHEN uploads.UserID = ? THEN 0 ELSE 1 END", [$loggedInUserId])
+            ->orderBy('uploads.likes', $sortByLikes)
+            ->orderBy('uploads.timeStamp', 'DESC')
             ->get();
     }
 
@@ -89,6 +91,8 @@ class UsersRepository implements IUsersRepository
     {
         return User::where('ip', $ip)->first();
     }
+
+
 
 }
 

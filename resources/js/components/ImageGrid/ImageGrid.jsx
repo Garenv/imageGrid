@@ -8,6 +8,7 @@ import '../../../sass/imageGrid.scss';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
 import { useSharedStyles } from "../utlities/SharedStyles.jsx";
+import SplitButton from "../utlities/DropDown/DropDown.jsx";
 
 const ImageGrid = () => {
     const userId = useContext(UserContext).userId;
@@ -19,6 +20,11 @@ const ImageGrid = () => {
     const [showVerifyDelete, setShowVerifyDelete] = useState(false);
     const sharedClasses = useSharedStyles();
     const [isScrollToTheTopArrowVisible, setIsScrollToTheTopArrowVisible] = useState(false);
+    const [selectedSortOrder, setSelectedSortOrder] = useState('desc'); // default sort order
+    const [sortOrderStatus, setSortOrderStatus] = useState(false);
+    const [sortOrderStatusSuccessMessage, setSortOrderStatusSuccessMessage] = useState('');
+    const [sortOrderStatusFailureMessage, setSortOrderStatusFailureMessage] = useState('');
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -49,9 +55,40 @@ const ImageGrid = () => {
         };
     }, []);
 
-    const fetchUserUploads = async () => {
-        const { data } = await AxiosClient.get('/get-user-uploads-data');
-        return data;
+    const fetchUserUploads = async (sortOrder) => {
+        let apiSortOrder;
+
+        switch (sortOrder) {
+            case "High to low":
+                apiSortOrder = "desc";
+                break;
+            case "Low to high":
+                apiSortOrder = "asc";
+                break;
+        }
+
+        try {
+            const response = await AxiosClient.get('/get-user-uploads-data', {
+                params: { sortByLikes: apiSortOrder }
+            });
+
+            console.log(response);
+
+            if(response.status === 200) {
+                setSortOrderStatus(true);
+                setSortOrderStatusSuccessMessage(response.data.message);
+            }
+
+            return response.data.gridData;
+        } catch (err) {
+            console.error("Error fetching sorted uploads:", err);
+
+            if(err.response.status !== 200) {
+                setSortOrderStatusFailureMessage(err.response.data.message);
+                setSortOrderStatus(false);
+            }
+
+        }
     };
 
     const uploadImage = async (file) => {
@@ -91,22 +128,33 @@ const ImageGrid = () => {
         }
     };
 
-    const { data: gridData, isLoading } = useQuery('userUploads', fetchUserUploads);
+    const { data: gridData, isLoading } = useQuery(
+        ['userUploads', selectedSortOrder],
+        () => fetchUserUploads(selectedSortOrder),
+        {
+            keepPreviousData: true // keep showing old data until new data is loaded
+        }
+    );
 
     const uploadMutation = useMutation(uploadImage, {
         onSuccess: (newImage) => {
 
             // make sure `newImage` has the right structure and append it to existing data.
-            queryClient.setQueryData('userUploads', (oldData) => [
+            queryClient.setQueryData(['userUploads', selectedSortOrder], (oldData) => [
                 ...oldData,
                 newImage
             ]);
             handleClose();
             // manually invalidate queries to force a refetch and re-render
-            queryClient.invalidateQueries('userUploads');
+            queryClient.invalidateQueries(['userUploads', selectedSortOrder]);
         },
     });
 
+    const handleSelectionChange = (selectedValue) => {
+        setSelectedSortOrder(selectedValue); // update the sort order state
+        console.log('Selected value:', selectedValue);
+        console.log("handleSelectionChange", gridData);
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -305,12 +353,28 @@ const ImageGrid = () => {
                             id="file"
                             type="file"
                             onChange={handleImageChange}
-                            style={{ display: "none" }}
+                            style={{display: "none"}}
                             accept=".jpg, .jpeg, .png, .heic"
                         />
                     </div>
+
                 </Form.Group>
+
+                <SplitButton
+                    onSelectionChange={handleSelectionChange}
+                    sortOrderStatus={sortOrderStatus}
+                    sortOrderStatusSuccessMessage={sortOrderStatusSuccessMessage}
+                    sortOrderStatusFailureMessage={sortOrderStatusFailureMessage}
+                />
+
             </div>
+
+            {/*<div className="btn-wrapper pt-5">*/}
+            {/*    <Form.Group controlId="formFile" className="mb-5">*/}
+            {/*        <div className="custom-file-upload pt-5">*/}
+            {/*        </div>*/}
+            {/*    </Form.Group>*/}
+            {/*</div>*/}
 
             <Modal show={show} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>
@@ -318,7 +382,7 @@ const ImageGrid = () => {
                 </Modal.Header>
                 <Modal.Body className="d-flex justify-content-center">
                     {imagePreview && (
-                        <img src={imagePreview} alt="preview" className="img-fluid" />
+                        <img src={imagePreview} alt="preview" className="img-fluid"/>
                     )}
                 </Modal.Body>
                 <Modal.Footer>
@@ -327,7 +391,10 @@ const ImageGrid = () => {
                     </Button>
                     <Button
                         variant="primary"
-                        onClick={() => {uploadMutation.mutate(file); handleClose()}}
+                        onClick={() => {
+                            uploadMutation.mutate(file);
+                            handleClose()
+                        }}
                         disabled={uploadMutation.isLoading}
                     >
                         Submit
@@ -356,12 +423,18 @@ const ImageGrid = () => {
                                                                 <span className="likes">❤️ {photos.likes}</span>
                                                             </div>
                                                             {!photos.is_liked ?
-                                                                <Button className="bg-success" onClick={() => handleLike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👍</Button> :
-                                                                <Button className="bg-danger" onClick={() => handleDislike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👎</Button>
+                                                                <Button className="bg-success"
+                                                                        onClick={() => handleLike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👍</Button> :
+                                                                <Button className="bg-danger"
+                                                                        onClick={() => handleDislike(photos.UserID, photos.name, photos.photo_id, photos.is_liked)}>👎</Button>
                                                             }
                                                             <div className="user-info">
-                                                                <span style={{color: "black"}}>{photos.name} {userId === photos.UserID ? <h6 style={{color: "black"}}>(You)</h6> : null}</span>
-                                                                {userId === photos.UserID ? <Button className="bg-danger" onClick={() => handleVerifyDeleteShow(photos.UserID)}>Delete</Button> : null}
+                                                                <span
+                                                                    style={{color: "black"}}>{photos.name} {userId === photos.UserID ?
+                                                                    <h6 style={{color: "black"}}>(You)</h6> : null}</span>
+                                                                {userId === photos.UserID ?
+                                                                    <Button className="bg-danger"
+                                                                            onClick={() => handleVerifyDeleteShow(photos.UserID)}>Delete</Button> : null}
                                                             </div>
 
                                                         </div>
