@@ -135,16 +135,9 @@ const ImageGrid = () => {
     const gridData = response?.data?.gridData;
 
     const uploadMutation = useMutation(uploadImage, {
-        onSuccess: (newImage) => {
-
-            // make sure `newImage` has the right structure and append it to existing data.
-            queryClient.setQueryData(['userUploads', selectedSortOrder], (oldData) => [
-                ...oldData,
-                newImage
-            ]);
+        onSuccess: () => {
             handleClose();
-            // manually invalidate queries to force a refetch and re-render
-            queryClient.invalidateQueries(['userUploads', selectedSortOrder]);
+            queryClient.refetchQueries(['userUploads', selectedSortOrder]);
         },
     });
 
