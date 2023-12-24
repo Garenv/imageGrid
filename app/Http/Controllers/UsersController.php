@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use function Symfony\Component\String\s;
 
 class UsersController extends Controller
 {
@@ -103,14 +104,42 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    public function getUserUploadsData()
+    public function getUserUploadsForThisWeek(Request $request)
     {
-        $loggedInUserId = Auth::user()['UserID'];
-        return $this->__usersRepository->getUploads($loggedInUserId);
+
+        try {
+            $loggedInUserId = Auth::user()['UserID'];
+            $sortByLikes = $request->query('sortByLikes', 'desc');
+            $getUserUploadsForThisWeek = $this->__usersRepository->getUserUploadsForThisWeek($loggedInUserId, $sortByLikes);
+
+            if($sortByLikes === "desc") {
+                $sortOrderMessage = "Successfully sorted from Low to high!";
+            } else {
+                $sortOrderMessage = "Successfully sorted from High to low!";
+            }
+
+            if(!$getUserUploadsForThisWeek->isEmpty()) {
+                $getUserUploadsForThisWeekData = [
+                    "gridData" => $getUserUploadsForThisWeek,
+                    'message' => $sortOrderMessage
+                ];
+
+                return response()->json($getUserUploadsForThisWeekData);
+            } else {
+                return response()->json(['message' => "There's nothing to sort since there are no uploads!"], 422);
+            }
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            if($e->getCode()) {
+                return response()->json(['message' => "Something's wrong with grid!  We've been notified and looking into it!"], 500);
+            }
+        }
+
     }
 
     public function updatePassword(Request $request)

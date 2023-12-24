@@ -110,7 +110,7 @@
                 } else {
                     console.log('Checkbox is not checked');
                 }
-            })
+            });
 
             if ({{ $errors->has('registerPassword') || $errors->has('registerPassword_confirmation') ? 'true' : 'false' }}) {
                 // If there are registration errors, show the register form
@@ -136,7 +136,7 @@
                         position: "right", // "left", "center" or "right"
                         style: {
                             background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                        },
+                        }
                     }).showToast();
                 @endforeach
             @endif

@@ -60,6 +60,10 @@ label.form-label {
     margin-bottom: 10px;
 }
 
+.topRightCorner {
+    float: right;
+}
+
 //Responsive layout adjustments for landscape mode
 @media screen and (orientation: landscape) {
     .card-container {
