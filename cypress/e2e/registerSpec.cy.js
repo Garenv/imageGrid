@@ -80,7 +80,7 @@ describe('user visits the login page', () => {
             let agreementCheck = value[4]
             let message = value[5]
 
-            it.only(`should fail with ${message}`, () => {
+            it(`should fail with ${message}`, () => {
                 attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                 cy.get('.toastify').then(($t) => {
                     const text = $t.text()

@@ -32,7 +32,7 @@ describe('user visits the login page', () => {
             let message = value[2]
             let selector = value[3]
 
-            it.only(`should fail with ${message}`, () => {
+            it(`should fail with ${message}`, () => {
                 attemptLogin(email, password)
                 cy.get(selector).then(($t) => {
                     const text = $t[0].validationMessage
