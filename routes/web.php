@@ -62,7 +62,7 @@ Route::get('/ads.txt',function(){
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsData']);
+    Route::get( '/get-user-uploads-data',                 [UsersController::class, 'getUserUploadsForThisWeek']);
     Route::post('/like',                                  [UsersController::class,      'handleLike']);
     Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
     Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
