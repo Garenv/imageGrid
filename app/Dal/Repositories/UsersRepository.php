@@ -92,8 +92,6 @@ class UsersRepository implements IUsersRepository
         return User::where('ip', $ip)->first();
     }
 
-
-
 }
 
 

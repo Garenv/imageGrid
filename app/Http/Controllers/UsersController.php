@@ -115,15 +115,20 @@ class UsersController extends Controller
             $sortByLikes = $request->query('sortByLikes', 'desc');
             $getUserUploadsForThisWeek = $this->__usersRepository->getUserUploadsForThisWeek($loggedInUserId, $sortByLikes);
 
+            if($sortByLikes === "desc") {
+                $sortOrderMessage = "Successfully sorted from Low to high!";
+            } else {
+                $sortOrderMessage = "Successfully sorted from High to low!";
+            }
+
             if(!$getUserUploadsForThisWeek->isEmpty()) {
                 $getUserUploadsForThisWeekData = [
-                    "gridData" => $getUserUploadsForThisWeek
+                    "gridData" => $getUserUploadsForThisWeek,
+                    'message' => $sortOrderMessage
                 ];
 
                 return response()->json($getUserUploadsForThisWeekData);
-            }
-
-            if($request->has('sortByLikes') && $getUserUploadsForThisWeek->isEmpty()) {
+            } else {
                 return response()->json(['message' => "There's nothing to sort since there are no uploads!"], 422);
             }
 

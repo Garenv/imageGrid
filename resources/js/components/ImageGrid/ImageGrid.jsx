@@ -2,12 +2,12 @@ import React, {useContext, useEffect, useState} from 'react';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from "react-toastify";
-import { Modal, Button, Form } from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
+import {Button, Form, Modal} from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
-import { useSharedStyles } from "../utlities/SharedStyles.jsx";
+import {useSharedStyles} from "../utlities/SharedStyles.jsx";
 import SplitButton from "../utlities/DropDown/DropDown.jsx";
 
 const ImageGrid = () => {
@@ -22,8 +22,7 @@ const ImageGrid = () => {
     const [isScrollToTheTopArrowVisible, setIsScrollToTheTopArrowVisible] = useState(false);
     const [selectedSortOrder, setSelectedSortOrder] = useState('desc'); // default sort order
     const [sortOrderStatus, setSortOrderStatus] = useState(false);
-    const [sortOrderStatusSuccessMessage, setSortOrderStatusSuccessMessage] = useState('');
-    const [sortOrderStatusFailureMessage, setSortOrderStatusFailureMessage] = useState('');
+    const [sortOrderStatusMessage, setSortOrderStatusMessage] = useState('');
 
 
     const handleClose = () => setShow(false);
@@ -54,42 +53,6 @@ const ImageGrid = () => {
             window.removeEventListener('scroll', toggleVisibility);
         };
     }, []);
-
-    const fetchUserUploads = async (sortOrder) => {
-        let apiSortOrder;
-
-        switch (sortOrder) {
-            case "High to low":
-                apiSortOrder = "desc";
-                break;
-            case "Low to high":
-                apiSortOrder = "asc";
-                break;
-        }
-
-        try {
-            const response = await AxiosClient.get('/get-user-uploads-data', {
-                params: { sortByLikes: apiSortOrder }
-            });
-
-            console.log(response);
-
-            if(response.status === 200) {
-                setSortOrderStatus(true);
-                setSortOrderStatusSuccessMessage(response.data.message);
-            }
-
-            return response.data.gridData;
-        } catch (err) {
-            console.error("Error fetching sorted uploads:", err);
-
-            if(err.response.status !== 200) {
-                setSortOrderStatusFailureMessage(err.response.data.message);
-                setSortOrderStatus(false);
-            }
-
-        }
-    };
 
     const uploadImage = async (file) => {
         let formData = new FormData();
@@ -128,13 +91,48 @@ const ImageGrid = () => {
         }
     };
 
-    const { data: gridData, isLoading } = useQuery(
+    const fetchUserUploads = async (sortOrder) => {
+        let apiSortOrder;
+
+        switch (sortOrder) {
+            case "High to low":
+                apiSortOrder = "desc";
+                break;
+            case "Low to high":
+                apiSortOrder = "asc";
+                break;
+        }
+
+        try {
+            return await AxiosClient.get('/get-user-uploads-data', {
+                params: {sortByLikes: apiSortOrder}
+            });
+        } catch (err) {
+            console.error("Error fetching sorted uploads:", err);
+            throw err;
+        }
+    };
+
+    const { data: response } = useQuery(
         ['userUploads', selectedSortOrder],
         () => fetchUserUploads(selectedSortOrder),
         {
-            keepPreviousData: true // keep showing old data until new data is loaded
+            keepPreviousData: true,
+
+            onSuccess: (response) => {
+                setSortOrderStatus(response.status);
+                setSortOrderStatusMessage(response.data.message);
+            },
+
+            onError: (error) => {
+                setSortOrderStatus(error.response.status);
+                setSortOrderStatusMessage(error.response.data.message);
+            },
+
         }
     );
+
+    const gridData = response?.data?.gridData;
 
     const uploadMutation = useMutation(uploadImage, {
         onSuccess: (newImage) => {
@@ -363,18 +361,10 @@ const ImageGrid = () => {
                 <SplitButton
                     onSelectionChange={handleSelectionChange}
                     sortOrderStatus={sortOrderStatus}
-                    sortOrderStatusSuccessMessage={sortOrderStatusSuccessMessage}
-                    sortOrderStatusFailureMessage={sortOrderStatusFailureMessage}
+                    sortOrderStatusMessage={sortOrderStatusMessage}
                 />
 
             </div>
-
-            {/*<div className="btn-wrapper pt-5">*/}
-            {/*    <Form.Group controlId="formFile" className="mb-5">*/}
-            {/*        <div className="custom-file-upload pt-5">*/}
-            {/*        </div>*/}
-            {/*    </Form.Group>*/}
-            {/*</div>*/}
 
             <Modal show={show} onHide={handleClose} centered size="lg">
                 <Modal.Header closeButton>

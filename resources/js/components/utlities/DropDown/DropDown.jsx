@@ -12,7 +12,7 @@ import {toast, ToastContainer} from "react-toastify";
 
 const options = ['High to low', 'Low to high'];
 
-export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOrderStatusSuccessMessage, sortOrderStatusFailureMessage }) {
+export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOrderStatusMessage }) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -23,26 +23,11 @@ export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOr
         onSelectionChange(options[index]);
 
         if(sortOrderStatus) {
-            console.log("inside if");
-            toast.success(sortOrderStatusSuccessMessage, {
+            toast.success(sortOrderStatusMessage, {
                 closeOnClick: false,
                 closeButton: false,
                 autoClose: 1000
             });
-        } else {
-
-            console.log("sortOrderStatus", sortOrderStatus)
-            // let sortingFailureMessage = `There's an error when sorting from ${options[index]}!`;
-            console.log("inside else");
-
-            if(!sortOrderStatus) {
-                toast.error(sortOrderStatusFailureMessage, {
-                    closeOnClick: false,
-                    progress: false,
-                    closeButton: false,
-                    autoClose: 1100
-                });
-            }
         }
 
     };
@@ -77,7 +62,7 @@ export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOr
                     aria-haspopup="menu"
                     onClick={handleToggle}
                 >
-                    <ArrowDropDownIcon />
+                    <ArrowDropDownIcon/>
                 </Button>
             </ButtonGroup>
             <Popper
