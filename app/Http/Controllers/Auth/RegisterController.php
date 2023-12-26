@@ -67,21 +67,22 @@ class RegisterController extends Controller
     {
 
         $messages = [
-            'registerPassword.required' => 'The password is required.',
+            'name' => 'This name already exists, choose another one',
+            'registerPassword.required' => 'Password is required.',
             'registerPassword.min' => 'The password must be at least 10 characters.',
             'registerPassword.confirmed' => 'The password confirmation does not match.',
-            'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         ];
 
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'registerPassword' => [
                 'required',
                 'string',
                 'min:10',
                 'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,}$/'
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
             ],
         ], $messages);
 
