@@ -1,4 +1,4 @@
-describe('user visits the login page', () => {
+describe('user visits the registration page', () => {
     let usernameSelector = '#logname'
     let emailSelector = ':nth-child(3) > #email'
     let passwordSelector = ':nth-child(4) > #password'
@@ -32,8 +32,12 @@ describe('user visits the login page', () => {
         if(agreementCheck) {
             cy.get(agreementCheckSelector).click()
         }
-        cy.get('.card-back > .center-wrap > .section > .btn').click()
+        return cy.get('.card-back > .center-wrap > .section > .btn').click()
     };
+
+    let name = "FakeUsername";
+    let password = "NotARealPassword@1234";
+    let email = "ValidUsername@gmail.com";
 
     describe('user attempts to register with invalid inputs', () => {
         let pleaseFillOut = 'Please fill out this field.';
@@ -43,11 +47,10 @@ describe('user visits the login page', () => {
             ["FakeUsername", "ValidUsername@", "NotARealPassword1234", "NotARealPassword1234", false, "Please enter a part following '@'. 'ValidUsername@' is incomplete.", emailSelector],
             ["", "ValidUsername@", "NotARealPassword1234", "NotARealPassword1234", false, pleaseFillOut, usernameSelector],
             ["FakeUsername", "", "NotARealPassword1234", "NotARealPassword1234", false, pleaseFillOut, emailSelector],
-            ["FakeUsername", "ValidUsername@gmail.com", "", "NotARealPassword1234", false, pleaseFillOut, passwordSelector],
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword1234", "", false, pleaseFillOut, confirmPasswordSelector],
+            ["FakeUsername", email, "", "NotARealPassword1234", false, pleaseFillOut, passwordSelector],
+            ["FakeUsername", email, "NotARealPassword1234", "", false, pleaseFillOut, confirmPasswordSelector],
             ["", "", "", "", false, pleaseFillOut, usernameSelector],
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword1234", "NotARealPassword1234", false, 'Please check this box if you want to proceed.', agreementCheckSelector],
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword1234", "NotARealPassword", true, 'Passwords must match.', confirmPasswordSelector],
+            ["FakeUsername", email, "NotARealPassword1234", "NotARealPassword1234", false, 'Please check this box if you want to proceed.', agreementCheckSelector],
         ].forEach((value, index, array) => {
             let username = value[0]
             let email = value[1]
@@ -57,7 +60,7 @@ describe('user visits the login page', () => {
             let message = value[5]
             let selector = value[6]
 
-            it(`should fail with ${message}`, () => {
+            it(`${index + 1}. should fail with ${message}`, () => {
                 attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                 cy.get(selector).then(($t) => {
                     const text = $t[0].validationMessage
@@ -67,11 +70,28 @@ describe('user visits the login page', () => {
         })
     })
 
+    describe('user attempts to register with valid credentials', () => {
+        before(() => {
+
+        });
+
+        it("should redirect to confirm email page", () => {
+            let chainable = attemptRegistration(name, email, password, password, true)
+        })
+    });
+
     describe('user attempts to register with invalid credentials', () => {
+        before(() => {
+
+        });
+
         [
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword@1234", "NotARealPassword@1234", true, 'The credentials do not match our records.✖'],
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword@1234", "NotARealPassword", true, 'The password confirmation does not match.✖'],
-            ["FakeUsername", "ValidUsername@gmail.com", "NotARealPassword1234", "NotARealPassword", true, 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password confirmation does not match.✖'],
+            [name, email, password, password, true, 'You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.✖'],
+            [name, email, "notreal@1", "notreal@1", true, "The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password must be at least 10 characters.✖"],
+            [name, email, "NotReal!1", "NotReal!1", true, "The password must be at least 10 characters.✖"],
+            ["Fuck", email, password, password, true, "Names may not contain any profanity✖"],
+            [name, email, password, "NotARealPassword", true, 'The password confirmation does not match.✖'],
+            [name, email, "NotARealPassword1234", "NotARealPassword", true, 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password confirmation does not match.✖'],
         ].forEach((value, index, array) => {
             let username = value[0]
             let email = value[1]
