@@ -6,9 +6,11 @@ import Button from 'react-bootstrap/Button';
 import { useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from "react-toastify";
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import SharedModal from "@/components/utlities/SharedModal/SharedModal.jsx";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
+    const [loadingDeleteAccount, setLoadingDeleteAccount] = useState(false);
     const fileInputRef = useRef(null);
     const queryClient = useQueryClient();
 
@@ -56,6 +58,31 @@ const Profile = () => {
         }
     });
 
+    const deleteProfileClick = () => {
+      AxiosClient.delete('/hard-delete-profile')
+          .then(res => {
+              console.log(res);
+
+              toast.success(res.data.message, {
+                  closeOnClick: false,
+                  closeButton: false,
+                  autoClose: 1000
+              });
+
+              window.location.href = '/';
+          }).catch(err => {
+          console.log(err.response.data);
+
+          let errorMessage = err.response.data.message;
+
+          toast.error(errorMessage, {
+              closeOnClick: false,
+              closeButton: false,
+              autoClose: 1000
+          });
+      });
+    };
+
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
 
@@ -98,13 +125,14 @@ const Profile = () => {
                     <Card style={{ width: '18rem' }}>
 
                         <ListGroup className="list-group-flush">
-                            <ListGroup.Item>{profileData.name}</ListGroup.Item>
-                            <ListGroup.Item>{profileData.email}</ListGroup.Item>
+                            <ListGroup.Item data-cy="profile-name">{profileData.name}</ListGroup.Item>
+                            <ListGroup.Item data-cy="profile-email">{profileData.email}</ListGroup.Item>
                         </ListGroup>
 
                         <Button
                             variant="outline-primary"
                             onClick={onImageClick}
+                            data-cy="upload-avatar-button"
                         >
                             Upload Avatar Photo
                         </Button>
@@ -116,8 +144,17 @@ const Profile = () => {
                             style={{ display: "none" }}
                             name="avatar"
                         />
-
+                        <SharedModal
+                            primaryClick={deleteProfileClick}
+                            launchButtonTitle="Delete Account"
+                            title="WARNING!"
+                            body="Are you sure you want to permanently delete your account? This action cannot be undone. If yes, type CONFIRM in the box below and press OK"
+                            customStyle={{
+                                backgroundColor: "#FF0000"
+                        }}
+                        />
                     </Card>
+
                 </div> : <h1>Something went wrong!</h1>
             }
         </>

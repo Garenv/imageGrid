@@ -8,6 +8,7 @@ use App\Models\LegacyUploads;
 use App\Models\Uploads;
 use App\Models\User;
 use App\Models\UserLikes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UsersRepository implements IUsersRepository
@@ -90,6 +91,10 @@ class UsersRepository implements IUsersRepository
     public function getIpAddresses($ip)
     {
         return User::where('ip', $ip)->first();
+    }
+
+    public function hardDeleteProfile() {
+        return User::where('UserID', Auth::user()['UserID'])->delete();
     }
 
 }
