@@ -58,6 +58,7 @@ const Profile = () => {
         }
     });
 
+
     const deleteProfileClick = () => {
       AxiosClient.delete('/hard-delete-profile')
           .then(res => {
@@ -82,6 +83,12 @@ const Profile = () => {
           });
       });
     };
+
+    const deleteProfileMutation = useMutation(deleteProfileClick, {
+        onSuccess: () => {
+            console.log("Success")
+        }
+    });
 
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
@@ -112,15 +119,12 @@ const Profile = () => {
                 hideProgressBar
                 closeButton={false}
             />
-
             {
                 profileData ?
 
                 <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
 
-                    {mutation.isLoading && (
-                        <LoadingSpinner/>
-                    )}
+                    {(mutation.isLoading || deleteProfileMutation.isLoading) && <LoadingSpinner/>}
 
                     <Card style={{ width: '18rem' }}>
 
