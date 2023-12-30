@@ -10,7 +10,6 @@ import SharedModal from "@/components/utlities/SharedModal/SharedModal.jsx";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
-    const [loadingDeleteAccount, setLoadingDeleteAccount] = useState(false);
     const fileInputRef = useRef(null);
     const queryClient = useQueryClient();
 
@@ -58,41 +57,33 @@ const Profile = () => {
         }
     });
 
+    const deleteProfile = () => {
+        console.log("Initiating profile deletion");
 
-    const deleteProfileClick = () => {
-        console.log("deleteProfileClick")
-        AxiosClient.get("FakeAPI", { timeout: 5000 }).then( res => {
-            toast.success("S", {
-                closeOnClick: false,
-                closeButton: false,
-                autoClose: 1000
+        return AxiosClient.delete("/hard-delete-profile")
+            .then(response => {
+                window.location.href = '/';
+                return response.data;
+            }).catch(error => {
+                throw error;
             });
-        })
-        // AxiosClient.delete('/hard-delete-profile')
-      //     .then(res => {
-      //         console.log(res);
-      //
-
-      //
-      //         window.location.href = '/';
-      //     }).catch(err => {
-      //     console.log(err.response.data);
-      //
-      //     let errorMessage = err.response.data.message;
-      //
-      //     toast.error(errorMessage, {
-      //         closeOnClick: false,
-      //         closeButton: false,
-      //         autoClose: 1000
-      //     });
-      // });
     };
 
-    const deleteProfileMutation = useMutation(deleteProfileClick, {
+    const deleteProfileMutation = useMutation(deleteProfile, {
+
         onSuccess: () => {
-            console.log("Success")
-        }
+            toast.success("Profile deleted successfully");
+        },
+
+        onError: (error) => {
+            toast.error("Error deleting profile");
+        },
+
     });
+
+    const handleDeleteClick = () => {
+        deleteProfileMutation.mutate();
+    };
 
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
@@ -153,7 +144,7 @@ const Profile = () => {
                             name="avatar"
                         />
                         <SharedModal
-                            primaryClick={deleteProfileClick}
+                            primaryClick={handleDeleteClick}
                             launchButtonTitle="Delete Account"
                             title="WARNING!"
                             body="Are you sure you want to permanently delete your account? This action cannot be undone. If yes, type CONFIRM in the box below and press OK"
