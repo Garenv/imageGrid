@@ -246,4 +246,22 @@ class UsersController extends Controller
         return Auth::user();
     }
 
+    public function hardDeleteProfile() {
+        try {
+            $hardDeleteProfile = $this->__usersRepository->hardDeleteProfile();
+
+            if ($hardDeleteProfile) {
+                $hardDeleteProfileData = ['message' => "Successfully deleted your account."];
+
+                return response()->json($hardDeleteProfileData);
+            }
+
+            return response()->json(['message' => 'Could not delete account.'], 422);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return response()->json(['message' => 'Something went wrong!'], 500);
+        }
+    }
+
 }

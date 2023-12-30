@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { useMutation, useQueryClient } from 'react-query';
 import { ToastContainer, toast } from "react-toastify";
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import SharedModal from "@/components/utlities/SharedModal/SharedModal.jsx";
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);
@@ -56,6 +57,34 @@ const Profile = () => {
         }
     });
 
+    const deleteProfile = () => {
+        console.log("Initiating profile deletion");
+
+        return AxiosClient.delete("/hard-delete-profile")
+            .then(response => {
+                window.location.href = '/';
+                return response.data;
+            }).catch(error => {
+                throw error;
+            });
+    };
+
+    const deleteProfileMutation = useMutation(deleteProfile, {
+
+        onSuccess: () => {
+            toast.success("Profile deleted successfully");
+        },
+
+        onError: (error) => {
+            toast.error("Error deleting profile");
+        },
+
+    });
+
+    const handleDeleteClick = () => {
+        deleteProfileMutation.mutate();
+    };
+
     const onFileChange = useCallback((event) => {
         const file = event.target.files[0];
 
@@ -85,26 +114,24 @@ const Profile = () => {
                 hideProgressBar
                 closeButton={false}
             />
-
             {
                 profileData ?
 
                 <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
 
-                    {mutation.isLoading && (
-                        <LoadingSpinner/>
-                    )}
+                    {(mutation.isLoading || deleteProfileMutation.isLoading) && <LoadingSpinner/>}
 
                     <Card style={{ width: '18rem' }}>
 
                         <ListGroup className="list-group-flush">
-                            <ListGroup.Item>{profileData.name}</ListGroup.Item>
-                            <ListGroup.Item>{profileData.email}</ListGroup.Item>
+                            <ListGroup.Item data-cy="profile-name">{profileData.name}</ListGroup.Item>
+                            <ListGroup.Item data-cy="profile-email">{profileData.email}</ListGroup.Item>
                         </ListGroup>
 
                         <Button
                             variant="outline-primary"
                             onClick={onImageClick}
+                            data-cy="upload-avatar-button"
                         >
                             Upload Avatar Photo
                         </Button>
@@ -116,8 +143,17 @@ const Profile = () => {
                             style={{ display: "none" }}
                             name="avatar"
                         />
-
+                        <SharedModal
+                            primaryClick={handleDeleteClick}
+                            launchButtonTitle="Delete Account"
+                            title="WARNING!"
+                            body="Are you sure you want to permanently delete your account? This action cannot be undone. If yes, type CONFIRM in the box below and press OK"
+                            customStyle={{
+                                backgroundColor: "#FF0000"
+                        }}
+                        />
                     </Card>
+
                 </div> : <h1>Something went wrong!</h1>
             }
         </>

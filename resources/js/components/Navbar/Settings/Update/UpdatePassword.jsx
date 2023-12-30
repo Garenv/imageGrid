@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import AxiosClient from "../../utlities/AxiosClient.jsx";
+import AxiosClient from "../../../utlities/AxiosClient.jsx";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import LoadingSpinner from "../../../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
 const UpdatePassword = () => {
     const { register, handleSubmit} = useForm();

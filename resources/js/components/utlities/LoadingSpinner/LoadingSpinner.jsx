@@ -28,7 +28,7 @@ const LoadingSpinner = () => {
     const classes = useStyles();
 
     return(
-        <div className={classes.centered}>
+        <div className={classes.centered} data-cy="loading-spinner">
             <img src="https://phopixel.s3.amazonaws.com/stage/assets/images/logos/phopixel_icon_small.png" alt="Icon" className={classes.spinIcon} />
         </div>
     );
