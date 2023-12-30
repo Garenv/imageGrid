@@ -60,28 +60,32 @@ const Profile = () => {
 
 
     const deleteProfileClick = () => {
-      AxiosClient.delete('/hard-delete-profile')
-          .then(res => {
-              console.log(res);
+        console.log("deleteProfileClick")
+        AxiosClient.get("FakeAPI", { timeout: 5000 }).then( res => {
+            toast.success("S", {
+                closeOnClick: false,
+                closeButton: false,
+                autoClose: 1000
+            });
+        })
+        // AxiosClient.delete('/hard-delete-profile')
+      //     .then(res => {
+      //         console.log(res);
+      //
 
-              toast.success(res.data.message, {
-                  closeOnClick: false,
-                  closeButton: false,
-                  autoClose: 1000
-              });
-
-              window.location.href = '/';
-          }).catch(err => {
-          console.log(err.response.data);
-
-          let errorMessage = err.response.data.message;
-
-          toast.error(errorMessage, {
-              closeOnClick: false,
-              closeButton: false,
-              autoClose: 1000
-          });
-      });
+      //
+      //         window.location.href = '/';
+      //     }).catch(err => {
+      //     console.log(err.response.data);
+      //
+      //     let errorMessage = err.response.data.message;
+      //
+      //     toast.error(errorMessage, {
+      //         closeOnClick: false,
+      //         closeButton: false,
+      //         autoClose: 1000
+      //     });
+      // });
     };
 
     const deleteProfileMutation = useMutation(deleteProfileClick, {
