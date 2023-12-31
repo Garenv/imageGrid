@@ -5,22 +5,22 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import AxiosClient from "../../utlities/AxiosClient.jsx";
-import LoadingSpinner from "../../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import AxiosClient from "../../../utlities/AxiosClient.jsx";
+import LoadingSpinner from "../../../utlities/LoadingSpinner/LoadingSpinner.jsx";
 
-const UpdateEmail = () => {
+const UpdateName = () => {
     const {register, handleSubmit} = useForm();
-    const navigate = useNavigate();
     const [isSpinning, setIsSpinning] = useState(false);
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         setIsSpinning(true);
 
         const formData = {
-            updateEmail: data.updateEmail,
+            updateName: data.updateName
         };
 
-        AxiosClient.post('update-email', formData)
+        AxiosClient.post('update-name', formData)
             .then(resp => {
 
                 if(resp.status === 200) {
@@ -35,7 +35,7 @@ const UpdateEmail = () => {
 
                 setTimeout(() => {
                     navigate("/grid");
-                }, 4000);
+                }, 2500);
 
             }).catch(error => {
 
@@ -67,20 +67,19 @@ const UpdateEmail = () => {
                 alignItems="center"
                 minHeight="100vh"
             >
-
-                <h3 className="contact-form-title-text text-black mt-5"><u>Update Email</u></h3>
+                <h3 className="contact-form-title-text text-black mt-5"><u>Update Name</u></h3>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
-                        {...register('updateEmail')}
+                        {...register('updateName')}
                         variant="standard"
                         margin="normal"
                         required
                         fullWidth
-                        name="updateEmail"
-                        label="Update Email"
-                        type="email"
-                        id="updateEmail"
+                        name="updateName"
+                        label="Update Name"
+                        type="text"
+                        id="updateName"
                     />
 
                     <Button
@@ -99,4 +98,4 @@ const UpdateEmail = () => {
     );
 }
 
-export default UpdateEmail;
+export default UpdateName;

@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-last-weeks-winners',                 [WinnersController::class,    'getLastWeeksWinners']);
     Route::get('/get-profile-data',                       [UsersController::class,      'getProfileData']);
     Route::get('/get-avatar-image',                       [FileUploadController::class, 'getAvatarImage']);
-
+    Route::delete('/hard-delete-profile',                 [UsersController::class, 'hardDeleteProfile']);
 
     Route::get('/{any?}', function () {
         return view('home');
