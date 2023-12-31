@@ -196,7 +196,7 @@
 
     <div class="container">
         <div class="copyright">
-             Copyright &copy; <strong><span>2023 Phopixel</span></strong>
+             Copyright &copy; <strong><span>{{ date('Y') }} Phopixel</span></strong>
             <br>
             All Rights Reserved.
         </div>
