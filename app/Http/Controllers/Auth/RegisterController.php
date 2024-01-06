@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -61,11 +62,10 @@ class RegisterController extends Controller
      * Get a validator for an incoming registration request.
      *
      * @param array $data
-     * @return \Illuminate\Validation\Validator
+     * @return JsonResponse
      */
     protected function validator(array $data)
     {
-
         $messages = [
             'name' => 'This name already exists, choose another one',
             'registerPassword.required' => 'Password is required.',
@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         ];
 
-        return Validator::make($data, [
+        $validator = Validator::make($data, [
             'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'registerPassword' => [
@@ -86,33 +86,21 @@ class RegisterController extends Controller
             ],
         ], $messages);
 
+        if($validator->fails()) {
+            Log::error($validator->failed());
+            return response()->json(['errors' => $validator->errors()], 422);
+
+        }
+        return response()->json();
     }
 
     public function register(Request $request)
     {
-        $name = $request->all()['name'];
+        $user = $this->createValidUser($request);
 
-        $this->validator($request->all())->validate();
-
-        $getUserIpAddress = getUserIpAddr();
-
-        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
-
-        $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
-
-        if($checkNameForProfanityWhenRegistering === 'true') {
-            return redirect()->back()->with('profanityNameWhenRegistering', "Names may not contain any profanity");
+        if($user instanceof JsonResponse && $user->getStatusCode() == 422) {
+            return redirect()->back()->withErrors($user->getData(true)['errors']);
         }
-
-        if(isset($existingUser)) {
-            if ($existingUser['ip'] === $getUserIpAddress) {
-                return redirect()->back()->with('userTryingToCreateMultipleAccountsError', "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.");
-            }
-        }
-
-        $user = $this->create($request->all());
-
-        event(new Registered($user));
 
         $this->guard()->login($user);
 
@@ -126,6 +114,59 @@ class RegisterController extends Controller
         Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
 
         return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
+    }
+
+    public function createValidUser(Request $request): ?JsonResponse
+    {
+
+        $messages = [
+            'name' => 'This name already exists, choose another one',
+            'registerPassword.required' => 'Password is required.',
+            'registerPassword.min' => 'The password must be at least 10 characters.',
+            'registerPassword.confirmed' => 'The password confirmation does not match.',
+            'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'registerPassword' => [
+                'required',
+                'string',
+                'min:10',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
+            ],
+        ], $messages);
+
+        if($validator->fails()) {
+            Log::error($validator->failed());
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $name = $request->all()['name'];
+        $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
+
+        if($checkNameForProfanityWhenRegistering === 'true') {
+            Log::error("Profanity error");
+            return response()->json(['errors' => "Names may not contain any profanity"], 422);
+        }
+
+        $getUserIpAddress = getUserIpAddr();
+        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
+
+        if(isset($existingUser)) {
+            if ($existingUser['ip'] === $getUserIpAddress) {
+                Log::error("Multiple accounts error");
+                return response()->json(['errors' => "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos."],422);
+            }
+        }
+
+        $user = $this->create($request->all());
+
+        event(new Registered($user));
+
+        return $user;
     }
 
 
@@ -161,7 +202,8 @@ class RegisterController extends Controller
             'timezone' => $locationData->timezone,
             'device' => $device,
             'device_os' => $deviceOs,
-            'os_version' => $osVersion
+            'os_version' => $osVersion,
+            'email_verified_at' => $data['email_verified_at'] ?? null
         ]);
 
     }
