@@ -32,7 +32,7 @@ class UsersRepository implements IUsersRepository
 
     public function getUserUploadsForThisWeek($loggedInUserId, $sortByLikes)
     {
-        return DB::table('uploads')
+        $query = DB::table('uploads')
             ->select('uploads.url', 'uploads.likes', 'users.name', 'users.UserID', 'uploads.photo_id', 'user_likes.is_liked')
             ->leftJoin('users', 'users.UserID', '=', 'uploads.UserID')
             ->leftJoin('user_likes', function ($q) use ($loggedInUserId) {
@@ -42,10 +42,13 @@ class UsersRepository implements IUsersRepository
             // assigns a lower value (0) when the UserID of the upload matches the loggedInUserId, making these rows appear first in the results
             // after sorting by user priority, the results are further sorted by timeStamp in descending order
             // the logged in user ID is passed as a parameter to the raw query to prevent SQL injection
-            ->orderByRaw("CASE WHEN uploads.UserID = ? THEN 0 ELSE 1 END", [$loggedInUserId])
-            ->orderBy('uploads.likes', $sortByLikes)
-            ->orderBy('uploads.timeStamp', 'DESC')
-            ->get();
+            ->orderByRaw("CASE WHEN uploads.UserID = ? THEN 0 ELSE 1 END", [$loggedInUserId]);
+
+        if(in_array($sortByLikes, ['asc', 'desc'])) {
+            $query->orderBy('uploads.likes', $sortByLikes);
+        }
+
+        return $query->get();
     }
 
     public function deleteUserUpload($userId)
