@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use function Symfony\Component\String\s;
 
 class UsersController extends Controller
 {
@@ -112,27 +111,35 @@ class UsersController extends Controller
 
         try {
             $loggedInUserId = Auth::user()['UserID'];
-            $sortByLikes = $request->query('sortByLikes', 'desc');
+            $sortByLikes = $request->query('sortByLikes') ?? null;
             $getUserUploadsForThisWeek = $this->__usersRepository->getUserUploadsForThisWeek($loggedInUserId, $sortByLikes);
+
+            $sortOrderMessage = "";
+
+            if($getUserUploadsForThisWeek->isEmpty()) {
+                return response()->json([
+                    'message' => "There are no uploads available.",
+                    'gridData' => []
+                ], 422);
+            }
+
+            $sorted = false;
 
             if($sortByLikes === "desc") {
                 $sortOrderMessage = "Successfully sorted from Low to high!";
-            } else {
+                $sorted = true;
+            } else if($sortByLikes === "asc") {
                 $sortOrderMessage = "Successfully sorted from High to low!";
+                $sorted = true;
             }
 
-            if(!$getUserUploadsForThisWeek->isEmpty()) {
-                $getUserUploadsForThisWeekData = [
-                    "gridData" => $getUserUploadsForThisWeek,
-                    'message' => $sortOrderMessage
-                ];
+            return response()->json([
+                'message' => $sortOrderMessage,
+                'sorted' => $sorted,
+                'gridData' => $getUserUploadsForThisWeek
+            ]);
 
-                return response()->json($getUserUploadsForThisWeekData);
-            } else {
-                return response()->json(['message' => "There's nothing to sort since there are no uploads!"], 422);
-            }
-
-        } catch (\Exception $e) {
+        } catch(\Exception $e) {
             Log::error($e->getMessage());
 
             if($e->getCode()) {
