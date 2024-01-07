@@ -8,11 +8,11 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import {toast, ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const options = ['High to low', 'Low to high'];
 
-export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOrderStatusMessage }) {
+export default function SplitButton({ onSelectionChange, hasSorted }) {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -21,15 +21,6 @@ export default function SplitButton({ onSelectionChange, sortOrderStatus, sortOr
         setSelectedIndex(index);
         setOpen(false);
         onSelectionChange(options[index]);
-
-        if(sortOrderStatus) {
-            toast.success(sortOrderStatusMessage, {
-                closeOnClick: false,
-                closeButton: false,
-                autoClose: 1000
-            });
-        }
-
     };
 
     const handleToggle = () => {
