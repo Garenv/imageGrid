@@ -120,16 +120,16 @@ class UsersController extends Controller
                 return response()->json([
                     'message' => "There are no uploads available.",
                     'gridData' => []
-                ], 422);
+                ]);
             }
 
             $sorted = false;
 
             if($sortByLikes === "desc") {
-                $sortOrderMessage = "Successfully sorted from Low to high!";
+                $sortOrderMessage = "Successfully sorted from High to low!";
                 $sorted = true;
             } else if($sortByLikes === "asc") {
-                $sortOrderMessage = "Successfully sorted from High to low!";
+                $sortOrderMessage = "Successfully sorted from Low to high!";
                 $sorted = true;
             }
 
