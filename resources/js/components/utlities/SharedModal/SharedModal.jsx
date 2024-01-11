@@ -1,14 +1,14 @@
 import React, {useCallback, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {render} from "react-dom";
+import Form from 'react-bootstrap/Form';
 
 function SharedModal({ primaryClick, launchButtonTitle, title, body, customStyle}) {
     const [show, setShow] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => {
-        setIsDisabled(true)
+        setIsDisabled(true);
         setShow(true);
     }
 
@@ -36,10 +36,17 @@ function SharedModal({ primaryClick, launchButtonTitle, title, body, customStyle
                     <Modal.Title data-cy='modal-title'>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body data-cy="modal-body">{body}</Modal.Body>
-                <input data-cy="modal-input" onChange={onInputChange}/>
+                <Form.Group className="mb-3 d-flex justify-content-center" controlId="exampleForm.ControlInput1">
+                    <Form.Control
+                        type="text"
+                        placeholder="CONFIRM"
+                        onChange={onInputChange}
+                        className="w-50"
+                    />
+                </Form.Group>
                 <Modal.Footer>
                     <Button variant="secondary" data-cy="modal-secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" disabled={isDisabled} data-cy="modal-primary" onClick={primaryClick}>Understood</Button>
+                    <Button className="bg-danger" disabled={isDisabled} data-cy="modal-primary" onClick={primaryClick}>OK</Button>
                 </Modal.Footer>
             </Modal>
         </>

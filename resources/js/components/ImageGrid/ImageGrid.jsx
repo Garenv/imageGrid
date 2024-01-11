@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';
-import {toast, ToastContainer} from "react-toastify";
-import {Button, Form, Modal} from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
+import { Button, Form, Modal } from "react-bootstrap";
 import '../../../sass/imageGrid.scss';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
-import {useSharedStyles} from "../utlities/SharedStyles.jsx";
+import { useSharedStyles } from "../utlities/SharedStyles.jsx";
 import SplitButton from "../utlities/DropDown/DropDown.jsx";
 
 const ImageGrid = () => {
@@ -20,10 +20,8 @@ const ImageGrid = () => {
     const [showVerifyDelete, setShowVerifyDelete] = useState(false);
     const sharedClasses = useSharedStyles();
     const [isScrollToTheTopArrowVisible, setIsScrollToTheTopArrowVisible] = useState(false);
-    const [selectedSortOrder, setSelectedSortOrder] = useState('desc'); // default sort order
-    const [sortOrderStatus, setSortOrderStatus] = useState(false);
-    const [sortOrderStatusMessage, setSortOrderStatusMessage] = useState('');
-
+    const [selectedSortOrder, setSelectedSortOrder] = useState('desc');
+    const [hasSorted, setHasSorted] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -108,7 +106,6 @@ const ImageGrid = () => {
                 params: {sortByLikes: apiSortOrder}
             });
         } catch (err) {
-            console.error("Error fetching sorted uploads:", err);
             throw err;
         }
     };
@@ -118,15 +115,33 @@ const ImageGrid = () => {
         () => fetchUserUploads(selectedSortOrder),
         {
             keepPreviousData: true,
+            // React Query by default retries fetching data if the query fails or returns no data
+            // these keys below prevent that from happening
+            retry: false,
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
 
             onSuccess: (response) => {
-                setSortOrderStatus(response.status);
-                setSortOrderStatusMessage(response.data.message);
+                // console.log(response, "onSuccess()");
+
+                if(response.data.sorted) {
+                    toast.success(response.data.message, {
+                        closeOnClick: false,
+                        closeButton: false,
+                        autoClose: 1000
+                    });
+                }
             },
 
             onError: (error) => {
-                setSortOrderStatus(error.response.status);
-                setSortOrderStatusMessage(error.response.data.message);
+                // console.log(error, "onError()");
+
+                toast.error(error.response.data.message, {
+                    closeOnClick: false,
+                    progress: false,
+                    closeButton: false,
+                    autoClose: 1100
+                });
             },
 
         }
@@ -143,8 +158,6 @@ const ImageGrid = () => {
 
     const handleSelectionChange = (selectedValue) => {
         setSelectedSortOrder(selectedValue); // update the sort order state
-        console.log('Selected value:', selectedValue);
-        console.log("handleSelectionChange", gridData);
     };
 
     const handleImageChange = (e) => {
@@ -353,8 +366,7 @@ const ImageGrid = () => {
 
                 <SplitButton
                     onSelectionChange={handleSelectionChange}
-                    sortOrderStatus={sortOrderStatus}
-                    sortOrderStatusMessage={sortOrderStatusMessage}
+                    hasSorted={hasSorted}
                 />
 
             </div>
@@ -393,7 +405,7 @@ const ImageGrid = () => {
                         <div className="container">
                             <div className="img-container">
                                 {
-                                    gridData.map((photos, index) => {
+                                    gridData.map((photos) => {
                                         return (
                                             <>
                                                 <div className="card-container">
