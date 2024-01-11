@@ -8,6 +8,8 @@ use App\Mail\UserRegistered;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Traits\ProfanityTrait;
+use Database\Factories\UserFactory;
+use http\Env\Response;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
+use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
 class RegisterController extends Controller
 {
@@ -58,14 +61,40 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param array $data
-     * @return JsonResponse
-     */
-    protected function validator(array $data)
+    public function register(Request $request)
     {
+        $response = $this->createUser($request);
+
+        if($response->getStatusCode() == 422) {
+            return redirect()->back()->withErrors($response ->getData(true)['errors']);
+        }
+
+        $user = new User($response->getData(true)["user"]);
+        event(new Registered($user));
+        $this->guard()->login($user);
+
+        $registeredUserData = [
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'regionName' => $user['regionName'],
+            'cityName' => $user['cityName']
+        ];
+
+        Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
+
+        return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
+    }
+
+    /**
+     * @param Request $request
+     * @return BaseJsonResponse|null
+     * This hits the api.php file
+     */
+    public function createUser(Request $request): ?BaseJsonResponse
+    {
+
+        $data = $request->all();
+
         $messages = [
             'name' => 'This name already exists, choose another one',
             'registerPassword.required' => 'Password is required.',
@@ -87,93 +116,31 @@ class RegisterController extends Controller
         ], $messages);
 
         if($validator->fails()) {
-            Log::error($validator->failed());
-            return response()->json(['errors' => $validator->errors()], 422);
-
-        }
-        return response()->json();
-    }
-
-    public function register(Request $request)
-    {
-        $user = $this->createValidUser($request);
-
-        if($user instanceof JsonResponse && $user->getStatusCode() == 422) {
-            return redirect()->back()->withErrors($user->getData(true)['errors']);
-        }
-
-        $this->guard()->login($user);
-
-        $registeredUserData = [
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'regionName' => $user['regionName'],
-            'cityName' => $user['cityName']
-        ];
-
-        Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
-
-        return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
-    }
-
-    public function createValidUser(Request $request): ?JsonResponse
-    {
-
-        $messages = [
-            'name' => 'This name already exists, choose another one',
-            'registerPassword.required' => 'Password is required.',
-            'registerPassword.min' => 'The password must be at least 10 characters.',
-            'registerPassword.confirmed' => 'The password confirmation does not match.',
-            'registerPassword.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
-        ];
-
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'registerPassword' => [
-                'required',
-                'string',
-                'min:10',
-                'confirmed',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
-            ],
-        ], $messages);
-
-        if($validator->fails()) {
-            Log::error($validator->failed());
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $name = $request->all()['name'];
+        $name = $data['name'];
         $checkNameForProfanityWhenRegistering = $this->checkNameForProfanityWhenRegistering($name);
 
         if($checkNameForProfanityWhenRegistering === 'true') {
-            Log::error("Profanity error");
             return response()->json(['errors' => "Names may not contain any profanity"], 422);
         }
 
-        $getUserIpAddress = getUserIpAddr();
-        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
+        if(!isset($data["skipMultipleAccounts"])) {
+            $getUserIpAddress = getUserIpAddr();
+            $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
-        if(isset($existingUser)) {
-            if ($existingUser['ip'] === $getUserIpAddress) {
-                Log::error("Multiple accounts error");
-                return response()->json(['errors' => "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos."],422);
+            if(isset($existingUser)) {
+                if ($existingUser['ip'] === $getUserIpAddress) {
+                    return response()->json(['errors' => "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos."],422);
+                }
             }
         }
 
-        $user = $this->create($request->all());
-
-        event(new Registered($user));
-
-        return $user;
+        return response()->json(["user" => $this->create($data)]);
     }
 
 
-    /**
-     * @param array $data
-     * @return \Illuminate\Http\JsonResponse|void
-     */
     protected function create(array $data)
     {
         $locationData = Location::get();
