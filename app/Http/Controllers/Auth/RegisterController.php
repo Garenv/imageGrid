@@ -80,10 +80,18 @@ class RegisterController extends Controller
             'cityName' => $user['cityName']
         ];
 
-        Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
+        $this->mailToSupport($registeredUserData);
 
         return $request->wantsJson() ? new JsonResponse([], 201) : redirect($this->redirectPath());
     }
+
+    private function mailToSupport(Array $registeredUserData): void
+    {
+        if(isNotProduction()) return;
+        Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
+    }
+
+
 
     /**
      * @param Request $request
