@@ -1,9 +1,9 @@
 describe('user visits the registration page', {testIsolation: false},  () => {
-    let usernameSelector = '#logname'
-    let emailSelector = ':nth-child(3) > #email'
-    let passwordSelector = ':nth-child(4) > #password'
-    let confirmPasswordSelector = '#password-confirmation'
-    let agreementCheckSelector = '#agreementCheck'
+    let usernameSelector = '[data-cy="name-input"]'
+    let emailSelector = '[data-cy="register-email-input"]'
+    let passwordSelector = '[data-cy="register-password-input"]'
+    let confirmPasswordSelector = '[data-cy="password-confirm-input"]'
+    let agreementCheckSelector = '[data-cy="agreement-input"]'
 
     before(() => {
         Cypress.on('uncaught:exception', (err, runnable) => {
@@ -165,7 +165,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 let agreementCheck = value[4]
                 let message = value[5]
 
-                it.only(`should fail with ${message}`, () => {
+                it(`should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get('.toastify').then(($t) => {
                         const text = $t.text()
