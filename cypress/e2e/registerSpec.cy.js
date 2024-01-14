@@ -88,36 +88,33 @@ describe('user visits the registration page',  () => {
                         }
 
                         let currentTime = new Date().getTime();
-
-                        if (expirationTime <= currentTime) {
-                            return cy.request({
-                                method: 'POST',
-                                url: 'https://webhook.site/token',
-                                body: {
-                                    "default_status": 200,
-                                    "default_content": "Hello world!",
-                                    "default_content_type": "text/plain",
-                                    "timeout": 0,
-                                    "cors": false,
-                                    "expiry": 604800,
-                                    "alias": "my-webhook",
-                                    "actions": true
-                                }
-                            }).then(response => {
-                                expect(response.status).eq(201);
-                                f['uuid'] = response.body['uuid'];
-                                f['expires_at'] = response.body['expires_at'];
-                                return cy.writeFile(webhookPath, JSON.stringify(f));
-                            });
-                        } else {
-                            return f;
-                        }
+                        if(expirationTime > currentTime) return f;
+                        return cy.request({
+                            method: 'POST',
+                            url: 'https://webhook.site/token',
+                            body: {
+                                "default_status": 200,
+                                "default_content": "Hello world!",
+                                "default_content_type": "text/plain",
+                                "timeout": 0,
+                                "cors": false,
+                                "expiry": 604800,
+                                "alias": "my-webhook",
+                                "actions": true
+                            }
+                        }).then(response => {
+                            expect(response.status).eq(201);
+                            f['uuid'] = response.body['uuid'];
+                            f['expires_at'] = response.body['expires_at'];
+                            return cy.writeFile(webhookPath, JSON.stringify(f));
+                        });
                     })
                     .then(updatedF => {
                         webhookToken = updatedF['uuid'];
                         newEmail = webhookToken + updatedF['domain'];
                         console.log(webhookToken);
                     });
+
                 cy.request({method:'DELETE', url:'/api/deleteAllUsers', failOnStatusCode: false});
             });
 
@@ -158,15 +155,7 @@ describe('user visits the registration page',  () => {
 
         describe('permissions', () => {
             before(() => {
-                const newUser = {
-                    name: name,
-                    email: email,
-                    registerPassword: password,
-                    registerPassword_confirmation: password,
-                    skipMultipleAccounts: true,
-                    email_verified_at: "2023-12-29 21:53:59"
-                };
-                cy.request({method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: false});
+                cy.createUser(name, email, password)
             });
 
             [

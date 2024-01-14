@@ -8,12 +8,18 @@ describe('user visits the login page', () => {
         })
 
     })
+
     beforeEach(() =>  {
-        cy.visit('/login')
+        cy.session("login page",() => {
+            cy.visit('/login')
+        }, { validate() {
+            cy.get(emailSelector).clear()
+        }})
     })
+
     let attemptLogin = function (email, password) {
-        if(email) { cy.get(emailSelector).type(email) }
-        if(password) { cy.get(passwordSelector).type(password) }
+        cy.clearType(emailSelector, email)
+        cy.clearType(passwordSelector, password)
         cy.get('.card-front > .center-wrap > .section > .btn').click()
     };
 
@@ -65,10 +71,8 @@ describe('user visits the login page', () => {
     })
 
     describe("user attempts to login with valid credentials", () => {
-        // let email = "testeraiprototype@gmai.com"
-        let email = "philosopherlife@yahoo.com"
+        let email = "testeraiprototype@gmai.com"
         let password = "alex1234"
-        // let password = "TesterAIPrototype1!"
         let settingsSelector = '[autofocus=""]'
         let avatarIconSelector = '.MuiAvatar-root'
         let profileSelector = '.css-1hf8zo6 > .MuiPaper-root > .MuiList-root > :nth-child(3)'
