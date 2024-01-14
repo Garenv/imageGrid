@@ -24,6 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('verifyLoginToast', (username, password, expectedToastMessage) => {
-
+Cypress.Commands.add("clearType", (selector, text) => {
+    if(text) {
+        return cy.get(selector).clear().type(text)
+    }
+    return cy.get(selector).clear()
 })

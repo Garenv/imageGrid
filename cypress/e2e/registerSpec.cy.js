@@ -11,18 +11,11 @@ describe('user visits the registration page',  () => {
         })
     })
 
-    let clearType = function (selector, text) {
-        cy.get(selector).clear()
-        if(text) {
-            cy.get(selector).clear().type(text)
-        }
-    };
-
     let attemptRegistration = function (username, email, password, confirmPassword, agreementCheck) {
-        clearType(usernameSelector, username)
-        clearType(emailSelector, email)
-        clearType(passwordSelector, password)
-        clearType(confirmPasswordSelector, confirmPassword)
+        cy.clearType(usernameSelector, username)
+        cy.clearType(emailSelector, email)
+        cy.clearType(passwordSelector, password)
+        cy.clearType(confirmPasswordSelector, confirmPassword)
         if(agreementCheck) {
             cy.get(agreementCheckSelector).click()
         }
