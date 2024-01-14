@@ -14,8 +14,8 @@ declare namespace Cypress {
          * @param name
          * @param email
          * @param password
-         * @param skipFailure
+         * @param failOnStatusCode
          */
-        createUser(name: string, email: string, password: string, skipFailure?: boolean): Chainable<any>;
+        createUser(name: string, email: string, password: string, failOnStatusCode?: boolean): Chainable<any>;
     }
 }

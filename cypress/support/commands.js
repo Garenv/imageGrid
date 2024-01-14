@@ -31,7 +31,7 @@ Cypress.Commands.add("clearType", (selector, text) => {
     return cy.get(selector).clear()
 })
 
-Cypress.Commands.add('createUser', (name, email, password, skipFailure = false) => {
+Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = false) => {
     const newUser = {
         name: name,
         email: email,
@@ -40,5 +40,5 @@ Cypress.Commands.add('createUser', (name, email, password, skipFailure = false) 
         skipMultipleAccounts: true,
         email_verified_at: "2023-12-29 21:53:59"
     };
-    return cy.request({method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: skipFailure});
+    return cy.request({method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: failOnStatusCode});
 })
