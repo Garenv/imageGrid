@@ -26,7 +26,7 @@
 
 Cypress.Commands.add("clearType", (selector, text) => {
     if(text) {
-        return cy.get(selector).clear().type(text)
+        return cy.get(selector).clear().invoke('val', text)
     }
     return cy.get(selector).clear()
 })
