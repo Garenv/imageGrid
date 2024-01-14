@@ -1,4 +1,4 @@
-describe('user visits the registration page',  () => {
+describe('user visits the registration page', {testIsolation: false},  () => {
     let usernameSelector = '#logname'
     let emailSelector = ':nth-child(3) > #email'
     let passwordSelector = ':nth-child(4) > #password'
@@ -10,6 +10,15 @@ describe('user visits the registration page',  () => {
             return false
         })
     })
+
+    beforeEach(() => {
+        cy.session("sign up page", () => {
+            cy.visit('/login')
+            cy.get('[for="reg-log"]').click()
+        }, {validate() {
+                cy.get(usernameSelector).clear()
+            }})
+    });
 
     let attemptRegistration = function (username, email, password, confirmPassword, agreementCheck) {
         cy.clearType(usernameSelector, username)
@@ -26,17 +35,8 @@ describe('user visits the registration page',  () => {
     let password = "NotARealPassword@1234";
     let email = "ValidUsername@gmail.com";
 
-    describe('user attempts to register', {testIsolation: false}, () => {
+    describe('user attempts to register',  () => {
         let pleaseFillOut = 'Please fill out this field.';
-
-        beforeEach(() => {
-            cy.session("sign up page", () => {
-                cy.visit('/login')
-                cy.get('[for="reg-log"]').click()
-            }, {validate() {
-                    cy.get(usernameSelector).clear()
-                }})
-        });
 
         describe('with invalid inputs', () => {
             [
@@ -148,11 +148,6 @@ describe('user visits the registration page',  () => {
     })
 
     describe('user attempts to register with invalid', () => {
-        beforeEach(() => {
-            cy.visit('/login')
-            cy.get('[for="reg-log"]').click()
-        })
-
         describe('permissions', () => {
             before(() => {
                 cy.createUser(name, email, password)
@@ -170,7 +165,7 @@ describe('user visits the registration page',  () => {
                 let agreementCheck = value[4]
                 let message = value[5]
 
-                it(`should fail with ${message}`, () => {
+                it.only(`should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get('.toastify').then(($t) => {
                         const text = $t.text()

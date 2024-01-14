@@ -66,7 +66,7 @@ class RegisterController extends Controller
         $response = $this->createUser($request);
 
         if($response->getStatusCode() == 422) {
-            return redirect()->back()->withErrors($response ->getData(true)['errors']);
+            return back()->withErrors($response ->getData(true)['errors']);
         }
 
         $user = new User($response->getData(true)["user"]);

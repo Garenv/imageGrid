@@ -105,69 +105,41 @@
             var toggleCheckbox = document.getElementById('reg-log');
 
             toggleCheckbox.addEventListener('change', function () {
-                if (this.checked) {
-                    console.log('Checkbox is checked');
-                } else {
-                    console.log('Checkbox is not checked');
-                }
-            });
-
-            if ({{ $errors->has('registerPassword') || $errors->has('registerPassword_confirmation') ? 'true' : 'false' }}) {
-                // If there are registration errors, show the register form
-                toggleCheckbox.checked = true; // Adjust this based on how your checkbox works
-            } else {
-                // Otherwise, show the login form
-                toggleCheckbox.checked = false; // Adjust this based on how your checkbox works
-            }
-
-            toggleCheckbox.addEventListener('change', function () {
                 localStorage.setItem('toggleState', this.checked ? 'checked' : 'unchecked');
             });
+
+            var savedToggleState = localStorage.getItem('toggleState');
+            toggleCheckbox.checked = savedToggleState === 'checked';
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             @if($errors->any())
                 @foreach($errors->all() as $error)
-                    Toastify({
-                        text: "{{ $error }}",
-                        duration: 6000,
-                        close: true,
-                        gravity: "top", // "top" or "bottom"
-                        position: "right", // "left", "center" or "right"
-                        style: {
-                            background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                        }
-                    }).showToast();
+                   showToast("{{ $error }}")
                 @endforeach
             @endif
 
             @if(session('userTryingToCreateMultipleAccountsError'))
-                Toastify({
-                    text: "{{ session('userTryingToCreateMultipleAccountsError') }}",
-                    duration: 6000,
-                    close: true,
-                    gravity: "top", // "top" or "bottom"
-                    position: "right", // "left", "center" or "right"
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                    },
-                }).showToast();
+                showToast("{{ session('userTryingToCreateMultipleAccountsError') }}")
             @endif
 
             @if(session('profanityNameWhenRegistering'))
-                Toastify({
-                    text: "{{ session('profanityNameWhenRegistering') }}",
-                    duration: 6000,
-                    close: true,
-                    gravity: "top", // "top" or "bottom"
-                    position: "right", // "left", "center" or "right"
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                    },
-                }).showToast();
+                showToast("{{ session('profanityNameWhenRegistering') }}")
             @endif
         });
 
+        function showToast(message) {
+            Toastify({
+                text: message,
+                duration: 6000,
+                close: true,
+                gravity: 'top',
+                position: 'right',
+                style: {
+                    background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+                },
+            }).showToast();
+        }
 
     </script>
 @endsection
