@@ -20,5 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('createUser', [RegisterController::class, 'createUser']);
-Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
+if(isNotProduction()) {
+    Route::post('createUser', [RegisterController::class, 'createUser']);
+    Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
+}
