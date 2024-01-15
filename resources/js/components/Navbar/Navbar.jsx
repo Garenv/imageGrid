@@ -14,7 +14,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from "react-router-dom";
 import AxiosClient from "../utlities/AxiosClient.jsx";
-const pages = ['Your Past Uploads', "Last Week's Winners", 'Prize Status', 'Support'];
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,10 +29,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = () => {
+    const pages = ['Your Past Uploads', "Last Week's Winners", 'Prize Status', 'Image Battles', 'Support'];
+
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const classes = useStyles();
     const navigate = useNavigate();
+
 
     const { data: avatarData } = useQuery('userAvatar', getAvatar, {
         refetchOnWindowFocus: false, // disable background refetching upon window focus
@@ -96,6 +98,8 @@ const Navbar = () => {
                 return "/support"
             case "Last Week's Winners":
                 return "/last-weeks-winners"
+            case "Image Battles":
+                return "/image-battles"
             default:
                 return "Not Found";
         }

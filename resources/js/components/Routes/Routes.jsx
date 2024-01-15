@@ -12,6 +12,7 @@ import PastUploads from "../Navbar/Items/PastUploads.jsx";
 import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 import Profile from "../Profile/Profile.jsx";
 import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
+import Main from "../ImagesBattles/Main.jsx";
 
 function AppRoutes() {
     return (
@@ -29,6 +30,7 @@ function AppRoutes() {
                     <Route path="/prize-status" element={<PrizeStatus/>} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/last-weeks-winners" element={<LastWeeksWinners/>} />
+                    <Route path="/image-battles" element={<Main/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
