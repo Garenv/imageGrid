@@ -20,18 +20,18 @@
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3 text-white">Log In</h4>
                                         <div class="form-group">
-                                            <input id="email" type="email" placeholder="Email Address"
+                                            <input data-cy="login-email-input" id="email" type="email" placeholder="Email Address"
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
                                             <i class="input-icon uil uil-mailbox"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input id="password" type="password" placeholder="Password"
+                                            <input data-cy="login-password-input" id="password" type="password" placeholder="Password"
                                                    class="form-style @error('password') is-invalid @enderror"
                                                    name="password" required autocomplete="current-password">
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
-                                        <button type="submit" class="btn mt-4">{{ __('Login') }}</button>
+                                        <button data-cy="login-button" type="submit" class="btn mt-4">{{ __('Login') }}</button>
                                         <p class="mb-0 mt-4 text-center text-white">
                                             Forgot your password?
                                         </p>
@@ -50,14 +50,14 @@
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3 text-white">Sign Up</h4>
                                         <div class="form-group">
-                                            <input id="logname" type="text" placeholder="Username"
+                                            <input data-cy="name-input" id="logname" type="text" placeholder="Username"
                                                    class="form-style @error('name') is-invalid @enderror" name="name"
                                                    value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                             <i class="input-icon uil uil-user"></i>
                                         </div>
                                         <div class="form-group mt-2">
-                                            <input id="email" type="email" placeholder="Email"
+                                            <input data-cy="register-email-input" id="email" type="email" placeholder="Email"
                                                    class="form-style @error('email') is-invalid @enderror" name="email"
                                                    value="{{ old('email') }}" required autocomplete="email">
 
@@ -65,7 +65,7 @@
                                         </div>
 
                                         <div class="form-group mt-2">
-                                            <input id="password" type="password" placeholder="Password"
+                                            <input data-cy="register-password-input" id="password" type="password" placeholder="Password"
                                                    class="form-style @error('registerPassword') is-invalid @enderror"
                                                    name="registerPassword" required autocomplete="new-password">
 
@@ -73,7 +73,7 @@
                                         </div>
 
                                         <div class="form-group mt-2">
-                                            <input id="password-confirmation" type="password" placeholder="Confirm Password"
+                                            <input data-cy="password-confirm-input" id="password-confirmation" type="password" placeholder="Confirm Password"
                                                    class="form-style @error('registerPassword_confirmation') is-invalid @enderror"
                                                    name="registerPassword_confirmation" required autocomplete="new-password">
 
@@ -81,11 +81,11 @@
                                         </div>
 
                                         <div style="display: flex; align-items: center;">
-                                            <input type="checkbox" id="agreementCheck" name="agreementCheck" value="ag" required>
-                                            <label for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
+                                            <input data-cy="agreement-input" type="checkbox" id="agreementCheck" name="agreementCheck" value="ag" required>
+                                            <label data-cy="agreement-label" for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
                                         </div>
 
-                                        <button type="submit" class="btn mt-4">{{ __('Register') }}</button>
+                                        <button data-cy="register-button" type="submit" class="btn mt-4">{{ __('Register') }}</button>
                                     </div>
 
                                 </div>
@@ -102,72 +102,44 @@
 
         window.onload = function() {
 
-            var toggleCheckbox = document.getElementById('reg-log');
-
-            toggleCheckbox.addEventListener('change', function () {
-                if (this.checked) {
-                    console.log('Checkbox is checked');
-                } else {
-                    console.log('Checkbox is not checked');
-                }
-            });
-
-            if ({{ $errors->has('registerPassword') || $errors->has('registerPassword_confirmation') ? 'true' : 'false' }}) {
-                // If there are registration errors, show the register form
-                toggleCheckbox.checked = true; // Adjust this based on how your checkbox works
-            } else {
-                // Otherwise, show the login form
-                toggleCheckbox.checked = false; // Adjust this based on how your checkbox works
-            }
+            let toggleCheckbox = document.getElementById('reg-log');
 
             toggleCheckbox.addEventListener('change', function () {
                 localStorage.setItem('toggleState', this.checked ? 'checked' : 'unchecked');
             });
+
+            let savedToggleState = localStorage.getItem('toggleState');
+            toggleCheckbox.checked = savedToggleState === 'checked';
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             @if($errors->any())
                 @foreach($errors->all() as $error)
-                    Toastify({
-                        text: "{{ $error }}",
-                        duration: 6000,
-                        close: true,
-                        gravity: "top", // "top" or "bottom"
-                        position: "right", // "left", "center" or "right"
-                        style: {
-                            background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                        }
-                    }).showToast();
+                   showToast("{{ $error }}")
                 @endforeach
             @endif
 
             @if(session('userTryingToCreateMultipleAccountsError'))
-                Toastify({
-                    text: "{{ session('userTryingToCreateMultipleAccountsError') }}",
-                    duration: 6000,
-                    close: true,
-                    gravity: "top", // "top" or "bottom"
-                    position: "right", // "left", "center" or "right"
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                    },
-                }).showToast();
+                showToast("{{ session('userTryingToCreateMultipleAccountsError') }}")
             @endif
 
             @if(session('profanityNameWhenRegistering'))
-                Toastify({
-                    text: "{{ session('profanityNameWhenRegistering') }}",
-                    duration: 6000,
-                    close: true,
-                    gravity: "top", // "top" or "bottom"
-                    position: "right", // "left", "center" or "right"
-                    style: {
-                        background: "linear-gradient(to right, #ff5f6d, #ffc371)",
-                    },
-                }).showToast();
+                showToast("{{ session('profanityNameWhenRegistering') }}")
             @endif
         });
 
+        function showToast(message) {
+            Toastify({
+                text: message,
+                duration: 6000,
+                close: true,
+                gravity: 'top',
+                position: 'right',
+                style: {
+                    background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
+                },
+            }).showToast();
+        }
 
     </script>
 @endsection

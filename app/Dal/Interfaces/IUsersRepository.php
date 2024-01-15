@@ -15,6 +15,6 @@ interface IUsersRepository
     public function getDataFromUserLikesTable($loggedInUserId);
     public function getUsersPastUploads($loggedInUserId);
     public function hardDeleteProfile();
-
+    public function deleteAllUsers();
     public function getIpAddresses($ip);
 }

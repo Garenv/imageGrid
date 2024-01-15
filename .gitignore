@@ -15,4 +15,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+cypress/screenshots
+cypress/fixtures/local
 .env.local
