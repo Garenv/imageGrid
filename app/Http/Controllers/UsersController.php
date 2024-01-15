@@ -253,22 +253,34 @@ class UsersController extends Controller
         return Auth::user();
     }
 
-    public function hardDeleteProfile() {
+    public function hardDeleteProfile()
+    {
+        return $this->performHardDeletion(function () {
+            return $this->__usersRepository->hardDeleteProfile();
+        });
+    }
+
+    public function deleteAllUsers()
+    {
+        return $this->performHardDeletion(function () {
+            return $this->__usersRepository->deleteAllUsers();
+        });
+    }
+
+    private function performHardDeletion(callable $repositoryMethod)
+    {
         try {
-            $hardDeleteProfile = $this->__usersRepository->hardDeleteProfile();
+            $hardDeletion = $repositoryMethod();
 
-            if ($hardDeleteProfile) {
-                $hardDeleteProfileData = ['message' => "Successfully deleted your account."];
-
-                return response()->json($hardDeleteProfileData);
+            if ($hardDeletion) {
+                return response()->json(['message' => "Successfully deleted."]);
             }
 
-            return response()->json(['message' => 'Could not delete account.'], 422);
+            return response()->json(['message' => 'Deletion failed.'], 422);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
 
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
     }
-
 }
