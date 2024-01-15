@@ -33,6 +33,11 @@ function getSiteEnv()
     return "Unknown Environment";
 }
 
+function isNotProduction(): bool
+{
+    return !(config('app.env') === "prod");
+}
+
 function getUserDeviceData()
 {
     $agent = new Agent();
