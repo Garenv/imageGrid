@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import ReactDOM from "react-dom/client";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import { toast, ToastContainer } from "react-toastify";
