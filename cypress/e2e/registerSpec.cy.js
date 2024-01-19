@@ -5,12 +5,6 @@ describe('user visits the registration page', {testIsolation: false},  () => {
     let confirmPasswordSelector = '[data-cy="password-confirm-input"]'
     let agreementCheckSelector = '[data-cy="agreement-input"]'
 
-    before(() => {
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false
-        })
-    })
-
     beforeEach(() => {
         cy.session("sign up page", () => {
             cy.visit('/login')

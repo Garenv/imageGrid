@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from "react-dom/client";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import { toast, ToastContainer } from "react-toastify";
@@ -95,5 +95,11 @@ const ContactUs = () => {
     );
 }
 
-const Index = ReactDOM.createRoot(document.getElementById("contact-us"));
-Index.render(<ContactUs/>);
+const container = document.getElementById('contact-us');
+
+if (container) {
+    const root = ReactDOM.createRoot(container);
+    root.render(<ContactUs />);} else {
+}
+
+
