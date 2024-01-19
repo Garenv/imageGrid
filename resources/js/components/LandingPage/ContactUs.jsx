@@ -95,5 +95,11 @@ const ContactUs = () => {
     );
 }
 
-const Index = ReactDOM.createRoot(document.getElementById("contact-us"));
-Index.render(<ContactUs/>);
+const container = document.getElementById('contact-us');
+
+if (container) {
+    const root = ReactDOM.createRoot(container);
+    root.render(<ContactUs />);
+}
+
+
