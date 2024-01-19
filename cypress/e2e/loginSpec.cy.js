@@ -2,13 +2,6 @@ describe('user visits the login page', { testIsolation: false }, () => {
     let emailSelector = '[data-cy="login-email-input"]'
     let passwordSelector = '[data-cy="login-password-input"]'
 
-    before(() => {
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false
-        })
-
-    })
-
     beforeEach(() =>  {
         cy.session("login page",() => {
             cy.visit('/login')
