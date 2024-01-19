@@ -99,7 +99,7 @@ const container = document.getElementById('contact-us');
 
 if (container) {
     const root = ReactDOM.createRoot(container);
-    root.render(<ContactUs />);} else {
+    root.render(<ContactUs />);
 }
 
 
