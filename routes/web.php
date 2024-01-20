@@ -62,7 +62,7 @@ Route::get('/ads.txt',function(){
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get( '/get-user-uploads-data',                 [UsersController::class, 'getUserUploadsForThisWeek']);
+    Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsForThisWeek']);
     Route::post('/like',                                  [UsersController::class,      'handleLike']);
     Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
     Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
@@ -70,7 +70,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-last-weeks-winners',                 [WinnersController::class,    'getLastWeeksWinners']);
     Route::get('/get-profile-data',                       [UsersController::class,      'getProfileData']);
     Route::get('/get-avatar-image',                       [FileUploadController::class, 'getAvatarImage']);
-    Route::delete('/hard-delete-profile',                 [UsersController::class, 'hardDeleteProfile']);
+    Route::delete('/hard-delete-profile',                 [UsersController::class,      'hardDeleteProfile']);
+    Route::get('/get-user-data-for-chat-box',             [UsersController::class,      'getUserDataForChatBox']);
+
 
     Route::get('/{any?}', function () {
         return view('home');

@@ -17,4 +17,5 @@ interface IUsersRepository
     public function hardDeleteProfile();
     public function deleteAllUsers();
     public function getIpAddresses($ip);
+    public function getUserDataForChatBox();
 }
