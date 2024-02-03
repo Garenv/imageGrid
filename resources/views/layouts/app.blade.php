@@ -18,9 +18,15 @@
     </script>
 
     <style>
-        .grecaptcha-badge:hover{
-            display: none;
+        .grecaptcha-badge {
+            visibility: hidden;
         }
+
+
+        .g-blue{ color:#4285F4; }
+        .o-red{ color:#DB4437; }
+        .o-yellow{ color:#F4B400; }
+        .l-green{ color:#0F9D58; }
     </style>
 
     <script src="https://www.google.com/recaptcha/api.js"></script>

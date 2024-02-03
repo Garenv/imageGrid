@@ -61,7 +61,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $response = $this->createUser($request);
+        $response = $this->validateUser($request);
 
         if($response->getStatusCode() == 422) {
             return back()->withErrors($response ->getData(true)['errors']);
@@ -94,7 +94,7 @@ class RegisterController extends Controller
      * @return BaseJsonResponse|null
      * This hits the api.php file
      */
-    public function createUser(Request $request): ?BaseJsonResponse
+    public function validateUser(Request $request): ?BaseJsonResponse
     {
 
         $data = $request->all();
@@ -152,11 +152,11 @@ class RegisterController extends Controller
             }
         }
 
-        return response()->json(["user" => $this->create($data)]);
+        return response()->json(["user" => $this->createUser($data)]);
     }
 
 
-    protected function create(array $data)
+    public function createUser(array $data)
     {
         $locationData = Location::get();
         $device = getUserDeviceData()['device'];

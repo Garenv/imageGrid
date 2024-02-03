@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class ReCaptchaV3 implements ValidationRule
 {
-    public function __construct(
-        private ?string $action = null,
-        private ?float $minScore = null)
-    {
-    }
+    public function __construct(private ?string $action = null, private ?float $minScore = null) {}
 
     /**
      * Run the validation rule.
@@ -25,7 +21,7 @@ class ReCaptchaV3 implements ValidationRule
     {
         // Send a POST request to the google siteverify service to validate the
         $siteVerify = Http::asForm()
-            ->post('https://www.google.com/recaptcha/api/siteverify', [
+            ->post(config('services.recaptcha_v3.api'), [
                 'secret' => config('services.recaptcha_v3.secretKey'),
                 'response' => $value,
             ]);
@@ -49,7 +45,6 @@ class ReCaptchaV3 implements ValidationRule
             // When this fails it means the action didn't match the one set in the button's data-action.
             // Either a bot or a code mistake. Compare form data-action and value passed to $action (should be equal).
             if (!is_null($this->action) && $this->action != $body['action']) {
-//                $fail('The action found in the form didn\'t match the Google reCAPTCHA action, please try again.');
                 $fail('No bots allowed, get out of here.');
                 return;
             }
@@ -57,8 +52,7 @@ class ReCaptchaV3 implements ValidationRule
             // If we set a minScore treshold, verify that the spam score didn't go below it
             // More info can be found at: https://developers.google.com/recaptcha/docs/v3#interpreting_the_score
             if (!is_null($this->minScore) && $this->minScore > $body['score']) {
-                $fail("You appear to be a bot, but perhaps you're not. Please try again.");
-                return;
+                $fail("You appear to be a bot, but perhaps you are not. Please try again.");
             }
         }
     }
