@@ -48,45 +48,41 @@ describe("user visits the home page", () => {
         cy.isVisibleWithText("copyright-text", `\n             Copyright © ${year} Phopixel\n            \n            All Rights Reserved.\n        `)
     });
 
-    let testLink = function (selector, endpoint) {
-        context(`user clicks ${selector}`, () => {
-            it(`should go to ${endpoint} page`, () => {
-                cy.get(selector).click();
-                cy.location("pathname").should('eq', endpoint);
+    let testLink = function (data) {
+        data.forEach(([selector, endpoint]) => {
+            context(`user clicks ${selector}`, () => {
+                it(`should go to ${endpoint} page`, () => {
+                    cy.get(selector).click();
+                    cy.location("pathname").should('eq', endpoint);
+                });
             });
-        });
+        })
     };
 
     describe("user clicks links", () => {
         context("description", () => {
-            [
+            testLink([
                 ["faq-description-link", faqEndpoint],
                 ["contact-us-description-link", contactUsEndpoint]
-            ].forEach(([selector, endpoint]) => {
-                testLink(selector, endpoint)
-            });
+            ])
         });
 
         context("navbar", () => {
-            [
+            testLink([
                 [createAccountIconSelector, "/login"],
                 ["contact-us-navbar", contactUsEndpoint],
                 ["faq-navbar", faqEndpoint],
                 ["about-us-navbar", "/login"]
-            ].forEach(([selector, endpoint]) => {
-                testLink(selector, endpoint)
-            });
+            ])
         });
 
 
         context("footer", () => {
-            [
+            testLink([
                 [faqFooterLink, faqEndpoint],
                 [termsFooterLink, "/terms-and-conditions"],
                 [privacyFooterLink, "/privacy-policy"]
-            ].forEach(([selector, endpoint]) => {
-                testLink(selector, endpoint)
-            });
+            ])
         });
     });
 
