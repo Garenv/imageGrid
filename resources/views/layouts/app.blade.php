@@ -17,6 +17,14 @@
         let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};
     </script>
 
+    <style>
+        .grecaptcha-badge:hover{
+            display: none;
+        }
+    </style>
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
 </head>

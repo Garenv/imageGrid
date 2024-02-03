@@ -43,7 +43,7 @@
                             </div>
                         </form>
 
-                        <form class="card-3d-wrapper" method="POST" action="{{ route('register') }}">
+                        <form class="card-3d-wrapper" id="registerForm" method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="card-back">
                                 <div class="center-wrap">
@@ -85,11 +85,19 @@
                                             <label data-cy="agreement-label" for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
                                         </div>
 
-                                        <button data-cy="register-button" type="submit" class="btn mt-4">{{ __('Register') }}</button>
+                                        <button
+                                            class="btn mt-4 g-recaptcha"
+                                            type="submit"
+                                            data-sitekey="{{ config('services.recaptcha_v3.siteKey') }}"
+                                            data-action="submitRegisterForm"
+                                            data-callback="submitRegisterForm"
+                                            data-badge="bottomright"
+                                            data-size="invisible"
+                                        >
+                                            {{ __('Register') }}
+                                        </button>
                                     </div>
-
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -139,6 +147,10 @@
                     background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
                 },
             }).showToast();
+        }
+
+        function submitRegisterForm(token) {
+            document.getElementById("registerForm").submit();
         }
 
     </script>
