@@ -286,7 +286,6 @@ class UsersController extends Controller
 
     public function getUserDataForChatBox()
     {
-//        dd("f");
         return $this->__usersRepository->getUserDataForChatBox();
     }
 }

@@ -107,7 +107,7 @@ class UsersRepository implements IUsersRepository
 
     public function getUserDataForChatBox()
     {
-        return User::select('UserID', 'avatarImage', 'email')->where('UserID', Auth::user()['UserID'])->get();
+        return User::select('UserID', 'name', 'email', 'avatarImage')->where('UserID', Auth::user()['UserID'])->get();
     }
 }
 

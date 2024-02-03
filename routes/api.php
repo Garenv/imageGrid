@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImagesBattlesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ if(isNotProduction()) {
     Route::post('createUser', [RegisterController::class, 'createUser']);
     Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
 }
+
+Route::post('create-image', [ImagesBattlesController::class, 'createImage']);

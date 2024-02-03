@@ -4,23 +4,13 @@ import { Chatbox } from '@talkjs/react';
 import ChatSession from "./ChatSession.jsx";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
-import { useSharedStyles } from "../../utlities/SharedStyles.jsx";
 import AxiosClient from "../../utlities/AxiosClient.jsx";
 
 const Chat = () => {
 
-    const sharedStyles = useSharedStyles();
     const [isChatboxOpen, setIsChatboxOpen] = useState(false);
     const [userDataForChatBox, setUserDataForChatBox] = useState(null);
     const toggleChatbox = () => setIsChatboxOpen(!isChatboxOpen);
-
-    useEffect(() => {
-        AxiosClient.get('/get-user-data-for-chat-box')
-            .then(resp => {
-                console.log(resp);
-                setUserDataForChatBox(resp);
-            });
-    }, []);
 
     useEffect(() => {
         AxiosClient.get('/get-user-data-for-chat-box')

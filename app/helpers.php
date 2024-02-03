@@ -1,9 +1,17 @@
 <?php
 
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 function getS3PathForEnv() {
     return config('app.env') === "local" || config('app.env') === "stage" ? config('app.aws_s3_path_stage') : config('app.aws_s3_path_prod');
+}
+
+function setRedisKey($key, $jsonEncodedData)
+{
+//    return config('app.env') === "local" || config('app.env') === "stage" ? config('app.aws_s3_path_stage') : config('app.aws_s3_path_prod');
+    Redis::connection(getSiteEnv())->set($key, $jsonEncodedData);
 }
 
 function getUserIpAddr()
@@ -75,4 +83,9 @@ function getUserBrowserData()
         'browser' => $browser,
         'browser_version' => $browserVersion
     ];
+}
+
+function getAuthenticatedUser()
+{
+    return Auth::user();
 }

@@ -28,6 +28,8 @@ return [
     'mailgun_secret' => env('MAILGUN_SECRET'),
     'mailgun_domain' => env('MAILGUN_DOMAIN'),
     'purgo_malum_profanity_filter' => env('PURGO_MALUM_PROFANITY_FILTER'),
+    'dalle_api_key' => env('DALLE_API_KEY'),
+    'dalle_api' => env('DALLE_API'),
 
     /*
     |--------------------------------------------------------------------------
