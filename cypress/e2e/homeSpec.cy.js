@@ -70,7 +70,7 @@ describe("user visits the home page", () => {
         context("navbar", () => {
             [
                 [createAccountIconSelector, "/login"],
-                ["contact-us-navbar", "/contact-us"],
+                ["contact-us-navbar", contactUsEndpoint],
                 ["faq-navbar", faqEndpoint],
                 ["about-us-navbar", "/login"]
             ].forEach(([selector, endpoint]) => {
