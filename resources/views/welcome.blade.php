@@ -38,8 +38,8 @@
 
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
             <div class="col-xl-6 col-lg-8">
-                <h1>Win prizes for uploading appealing photos</h1>
-                <h2>The first website ever to award prizes contingent on how well-liked photos are</h2>
+                <h1 data-cy="description-1">Win prizes for uploading appealing photos</h1>
+                <h2 data-cy="description-2">The first website ever to award prizes contingent on how well-liked photos are</h2>
             </div>
 
 {{--            <div class="col-xl-6 col-lg-8">--}}
@@ -48,36 +48,36 @@
         </div>
 
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-            <div class="col-xl-2 col-md-4">
+            <div data-cy="create-account-icon" class="col-xl-2 col-md-4">
                 <a href="/login">
                 <div class="icon-box">
                     <i class="ri-account-box-line text-black"></i>
-                    <h3 class="text-white">Create account</h3><h1> > </h1>
+                    <h3 class="text-white">Create Account</h3><h1> > </h1>
                 </div>
                 </a>
             </div>
-            <div class="col-xl-2 col-md-4">
+            <div data-cy="image-grid-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="ri-bar-chart-box-line text-black"></i>
-                    <h3><a href="">Image Grid</a></h3><h1> > </h1>
+                    <h3 class="text-white">Image Grid</h3><h1> > </h1>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4">
+            <div data-cy="upload-photo-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="bi-camera text-black"></i>
-                    <h3><a href="">Upload Photo</a></h3><h1> > </h1>
+                    <h3 class="text-white">Upload Photo</h3><h1> > </h1>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4">
+            <div data-cy="gain-likes-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="bi-hand-thumbs-up text-black"></i>
-                    <h3><a href="">Gain Likes</a></h3><h1> > </h1>
+                    <h3 class="text-white">Gain Likes</h3><h1> > </h1>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-4">
+            <div data-cy="win-prize-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="ri-gift-2-line text-black"></i>
-                    <h3><a href="">Win Prize</a></h3><h1> > </h1>
+                    <h3 class="text-white">Win Prize</h3><h1> > </h1>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
                 <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left" data-aos-delay="100">
                     <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent_v2.1.jpg" class="img-fluid" alt="">
                 </div>
-                <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+                <div data-cy="phopixel-description" class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
                     <h3>What is Phopixel?</h3>
                     <p>
                         Phopixel is the first website that ensures a fair and amiable opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
@@ -108,7 +108,7 @@
                         <li><i class="ri-check-double-line"></i>Prizes are given out weekly to the top 3 like amounts for that week</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
                         <li><i class="ri-check-double-line"></i>You may only upload one photo per week</li>
-                        <li><i class="ri-check-double-line"></i>Visit the <a href="/faq">FAQ</a> section for more info!</li>
+                        <li><i class="ri-check-double-line"></i>Visit the <a data-cy="more-info-link" href="/faq">FAQ</a> section for more info!</li>
                     </ul>
 
                 </div>
@@ -122,18 +122,18 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="image col-lg-6" style='background-image: url("https://phopixel.s3.amazonaws.com/landingPage/anime_robot.png"); background-size: 150%;' data-aos="fade-right"></div>
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
+                <div data-cy="engineering-description" class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
                     <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-check-shield text-black"></i>
                         <h4>Integrity</h4>
                         <p>We utilize both AI and ML, specifically through deep learning models, to analyze and identify elements within images to ensure nothing inappropriate gets uploaded ranging from thirst trap photos to violence to hate and much more</p>
                     </div>
-                    <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+                    <div data-cy="engineering-description2" class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-user text-black"></i>
                         <h4>User Experience</h4>
                         <p>Engineered on top of AWS which means your experience will be nothing but smooth and seamless</p>
                     </div>
-                    <div class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
+                    <div data-cy="engineering-description3" class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx ri-computer-line text-black"></i>
                         <h4>System</h4>
                         <p>We're continuously upgrading our systems and adding new features.  Feel free to <a href="/contact-us">contact us</a> if you have any suggestions!</p>
@@ -149,7 +149,7 @@
         <div class="container" data-aos="fade-up">
 
             <div class="section-title">
-                <p class="text-center">Here are some of the many prizes you could win!</p>
+                <p data-cy="prizes-text" class="text-center">Here are some of the many prizes you could win!</p>
             </div>
 
             <div class="row">
@@ -185,9 +185,9 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 footer-links">
                     <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="/faq">FAQ</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="/terms-and-conditions">Terms & Conditions</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="/privacy-policy">Privacy Policy</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a data-cy="faq-footer-link" href="/faq">FAQ</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a data-cy="terms-footer-link" href="/terms-and-conditions">Terms & Conditions</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a data-cy="privacy-footer-link" href="/privacy-policy">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
@@ -195,7 +195,7 @@
     </div>
 
     <div class="container">
-        <div class="copyright">
+        <div data-cy="copyright-text" class="copyright">
              Copyright &copy; <strong><span>{{ date('Y') }} Phopixel</span></strong>
             <br>
             All Rights Reserved.

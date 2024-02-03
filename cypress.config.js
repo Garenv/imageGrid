@@ -4,5 +4,7 @@ export default defineConfig({
       baseUrl: 'http://phopixel.test',
       setupNodeEvents(on, config) {},
       supportFile: './cypress/support/index.js',
+      viewportWidth: 1366,
+      viewportHeight: 768,
   },
 });
