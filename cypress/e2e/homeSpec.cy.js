@@ -12,6 +12,7 @@ describe("user visits the home page", () => {
     let termsFooterLink = 'terms-footer-link'
     let privacyFooterLink = 'privacy-footer-link'
     let faqEndpoint = '/faq'
+    let contactUsEndpoint = '/contact-us'
 
     beforeEach(() => {
         cy.visit("/")
@@ -57,6 +58,15 @@ describe("user visits the home page", () => {
     };
 
     describe("user clicks links", () => {
+        context("description", () => {
+            [
+                ["faq-description-link", faqEndpoint],
+                ["contact-us-description-link", contactUsEndpoint]
+            ].forEach(([selector, endpoint]) => {
+                testLink(selector, endpoint)
+            });
+        });
+
         context("navbar", () => {
             [
                 [createAccountIconSelector, "/login"],

@@ -108,7 +108,7 @@
                         <li><i class="ri-check-double-line"></i>Prizes are given out weekly to the top 3 like amounts for that week</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
                         <li><i class="ri-check-double-line"></i>You may only upload one photo per week</li>
-                        <li><i class="ri-check-double-line"></i>Visit the <a data-cy="more-info-link" href="/faq">FAQ</a> section for more info!</li>
+                        <li><i class="ri-check-double-line"></i>Visit the <a data-cy="faq-description-link" href="/faq">FAQ</a> section for more info!</li>
                     </ul>
 
                 </div>
@@ -136,7 +136,7 @@
                     <div data-cy="engineering-description3" class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx ri-computer-line text-black"></i>
                         <h4>System</h4>
-                        <p>We're continuously upgrading our systems and adding new features.  Feel free to <a href="/contact-us">contact us</a> if you have any suggestions!</p>
+                        <p>We're continuously upgrading our systems and adding new features.  Feel free to <a data-cy="contact-us-description-link" href="/contact-us">contact us</a> if you have any suggestions!</p>
                     </div>
                 </div>
             </div>
