@@ -17,6 +17,20 @@
         let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};
     </script>
 
+    <style>
+        .grecaptcha-badge {
+            visibility: hidden;
+        }
+
+
+        .g-blue{ color:#4285F4; }
+        .o-red{ color:#DB4437; }
+        .o-yellow{ color:#F4B400; }
+        .l-green{ color:#0F9D58; }
+    </style>
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
     @viteReactRefresh
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
 </head>

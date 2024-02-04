@@ -42,3 +42,33 @@ Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = fa
     };
     return cy.request({method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: failOnStatusCode});
 })
+
+Cypress.Commands.add("containsText", (locator, text) => {
+    cy.get(locator).then((element) => {
+        expect(element.text()).contains(text);
+    });
+})
+
+Cypress.Commands.add("isText", (locator, text) => {
+    cy.get(locator).then((element) => {
+        expect(element.text()).equals(text);
+    });
+})
+
+Cypress.Commands.add("isVisibleWithText", (locator, text) => {
+    cy.get(locator).should('be.visible').then((element) => {
+        expect(element.text()).equals(text);
+    });
+})
+
+Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
+    let selector = args[0]
+    let code = selector.charCodeAt(0)
+    if(code > 64 && code < 91 || code > 96 && code < 123) {
+        args[0] = `[data-cy="${selector}"]`
+        return originalFn.apply(this, args)
+    }
+    return originalFn.apply(this, args)
+});
+
+

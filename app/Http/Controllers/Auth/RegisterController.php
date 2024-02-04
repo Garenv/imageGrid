@@ -7,15 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserRegistered;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Rules\ReCaptchaV3;
 use App\Traits\ProfanityTrait;
-use Database\Factories\UserFactory;
-use http\Env\Response;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -63,7 +61,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $response = $this->createUser($request);
+        $response = $this->validateUser($request);
 
         if($response->getStatusCode() == 422) {
             return back()->withErrors($response ->getData(true)['errors']);
@@ -91,14 +89,12 @@ class RegisterController extends Controller
         Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
     }
 
-
-
     /**
      * @param Request $request
      * @return BaseJsonResponse|null
      * This hits the api.php file
      */
-    public function createUser(Request $request): ?BaseJsonResponse
+    public function validateUser(Request $request): ?BaseJsonResponse
     {
 
         $data = $request->all();
@@ -121,6 +117,17 @@ class RegisterController extends Controller
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
             ],
+            'g-recaptcha-response' => ['required', new ReCaptchaV3('submitRegisterForm', 0.5)]
+            /*
+                Basic validation: Ensures that a valid code was provided by the browser through the recaptcha/api.js anti-bot mechanism.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3()]
+
+                Stricter verification: In addition to code validation, it verifies that the form data-action and the action reported by Google both match ‘submitContact’.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3('submitContact')]
+
+                Even stricter verification: data-action must match, and the bot score reported back by Google must be higher than 0.5.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3('submitContact', 0.5)]
+            */
         ], $messages);
 
         if($validator->fails()) {
@@ -145,11 +152,11 @@ class RegisterController extends Controller
             }
         }
 
-        return response()->json(["user" => $this->create($data)]);
+        return response()->json(["user" => $this->createUser($data)]);
     }
 
 
-    protected function create(array $data)
+    public function createUser(array $data)
     {
         $locationData = Location::get();
         $device = getUserDeviceData()['device'];
