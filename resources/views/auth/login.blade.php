@@ -43,7 +43,7 @@
                             </div>
                         </form>
 
-                        <form class="card-3d-wrapper" method="POST" action="{{ route('register') }}">
+                        <form class="card-3d-wrapper" id="registerForm" method="POST" action="{{ route('register') }}">
                             @csrf
                             <div class="card-back">
                                 <div class="center-wrap">
@@ -82,21 +82,41 @@
 
                                         <div style="display: flex; align-items: center;">
                                             <input data-cy="agreement-input" type="checkbox" id="agreementCheck" name="agreementCheck" value="ag" required>
-                                            <label data-cy="agreement-label" for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
+                                            <label data-cy="agreement-label" for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to our <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
                                         </div>
 
-                                        <button data-cy="register-button" type="submit" class="btn mt-4">{{ __('Register') }}</button>
+                                        <button
+                                            class="btn mt-4 g-recaptcha"
+                                            type="submit"
+                                            data-sitekey="{{ config('services.recaptcha_v3.siteKey') }}"
+                                            data-action="submitRegisterForm"
+                                            data-callback="submitRegisterForm"
+                                            data-cy="register-button"
+                                        >
+                                            {{ __('Register') }}
+                                        </button>
                                     </div>
-
                                 </div>
-
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
+            <div class="container-fluid fixed-bottom bg-light py-2">
+                <div class="text-center">
+                    <small class="text-muted">
+                        This site is protected by reCAPTCHA and the <strong><span style="font-family: 'Product Sans',sans-serif;"><span class="g-blue">G</span><span class="o-red">o</span><span class="o-yellow">o</span><span class="g-blue">g</span><span class="l-green">l</span><span class="o-red e-red">e</span></span></strong>
+                        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                    </small>
+                </div>
+            </div>
+
         </div>
+
     </div>
+
 
     <script>
 
@@ -139,6 +159,10 @@
                     background: 'linear-gradient(to right, #ff5f6d, #ffc371)',
                 },
             }).showToast();
+        }
+
+        function submitRegisterForm(token) {
+            document.getElementById("registerForm").submit();
         }
 
     </script>
