@@ -48,7 +48,7 @@
                             <div class="card-back">
                                 <div class="center-wrap">
                                     <div class="section text-center">
-                                        <h4 class="mb-4 pb-3 text-black">Sign Up</h4>
+                                        <h4 class="mb-4 pb-3 text-white">Sign Up</h4>
                                         <div class="form-group">
                                             <input data-cy="name-input" id="logname" type="text" placeholder="Username"
                                                    class="form-style @error('name') is-invalid @enderror" name="name"
