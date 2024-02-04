@@ -9,7 +9,7 @@
                         <span data-title="Phopixel" class="text">Phopixel</span>
                         <img src="https://phopixel.s3.amazonaws.com/assets/Phopixel_camera.png" class="cameraImg img-fluid" alt="">
                     </div>
-                    <h6 class="mb-0 pb-3 text-black"><span class="text-white">Log In </span><span class="text-white">Sign Up</span></h6>
+                    <h6 class="mb-0 pb-3 text-black"><span class="text-black">Log In </span><span class="text-black">Sign Up</span></h6>
                     <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                     <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
@@ -48,7 +48,7 @@
                             <div class="card-back">
                                 <div class="center-wrap">
                                     <div class="section text-center">
-                                        <h4 class="mb-4 pb-3 text-white">Sign Up</h4>
+                                        <h4 class="mb-4 pb-3 text-black">Sign Up</h4>
                                         <div class="form-group">
                                             <input data-cy="name-input" id="logname" type="text" placeholder="Username"
                                                    class="form-style @error('name') is-invalid @enderror" name="name"
