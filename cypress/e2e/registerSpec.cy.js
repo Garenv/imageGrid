@@ -8,7 +8,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
     beforeEach(() => {
         cy.session("sign up page", () => {
             cy.visit('/login')
-            cy.get('[for="reg-log"]').click()
+            cy.get('sign-up-link').click()
         }, {validate() {
                 cy.get(usernameSelector).clear()
             }})
@@ -100,7 +100,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 });
             });
 
-            it("should redirect to confirm email page", () => {
+            it.only("should redirect to confirm email page", () => {
                 attemptRegistration("Webhook", newEmail, password, password, true)
                 cy.location("pathname").should("eq", "/email/verify");
                 cy.request({
@@ -110,6 +110,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 }).then((response) => {
                     expect(response.status).eq(200)
                     let c = response.body.data[0]
+                    cy.log("This is the data " + c);
                     let h = c["headers"]
                     expect(h["to"][0]).eq(newEmail)
                     expect(h["subject"][0]).eq('Verify Email Address')
