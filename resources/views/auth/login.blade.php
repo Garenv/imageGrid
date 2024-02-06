@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="txt" id="txt">
+                <h1 class="phopixel-title">Phopixel</h1>
+            </div>
+        </div>
+    </nav>
+
     <section class="loginRegisterSection">
         <div class="formContainer">
             <div class="user signinBx">
@@ -40,8 +49,6 @@
                             placeholder={{ __('Login') }}
                         />
 
-                        {{--                        <button data-cy="login-button" type="submit" class="btn mt-4">{{ __('Login') }}</button>--}}
-
                         <p class="signup">Don't have an account?<a href="#" onclick="toggleForm();"> Sign Up.</a></p>
                         <p class="mb-0 mt-4 text-center">Forgot your password?</p>
 
@@ -54,7 +61,7 @@
 
             <div class="user signupBx">
                 <div class="formBx">
-                    <form action="{{ route('register') }}" method="POST" id="registerForm" onsubmit="return false;">
+                    <form action="{{ route('register') }}" method="POST" id="registerForm" class="registerForm">
                         @csrf
                         <h2>Create an Account</h2>
 
@@ -75,7 +82,7 @@
                             type="email"
                             name="email"
                             placeholder="Email"
-                            value="{{ old('name') }}"
+                            value="{{ old('email') }}"
                             autocomplete="email"
                             required
                         />
@@ -100,6 +107,13 @@
                             required
                         />
 
+                        <div class="checkbox-container">
+                            <input data-cy="agreement-input" type="checkbox" value="" id="defaultCheck1" class="align-checkbox" required>
+                            <label data-cy="agreement-label" class="form-check-label" for="defaultCheck1" style="white-space: nowrap">
+                                I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a>
+                            </label>
+                        </div>
+
                         <input
                             class="btn mt-4 register-button g-recaptcha"
                             type="submit"
@@ -111,10 +125,12 @@
                         />
 
                         <p class="signup">Already have an account?<a href="#" onclick="toggleForm();"> Sign in.</a></p>
+
+
                     </form>
                 </div>
 
-                <div class="imgBx"><img src="https://phopixel.s3.amazonaws.com/assets/pho_camera_500x500.png" alt="" /></div>
+                <div class="imgBx"><img src="https://phopixel.s3.amazonaws.com/assets/pho_camera_500x500.png" alt="Phopixel Camera" /></div>
             </div>
 
             <div class="container-fluid fixed-bottom bg-light py-2">
@@ -138,17 +154,17 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             @if($errors->any())
-            @foreach($errors->all() as $error)
-            showToast("{{ $error }}")
-            @endforeach
+                @foreach($errors->all() as $error)
+                    showToast("{{ $error }}")
+                @endforeach
             @endif
 
             @if(session('userTryingToCreateMultipleAccountsError'))
-            showToast("{{ session('userTryingToCreateMultipleAccountsError') }}")
+                showToast("{{ session('userTryingToCreateMultipleAccountsError') }}")
             @endif
 
             @if(session('profanityNameWhenRegistering'))
-            showToast("{{ session('profanityNameWhenRegistering') }}")
+                showToast("{{ session('profanityNameWhenRegistering') }}")
             @endif
         });
 
@@ -165,9 +181,18 @@
             }).showToast();
         }
 
+        // the ata-callback bypasses the browser's built-in validation for the `required` fields for registering
+        // we need to check the form's validity before submitting it
         function submitRegisterForm(token) {
-            document.getElementById("registerForm").submit();
+            var form = document.getElementById('registerForm');
+
+            if (form.checkValidity()) {
+                form.submit();
+            } else {
+                form.reportValidity();
+            }
         }
+
 
     </script>
 @endsection

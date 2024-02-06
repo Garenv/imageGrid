@@ -64,6 +64,37 @@ label.form-label {
     float: right;
 }
 
+.btn {
+    border-radius: 4px;
+    height: 44px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 200ms linear;
+    padding: 0 30px;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    text-align: center;
+    border: none;
+    background-color: #1E90FF;
+    color: #fff;
+    box-shadow: 0 8px 24px 0 rgba(18, 248, 173,.2);
+}
+.btn:active,
+.btn:focus{
+    background-color: #3577b6;
+    color: #FFFFFF;
+    box-shadow: 0 8px 24px 0 rgba(255,255,255,.2);
+}
+.btn:hover{
+    background-color: #6495ED;
+    color:#FFFFFF;
+    box-shadow: 0 8px 24px 0 rgba(255,255,255,.2);
+}
+
 //Responsive layout adjustments for landscape mode
 @media screen and (orientation: landscape) {
     .card-container {
