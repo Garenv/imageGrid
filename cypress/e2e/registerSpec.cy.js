@@ -22,11 +22,11 @@ describe('user visits the registration page', {testIsolation: false},  () => {
         if(agreementCheck) {
             cy.get(agreementCheckSelector).click()
         }
-        return cy.get('.card-back > .center-wrap > .section > .btn').click()
+        return cy.get('register-button').click("top")
     };
 
     let name = "FakeUsername";
-    let password = "NotARealPassword@1234";
+    let password = "GoodFakePassword@1234";
     let email = "ValidUsername@gmail.com";
 
     describe('user attempts to register',  () => {
@@ -42,15 +42,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 ["FakeUsername", email, "NotARealPassword1234", "", false, pleaseFillOut, confirmPasswordSelector],
                 ["", "", "", "", false, pleaseFillOut, usernameSelector],
                 ["FakeUsername", email, "NotARealPassword1234", "NotARealPassword1234", false, 'Please check this box if you want to proceed.', agreementCheckSelector],
-            ].forEach((value, index, array) => {
-                let username = value[0]
-                let email = value[1]
-                let password = value[2]
-                let confirmPassword = value[3]
-                let agreementCheck = value[4]
-                let message = value[5]
-                let selector = value[6]
-
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message, selector]) => {
                 it(`${index + 1}. should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get(selector).then(($t) => {
@@ -67,8 +59,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
             let webhookPath = "cypress/fixtures/local/webhookSite.json";
 
             before(() => {
-                cy.readFile(webhookPath)
-                    .then((f) => {
+                cy.readFile(webhookPath).then((f) => {
                         let expirationTime;
                         if (f == null) {
                             expirationTime = new Date().getTime();
@@ -102,14 +93,11 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                             f['expires_at'] = response.body['expires_at'];
                             return cy.writeFile(webhookPath, JSON.stringify(f));
                         });
-                    })
-                    .then(updatedF => {
+                    }).then(updatedF => {
                         webhookToken = updatedF['uuid'];
                         newEmail = webhookToken + updatedF['domain'];
-                        console.log(webhookToken);
-                    });
-
-                cy.request({method:'DELETE', url:'/api/deleteAllUsers', failOnStatusCode: false});
+                        cy.deleteUser(newEmail);
+                });
             });
 
             it("should redirect to confirm email page", () => {
@@ -128,7 +116,6 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                     expect(h["from"][0]).eq('Phopixel <contactSupport@phopixel.com>')
 
                     let emailBody = c["text_content"]
-                    console.log(emailBody)
 
                     const urlRegex = /(?:https?|ftp):\/\/[^\s\r\n]+/g;
                     const extractedUrls = emailBody.match(urlRegex);
@@ -143,6 +130,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
 
     describe('user attempts to register with invalid', () => {
         describe('permissions', () => {
+
             before(() => {
                 cy.createUser(name, email, password)
             });
@@ -151,14 +139,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 [name, email, password, password, true, 'The email has already been taken.✖This name already exists, choose another one✖'],
                 ["NewAccount", email, password, password, true, 'The email has already been taken.✖'],
                 ["NewAccount", "NewEmail@gmail.com", password, password, true, 'You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.✖']
-            ].forEach((value, index, array) => {
-                let username = value[0]
-                let email = value[1]
-                let password = value[2]
-                let confirmPassword = value[3]
-                let agreementCheck = value[4]
-                let message = value[5]
-
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
                 it(`should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get('.toastify').then(($t) => {
@@ -170,9 +151,8 @@ describe('user visits the registration page', {testIsolation: false},  () => {
         })
 
         describe('credentials', () => {
-            before(() => {
-                cy.request({method:'DELETE', url:'/api/deleteAllUsers', failOnStatusCode: false});
-            });
+            const name = "TestRegisterCredentials";
+            const email = "TestRegisterCredentials@email.com";
 
             [
                 [name, email, "notreal@1", "notreal@1", true, "The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password must be at least 10 characters.✖"],
@@ -180,14 +160,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 ["Fuck", email, password, password, true, "Names may not contain any profanity✖"],
                 [name, email, password, "NotARealPassword", true, 'The password confirmation does not match.✖'],
                 [name, email, "NotARealPassword1234", "NotARealPassword", true, 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password confirmation does not match.✖'],
-            ].forEach((value, index, array) => {
-                let username = value[0]
-                let email = value[1]
-                let password = value[2]
-                let confirmPassword = value[3]
-                let agreementCheck = value[4]
-                let message = value[5]
-
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
                 it(`should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get('.toastify').then(($t) => {
