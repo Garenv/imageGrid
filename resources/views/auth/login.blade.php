@@ -49,7 +49,7 @@
                             placeholder={{ __('Login') }}
                         />
 
-                        <p class="signup">Don't have an account?<a href="#" onclick="toggleForm();"> Sign Up.</a></p>
+                        <p class="signup">Don't have an account?<a data-cy="sign-up-link" href="#" onclick="toggleForm();"> Sign Up.</a></p>
                         <p class="mb-0 mt-4 text-center">Forgot your password?</p>
 
                         @if (Route::has('password.request'))
