@@ -42,7 +42,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 ["FakeUsername", email, "NotARealPassword1234", "", false, pleaseFillOut, confirmPasswordSelector],
                 ["", "", "", "", false, pleaseFillOut, usernameSelector],
                 ["FakeUsername", email, "NotARealPassword1234", "NotARealPassword1234", false, 'Please check this box if you want to proceed.', agreementCheckSelector],
-            ].forEach(([username, email, password, confirmPassword, agreementCheck, message, selector]) => {
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message, selector], index) => {
                 it(`${index + 1}. should fail with ${message}`, () => {
                     attemptRegistration(username, email, password, confirmPassword, agreementCheck)
                     cy.get(selector).then(($t) => {
