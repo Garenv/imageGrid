@@ -24,7 +24,7 @@ describe('user visits the login page', { testIsolation: false }, () => {
             ["ValidUsername@", "NotARealPassword1234", "Please enter a part following '@'. 'ValidUsername@' is incomplete.", emailSelector],
             ["", "", pleaseFillOut, emailSelector],
             ["", "NotARealPassword1234", pleaseFillOut, emailSelector],
-            ["ValidUsername@gmail.com", "", pleaseFillOut, passwordSelector],
+            ["GoodEmail@gmail.com", "", pleaseFillOut, passwordSelector],
         ].forEach((value, index, array) => {
             let email = value[0]
             let password = value[1]
