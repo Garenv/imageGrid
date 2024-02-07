@@ -104,6 +104,11 @@ class UsersRepository implements IUsersRepository
     {
         return DB::table('users')->where('email', $email)->delete();
     }
+
+    public function deleteAllUsers()
+    {
+        return DB::table('users')->delete();
+    }
 }
 
 

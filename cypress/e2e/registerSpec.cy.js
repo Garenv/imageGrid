@@ -59,72 +59,74 @@ describe('user visits the registration page', {testIsolation: false},  () => {
             let webhookPath = "cypress/fixtures/local/webhookSite.json";
 
             before(() => {
-                cy.readFile(webhookPath).then((f) => {
-                        let expirationTime;
-                        if (f == null) {
-                            expirationTime = new Date().getTime();
-                            f = {
-                                uuid: "",
-                                expires_at: "",
-                                domain: "@email.webhook.site"
-                            };
-                        } else {
-                            expirationTime = new Date(f['expires_at']).getTime();
-                        }
+                cy.task('readFileMaybe', webhookPath).then((f) => {
+                    let expirationTime;
 
-                        let currentTime = new Date().getTime();
-                        if(expirationTime > currentTime) return f;
-                        return cy.request({
-                            method: 'POST',
-                            url: 'https://webhook.site/token',
-                            body: {
-                                "default_status": 200,
-                                "default_content": "Hello world!",
-                                "default_content_type": "text/plain",
-                                "timeout": 0,
-                                "cors": false,
-                                "expiry": 604800,
-                                "alias": "my-webhook",
-                                "actions": true
-                            }
-                        }).then(response => {
-                            expect(response.status).eq(201);
-                            f['uuid'] = response.body['uuid'];
-                            f['expires_at'] = response.body['expires_at'];
-                            return cy.writeFile(webhookPath, JSON.stringify(f));
-                        });
-                    }).then(updatedF => {
-                        webhookToken = updatedF['uuid'];
-                        newEmail = webhookToken + updatedF['domain'];
-                        cy.deleteUser(newEmail);
+                    if (f == null) {
+                        expirationTime = new Date().getTime();
+                        f = {
+                            uuid: "",
+                            expires_at: "",
+                            domain: "@email.webhook.site"
+                        };
+                    } else {
+                        f = JSON.parse(f)
+                        expirationTime = new Date(f['expires_at']).getTime();
+                    }
+
+                    let currentTime = new Date().getTime();
+                    if(expirationTime > currentTime) return f;
+                    return cy.request({
+                        method: 'POST',
+                        url: 'https://webhook.site/token',
+                        body: {
+                            "default_status": 200,
+                            "default_content": "Hello world!",
+                            "default_content_type": "text/plain",
+                            "timeout": 0,
+                            "cors": false,
+                            "expiry": 604800,
+                            "alias": "my-webhook",
+                            "actions": true
+                        }
+                    }).then(response => {
+                        expect(response.status).eq(201);
+                        f['uuid'] = response.body['uuid'];
+                        f['expires_at'] = response.body['expires_at'];
+                        cy.writeFile(webhookPath, JSON.stringify(f)).then(() => { return f; });
+                    });
+                }).then(updatedF => {
+                    webhookToken = updatedF['uuid'];
+                    newEmail = webhookToken + updatedF['domain'];
+                    cy.deleteAllUsers();
                 });
             });
 
             it.only("should redirect to confirm email page", () => {
                 attemptRegistration("Webhook", newEmail, password, password, true)
-                cy.location("pathname").should("eq", "/email/verify");
-                cy.request({
-                    method: 'GET',
-                    headers: { accept: 'application/json' },
-                    url: `https://webhook.site/token/${webhookToken}/requests?sorting=newest/`
-                }).then((response) => {
-                    expect(response.status).eq(200)
-                    let c = response.body.data[0]
-                    cy.log("This is the data " + c);
-                    let h = c["headers"]
-                    expect(h["to"][0]).eq(newEmail)
-                    expect(h["subject"][0]).eq('Verify Email Address')
-                    expect(h["from"][0]).eq('Phopixel <contactSupport@phopixel.com>')
+                cy.location("pathname").should("eq", "/email/verify").then(() => {
+                    cy.request({
+                        method: 'GET',
+                        headers: { accept: 'application/json' },
+                        url: `https://webhook.site/token/${webhookToken}/requests?sorting=newest/`
+                    }).then((response) => {
+                        expect(response.status).eq(200)
+                        let c = response.body.data[0]
+                        let h = c["headers"]
+                        expect(h["to"][0]).eq(newEmail)
+                        expect(h["subject"][0]).eq('Verify Email Address')
+                        expect(h["from"][0]).eq('Phopixel <contactSupport@phopixel.com>')
 
-                    let emailBody = c["text_content"]
+                        let emailBody = c["text_content"]
 
-                    const urlRegex = /(?:https?|ftp):\/\/[^\s\r\n]+/g;
-                    const extractedUrls = emailBody.match(urlRegex);
-                    let link = extractedUrls[0].replace('\\r\\n\\r\\nIf', '')
+                        const urlRegex = /(?:https?|ftp):\/\/[^\s\r\n]+/g;
+                        const extractedUrls = emailBody.match(urlRegex);
+                        let link = extractedUrls[0].replace('\\r\\n\\r\\nIf', '')
 
-                    cy.visit(link)
-                    cy.location("pathname").should("eq", "/grid");
-                })
+                        cy.visit(link)
+                        cy.location("pathname").should("eq", "/grid");
+                    })
+                });
             })
         });
     })

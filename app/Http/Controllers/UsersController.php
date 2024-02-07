@@ -267,6 +267,13 @@ class UsersController extends Controller
         });
     }
 
+    public function deleteAllUsers()
+    {
+        return $this->performHardDeletion(function () {
+            return $this->__usersRepository->deleteAllUsers();
+        });
+    }
+
     private function performHardDeletion(callable $repositoryMethod)
     {
         try {
