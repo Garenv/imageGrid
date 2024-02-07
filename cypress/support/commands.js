@@ -24,7 +24,7 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-const users = {}
+let users = {}
 
 Cypress.Commands.add("clearType", (selector, text) => {
     if(text) {
@@ -56,7 +56,15 @@ Cypress.Commands.add('deleteUser', (email) => {
     cy.request({ method:'DELETE', url:`/api/deleteUser/${email}`, failOnStatusCode: false } ).then((response) => {
         let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
         expect(isSuccessful, "User deleted successfully or does not exist")
-        delete users[email]
+        if(email in users) { delete users[email] }
+    });
+})
+
+Cypress.Commands.add('deleteAllUsers', () => {
+    cy.request({ method:'DELETE', url:`/api/deleteAllUsers`, failOnStatusCode: false } ).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
+        expect(isSuccessful, "Users deleted successfully or is empty")
+        users = {}
     });
 })
 
