@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+let users = {}
+
 Cypress.Commands.add("clearType", (selector, text) => {
     if(text) {
         return cy.get(selector).clear().invoke('val', text)
@@ -31,16 +33,39 @@ Cypress.Commands.add("clearType", (selector, text) => {
     return cy.get(selector).clear()
 })
 
-Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = false) => {
+Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = true) => {
+    if(email in users) { return }
+
     const newUser = {
         name: name,
         email: email,
         registerPassword: password,
         registerPassword_confirmation: password,
-        skipMultipleAccounts: true,
         email_verified_at: "2023-12-29 21:53:59"
     };
-    return cy.request({method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: failOnStatusCode});
+
+    cy.request({ method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: false }).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 409
+        expect(isSuccessful, "User created successfully or already exists").to.be.true
+        users[email] = { name:password, email: email, password: password };
+    });
+})
+
+Cypress.Commands.add('deleteUser', (email) => {
+    cy.log("Delete user with email: " + email)
+    cy.request({ method:'DELETE', url:`/api/deleteUser/${email}`, failOnStatusCode: false } ).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
+        expect(isSuccessful, "User deleted successfully or does not exist")
+        if(email in users) { delete users[email] }
+    });
+})
+
+Cypress.Commands.add('deleteAllUsers', () => {
+    cy.request({ method:'DELETE', url:`/api/deleteAllUsers`, failOnStatusCode: false } ).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
+        expect(isSuccessful, "Users deleted successfully or is empty")
+        users = {}
+    });
 })
 
 Cypress.Commands.add("containsText", (locator, text) => {
