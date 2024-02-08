@@ -21,7 +21,7 @@
 
                         <input
                             data-cy="login-email-input"
-                            class="form-style @error('email') is-invalid @enderror" name="email"
+                            class="form-style login-email-input @error('email') is-invalid @enderror" name="email"
                             id="email"
                             type="email"
                             placeholder="Email Address"
@@ -32,7 +32,7 @@
 
                         <input
                             data-cy="login-password-input"
-                            class="form-style @error('password') is-invalid @enderror"
+                            class="form-style login-password-input @error('password') is-invalid @enderror"
                             id="password"
                             type="password"
                             placeholder="Password"
@@ -43,7 +43,7 @@
 
                         <input
                             data-cy="login-button"
-                            class="login-button"
+                            class="btn"
                             type="submit"
                             value="Login"
                             placeholder={{ __('Login') }}
@@ -67,7 +67,7 @@
 
                         <input
                             data-cy="name-input"
-                            class="form-style @error('name') is-invalid @enderror"
+                            class="form-style name-input @error('name') is-invalid @enderror"
                             type="text"
                             name="name"
                             placeholder="Username"
@@ -78,7 +78,7 @@
 
                         <input
                             data-cy="register-email-input"
-                            class="form-style @error('email') is-invalid @enderror"
+                            class="form-style register-email-input @error('email') is-invalid @enderror"
                             type="email"
                             name="email"
                             placeholder="Email"
@@ -89,7 +89,7 @@
 
                         <input
                             data-cy="register-password-input"
-                            class="form-style @error('registerPassword') is-invalid @enderror"
+                            class="form-style register-password-input @error('registerPassword') is-invalid @enderror"
                             type="password"
                             name="registerPassword"
                             placeholder="Password"
@@ -99,7 +99,7 @@
 
                         <input
                             data-cy="password-confirm-input"
-                            class="form-style @error('registerPassword_confirmation') is-invalid @enderror"
+                            class="form-style password-confirm-input @error('registerPassword_confirmation') is-invalid @enderror"
                             type="password"
                             name="registerPassword_confirmation"
                             placeholder="Confirm Password"
@@ -107,15 +107,15 @@
                             required
                         />
 
-                        <div class="checkbox-container">
-                            <input data-cy="agreement-input" type="checkbox" value="" id="defaultCheck1" class="align-checkbox" required>
-                            <label data-cy="agreement-label" class="form-check-label" for="defaultCheck1" style="white-space: nowrap">
+                        <div class="form-check">
+                            <input data-cy="agreement-input" type="checkbox" value="" id="defaultCheck1" required>
+                            <label data-cy="agreement-label" class="form-check-label" for="defaultCheck1">
                                 I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a>
                             </label>
                         </div>
 
                         <input
-                            class="btn mt-4 register-button g-recaptcha"
+                            class="btn mt-4 g-recaptcha"
                             type="submit"
                             value="{{ __('Register') }}"
                             data-sitekey="{{ config('services.recaptcha_v3.siteKey') }}"
@@ -125,7 +125,6 @@
                         />
 
                         <p class="signup">Already have an account?<a href="#" onclick="toggleForm();"> Sign in.</a></p>
-
 
                     </form>
                 </div>
