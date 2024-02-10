@@ -1,121 +1,161 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid loginPageParent">
-        <div class="row full-height justify-content-center">
-            <div class="col-12 text-center align-self-center">
-                <div class="section pb-5 pt-5 pt-sm-2 text-center">
-                    <div class="phopixelTitleContainer">
-                        <span data-title="Phopixel" class="text">Phopixel</span>
-                        <img src="https://phopixel.s3.amazonaws.com/assets/Phopixel_camera.png" class="cameraImg img-fluid" alt="">
-                    </div>
-                    <h6 class="mb-0 pb-3 text-black"><span class="text-white">Log In </span><span class="text-white">Sign Up</span></h6>
-                    <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-                    <label for="reg-log"></label>
-                    <div class="card-3d-wrap mx-auto">
-                        <form class="card-3d-wrapper" method="POST" action="{{ route('login') }}">
-                            @csrf
-                            <div class="card-front">
-                                <div class="center-wrap">
-                                    <div class="section text-center">
-                                        <h4 class="mb-4 pb-3 text-white">Log In</h4>
-                                        <div class="form-group">
-                                            <input data-cy="login-email-input" id="email" type="email" placeholder="Email Address"
-                                                   class="form-style @error('email') is-invalid @enderror" name="email"
-                                                   value="{{ old('email') }}" required autocomplete="email">
-                                            <i class="input-icon uil uil-mailbox"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input data-cy="login-password-input" id="password" type="password" placeholder="Password"
-                                                   class="form-style @error('password') is-invalid @enderror"
-                                                   name="password" required autocomplete="current-password">
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
-                                        <button data-cy="login-button" type="submit" class="btn mt-4">{{ __('Login') }}</button>
-                                        <p class="mb-0 mt-4 text-center text-white">
-                                            Forgot your password?
-                                        </p>
-                                        @if (Route::has('password.request'))
-                                            <a href="{{ route('password.request') }}" class="link blue">Click Here</a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
 
-                        <form class="card-3d-wrapper" method="POST" action="{{ route('register') }}">
-                            @csrf
-                            <div class="card-back">
-                                <div class="center-wrap">
-                                    <div class="section text-center">
-                                        <h4 class="mb-4 pb-3 text-white">Sign Up</h4>
-                                        <div class="form-group">
-                                            <input data-cy="name-input" id="logname" type="text" placeholder="Username"
-                                                   class="form-style @error('name') is-invalid @enderror" name="name"
-                                                   value="{{ old('name') }}" required autocomplete="name" autofocus>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid d-flex justify-content-center">
+            <div class="txt" id="txt">
+                <h1 class="phopixel-title">Phopixel</h1>
+            </div>
+        </div>
+    </nav>
 
-                                            <i class="input-icon uil uil-user"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input data-cy="register-email-input" id="email" type="email" placeholder="Email"
-                                                   class="form-style @error('email') is-invalid @enderror" name="email"
-                                                   value="{{ old('email') }}" required autocomplete="email">
+    <section class="loginRegisterSection">
+        <div class="formContainer">
+            <div class="user signinBx">
+                <div class="imgBx"><img src="https://phopixel.s3.amazonaws.com/assets/logo/pho_logo_540x675-v2.png" alt="" /></div>
+                <div class="formBx">
+                    <form action="{{ route('login') }}" method="POST" class="loginForm">
+                        @csrf
+                        <h2>Sign In</h2>
 
-                                            <i class="input-icon uil uil-mailbox"></i>
-                                        </div>
+                        <input
+                            data-cy="login-email-input"
+                            class="form-style @error('email') is-invalid @enderror" name="email"
+                            id="email"
+                            type="email"
+                            placeholder="Email Address"
+                            value="{{ old('email') }}"
+                            autocomplete="email"
+                            required
+                        />
 
-                                        <div class="form-group mt-2">
-                                            <input data-cy="register-password-input" id="password" type="password" placeholder="Password"
-                                                   class="form-style @error('registerPassword') is-invalid @enderror"
-                                                   name="registerPassword" required autocomplete="new-password">
+                        <input
+                            data-cy="login-password-input"
+                            class="form-style @error('password') is-invalid @enderror"
+                            id="password"
+                            type="password"
+                            placeholder="Password"
+                            name="password"
+                            autocomplete="current-password"
+                            required
+                        />
 
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
+                        <input
+                            data-cy="login-button"
+                            class="login-button"
+                            type="submit"
+                            value="Login"
+                            placeholder={{ __('Login') }}
+                        />
 
-                                        <div class="form-group mt-2">
-                                            <input data-cy="password-confirm-input" id="password-confirmation" type="password" placeholder="Confirm Password"
-                                                   class="form-style @error('registerPassword_confirmation') is-invalid @enderror"
-                                                   name="registerPassword_confirmation" required autocomplete="new-password">
+                        <p class="signup">Don't have an account?<a data-cy="sign-up-link" href="#" onclick="toggleForm();"> Sign Up.</a></p>
+                        <p class="mb-0 mt-4 text-center">Forgot your password?</p>
 
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="link blue">Click Here</a>
+                        @endif
+                    </form>
+                </div>
+            </div>
 
-                                        <div style="display: flex; align-items: center;">
-                                            <input data-cy="agreement-input" type="checkbox" id="agreementCheck" name="agreementCheck" value="ag" required>
-                                            <label data-cy="agreement-label" for="agreementCheck" style="margin-left: 10px; margin-top: 23px; color: #FFFFFF;">I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a></label>
-                                        </div>
+            <div class="user signupBx">
+                <div class="formBx">
+                    <form action="{{ route('register') }}" method="POST" id="registerForm" class="registerForm">
+                        @csrf
+                        <h2>Create an Account</h2>
 
-                                        <button data-cy="register-button" type="submit" class="btn mt-4">{{ __('Register') }}</button>
-                                    </div>
+                        <input
+                            data-cy="name-input"
+                            class="form-style @error('name') is-invalid @enderror"
+                            type="text"
+                            name="name"
+                            placeholder="Username"
+                            value="{{ old('name') }}"
+                            autocomplete="name"
+                            required
+                        />
 
-                                </div>
+                        <input
+                            data-cy="register-email-input"
+                            class="form-style @error('email') is-invalid @enderror"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value="{{ old('email') }}"
+                            autocomplete="email"
+                            required
+                        />
 
-                            </div>
-                        </form>
-                    </div>
+                        <input
+                            data-cy="register-password-input"
+                            class="form-style @error('registerPassword') is-invalid @enderror"
+                            type="password"
+                            name="registerPassword"
+                            placeholder="Password"
+                            autocomplete="new-password"
+                            required
+                        />
+
+                        <input
+                            data-cy="password-confirm-input"
+                            class="form-style @error('registerPassword_confirmation') is-invalid @enderror"
+                            type="password"
+                            name="registerPassword_confirmation"
+                            placeholder="Confirm Password"
+                            autocomplete="new-password"
+                            required
+                        />
+
+                        <div class="checkbox-container">
+                            <input data-cy="agreement-input" type="checkbox" value="" id="defaultCheck1" class="align-checkbox" required>
+                            <label data-cy="agreement-label" class="form-check-label" for="defaultCheck1" style="white-space: nowrap">
+                                I agree to the <a href="/terms-and-conditions">Terms & Conditions</a> and <a href="/privacy-policy">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <input
+                            class="btn mt-4 register-button g-recaptcha"
+                            type="submit"
+                            value="{{ __('Register') }}"
+                            data-sitekey="{{ config('services.recaptcha_v3.siteKey') }}"
+                            data-action="submitRegisterForm"
+                            data-callback="submitRegisterForm"
+                            data-cy="register-button"
+                        />
+
+                        <p class="signup">Already have an account?<a href="#" onclick="toggleForm();"> Sign in.</a></p>
+
+
+                    </form>
+                </div>
+
+                <div class="imgBx"><img src="https://phopixel.s3.amazonaws.com/assets/pho_camera_500x500.png" alt="Phopixel Camera" /></div>
+            </div>
+
+            <div class="container-fluid fixed-bottom bg-light py-2">
+                <div class="text-center">
+                    <small class="text-muted">
+                        This site is protected by reCAPTCHA and the <strong><span style="font-family: 'Product Sans',sans-serif;"><span class="g-blue">G</span><span class="o-red">o</span><span class="o-yellow">o</span><span class="g-blue">g</span><span class="l-green">l</span><span class="o-red e-red">e</span></span></strong>
+                        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                    </small>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <script>
 
-        window.onload = function() {
-
-            let toggleCheckbox = document.getElementById('reg-log');
-
-            toggleCheckbox.addEventListener('change', function () {
-                localStorage.setItem('toggleState', this.checked ? 'checked' : 'unchecked');
-            });
-
-            let savedToggleState = localStorage.getItem('toggleState');
-            toggleCheckbox.checked = savedToggleState === 'checked';
+        function toggleForm() {
+            const formContainer = document.querySelector('.formContainer');
+            formContainer.classList.toggle('active');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             @if($errors->any())
                 @foreach($errors->all() as $error)
-                   showToast("{{ $error }}")
+                    showToast("{{ $error }}")
                 @endforeach
             @endif
 
@@ -140,6 +180,19 @@
                 },
             }).showToast();
         }
+
+        // the ata-callback bypasses the browser's built-in validation for the `required` fields for registering
+        // we need to check the form's validity before submitting it
+        function submitRegisterForm(token) {
+            var form = document.getElementById('registerForm');
+
+            if (form.checkValidity()) {
+                form.submit();
+            } else {
+                form.reportValidity();
+            }
+        }
+
 
     </script>
 @endsection

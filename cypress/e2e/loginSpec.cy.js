@@ -2,13 +2,6 @@ describe('user visits the login page', { testIsolation: false }, () => {
     let emailSelector = '[data-cy="login-email-input"]'
     let passwordSelector = '[data-cy="login-password-input"]'
 
-    before(() => {
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false
-        })
-
-    })
-
     beforeEach(() =>  {
         cy.session("login page",() => {
             cy.visit('/login')
@@ -31,7 +24,7 @@ describe('user visits the login page', { testIsolation: false }, () => {
             ["ValidUsername@", "NotARealPassword1234", "Please enter a part following '@'. 'ValidUsername@' is incomplete.", emailSelector],
             ["", "", pleaseFillOut, emailSelector],
             ["", "NotARealPassword1234", pleaseFillOut, emailSelector],
-            ["ValidUsername@gmail.com", "", pleaseFillOut, passwordSelector],
+            ["GoodEmail@gmail.com", "", pleaseFillOut, passwordSelector],
         ].forEach((value, index, array) => {
             let email = value[0]
             let password = value[1]
@@ -59,15 +52,14 @@ describe('user visits the login page', { testIsolation: false }, () => {
         });
 
         context("valid credentials", () => {
-            let settingsSelector = '[autofocus=""]'
-            let avatarIconSelector = '.MuiAvatar-root'
-            let profileSelector = '.css-1hf8zo6 > .MuiPaper-root > .MuiList-root > :nth-child(3)'
-            let logoutSelector ='.myButton > .MuiButtonBase-root'
-            let uploadSelector = '.custom-file-upload > .btn'
+            let avatarIconSelector = '[data-testid="PersonIcon"]'
+            let profileSelector = '.css-1t3k1b1-MuiModal-root-MuiPopover-root-MuiMenu-root > .MuiPaper-root > .MuiList-root > :nth-child(3)'
+            let profileName = '[data-cy="profile-name"]'
+            let profileEmail = '[data-cy="profile-email"]'
             function waitFor200(routeAlias, retries=2) {
                 cy.wait(routeAlias).then(xhr => {
-                    if (xhr.response.statusCode === 200) return // OK
-                    else if (retries > 0) waitFor200(routeAlias, retries - 1); // wait for the next response
+                    if (xhr.response.statusCode === 200) return
+                    else if (retries > 0) waitFor200(routeAlias, retries - 1);
                     else throw "All requests returned non-200 response";
                 })
             }
@@ -81,6 +73,14 @@ describe('user visits the login page', { testIsolation: false }, () => {
                 waitFor200('@get-avatar-image')
                 waitFor200('@check-session')
                 waitFor200('@get-user-uploads-data')
+                cy.get(avatarIconSelector).click()
+                cy.get(profileSelector).click()
+                cy.get(profileName).then((element) => {
+                    expect(element.text()).eq(faker.name)
+                })
+                cy.get(profileEmail).then((element) => {
+                    expect(element.text()).eq(faker.email)
+                })
             })
         })
 
@@ -92,7 +92,7 @@ describe('user visits the login page', { testIsolation: false }, () => {
                     // ["ValidUsername@gmail.com", "NotARealPassword1234", 'These credentials do not match our records.✖'],
                     // ["ValidUsername@gmail.com", "NotARealPassword1234", 'Your account has been locked due to too many attempts.✖']
                 ].forEach(([username, password, message], index) => {
-                it.only(`${index + 1}. should fail with ${message}`, () => {
+                it(`${index + 1}. should fail with ${message}`, () => {
                     attemptLogin(username, password)
                     cy.get('.toastify').then(($t) => {
                         const text = $t.text()

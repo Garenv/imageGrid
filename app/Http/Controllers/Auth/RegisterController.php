@@ -7,15 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Mail\UserRegistered;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Rules\ReCaptchaV3;
 use App\Traits\ProfanityTrait;
-use Database\Factories\UserFactory;
-use http\Env\Response;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -63,7 +62,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $response = $this->createUser($request);
+        $response = $this->validateUser($request);
 
         if($response->getStatusCode() == 422) {
             return back()->withErrors($response ->getData(true)['errors']);
@@ -91,14 +90,12 @@ class RegisterController extends Controller
         Mail::to('support@phopixel.com')->send(new UserRegistered($registeredUserData));
     }
 
-
-
     /**
      * @param Request $request
      * @return BaseJsonResponse|null
      * This hits the api.php file
      */
-    public function createUser(Request $request): ?BaseJsonResponse
+    public function validateUser(Request $request): ?BaseJsonResponse
     {
 
         $data = $request->all();
@@ -121,6 +118,17 @@ class RegisterController extends Controller
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
             ],
+            'g-recaptcha-response' => ['required', new ReCaptchaV3('submitRegisterForm', 0.5)]
+            /*
+                Basic validation: Ensures that a valid code was provided by the browser through the recaptcha/api.js anti-bot mechanism.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3()]
+
+                Stricter verification: In addition to code validation, it verifies that the form data-action and the action reported by Google both match ‘submitContact’.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3('submitContact')]
+
+                Even stricter verification: data-action must match, and the bot score reported back by Google must be higher than 0.5.
+                'g-recaptcha-response' => ['required', new ReCaptchaV3('submitContact', 0.5)]
+            */
         ], $messages);
 
         if($validator->fails()) {
@@ -134,53 +142,62 @@ class RegisterController extends Controller
             return response()->json(['errors' => "Names may not contain any profanity"], 422);
         }
 
-        if(!isset($data["skipMultipleAccounts"])) {
-            $getUserIpAddress = getUserIpAddr();
-            $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
+        $getUserIpAddress = getUserIpAddr();
+        $existingUser = $this->__usersRepository->getIpAddresses($getUserIpAddress);
 
-            if(isset($existingUser)) {
-                if ($existingUser['ip'] === $getUserIpAddress) {
-                    return response()->json(['errors' => "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos."],422);
-                }
+        if(isset($existingUser)) {
+            if ($existingUser['ip'] === $getUserIpAddress) {
+                return response()->json(['errors' => "You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos."],422);
             }
         }
 
-        return response()->json(["user" => $this->create($data)]);
+        return $this->createUser($request);
     }
 
 
-    protected function create(array $data)
+    public function createUser(Request $request): ?BaseJsonResponse
     {
+        $data = $request->all();
+
         $locationData = Location::get();
         $device = getUserDeviceData()['device'];
         $deviceOs = getUserDeviceData()['device_os'];
         $osVersion = getUserDeviceData()['os_version'];
 
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'UserID' => 'u-' . Str::uuid()->toString(),
-            'password' => Hash::make($data['registerPassword']),
-            'ip' =>  getUserIpAddr(),
-            'countryName' => $locationData->countryName,
-            'countryCode' => $locationData->countryCode,
-            'regionCode' => $locationData->regionCode,
-            'regionName' => $locationData->regionName,
-            'cityName' => $locationData->cityName,
-            'zipCode' => $locationData->zipCode,
-            'isoCode' => $locationData->isoCode,
-            'postalCode' => $locationData->postalCode,
-            'latitude' => $locationData->latitude,
-            'longitude' => $locationData->longitude,
-            'metroCode' => $locationData->metroCode,
-            'areaCode' => $locationData->areaCode,
-            'timezone' => $locationData->timezone,
-            'device' => $device,
-            'device_os' => $deviceOs,
-            'os_version' => $osVersion,
-            'email_verified_at' => $data['email_verified_at'] ?? null
-        ]);
 
+        try {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'UserID' => 'u-' . Str::uuid()->toString(),
+                'password' => Hash::make($data['registerPassword']),
+                'ip' =>  getUserIpAddr(),
+                'countryName' => $locationData->countryName,
+                'countryCode' => $locationData->countryCode,
+                'regionCode' => $locationData->regionCode,
+                'regionName' => $locationData->regionName,
+                'cityName' => $locationData->cityName,
+                'zipCode' => $locationData->zipCode,
+                'isoCode' => $locationData->isoCode,
+                'postalCode' => $locationData->postalCode,
+                'latitude' => $locationData->latitude,
+                'longitude' => $locationData->longitude,
+                'metroCode' => $locationData->metroCode,
+                'areaCode' => $locationData->areaCode,
+                'timezone' => $locationData->timezone,
+                'device' => $device,
+                'device_os' => $deviceOs,
+                'os_version' => $osVersion,
+                'email_verified_at' => $data['email_verified_at'] ?? null
+            ]);
+
+            return response()->json(["user" => $user]);
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] === 1062) {
+                return response()->json(['error' => 'Duplicate entry'], 409);
+            }
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 
 }

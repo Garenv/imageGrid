@@ -4,16 +4,16 @@
         <h1 class="logo me-auto me-lg-0"><a href="/">Phopixel</a></h1>
         <nav id="navbar" class="navbar order-last order-lg-0">
             <ul>
-                <li><a class="nav-link scrollto" href="/#about">About</a></li>
-                <li><a class="nav-link scrollto" href="/#prizes">Prizes</a></li>
-                <li><a class="nav-link" href="{{ url('/faq') }}">FAQ</a></li>
-                <li><a class="nav-link" href="{{ url('/contact-us') }}">Contact Us</a></li>
+                <li data-cy="about-navbar"><a class="nav-link scrollto" href="/#about">About</a></li>
+                <li data-cy="prizes-navbar"><a class="nav-link scrollto" href="/#prizes">Prizes</a></li>
+                <li data-cy="faq-navbar"><a class="nav-link" href="{{ url('/faq') }}">FAQ</a></li>
+                <li data-cy="contact-us-navbar"><a class="nav-link" href="{{ url('/contact-us') }}">Contact Us</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
 
         @if (Route::has('login'))
-            <a href="{{ url('/grid') }}" class="get-started-btn">Get Started</a>
+            <a data-cy="about-us-navbar" href="{{ url('/grid') }}" class="get-started-btn">Get Started</a>
         @endif
 
     </div>
