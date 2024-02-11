@@ -4,5 +4,5 @@ namespace App\Dal\Interfaces;
 
 interface IImageBattlesRepository
 {
-    public function storeUserImage($imageBattlesData);
+    public function insertUserImageBattlesData($imageBattlesData);
 }

@@ -4,6 +4,7 @@ namespace App\Dal\Repositories;
 
 
 use App\Dal\Interfaces\IUsersRepository;
+use App\Models\Faq;
 use App\Models\LegacyUploads;
 use App\Models\Uploads;
 use App\Models\User;

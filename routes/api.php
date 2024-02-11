@@ -27,4 +27,5 @@ if(isNotProduction()) {
     Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
 }
 
-Route::post('create-image', [ImagesBattlesController::class, 'createImage']);
+Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);
+Route::get('get-image-battles-data', [ImagesBattlesController::class, 'getImageBattlesData']);

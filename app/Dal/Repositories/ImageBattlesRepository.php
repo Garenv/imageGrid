@@ -7,7 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class ImageBattlesRepository implements IImageBattlesRepository
 {
-    public function storeUserImage($imageBattlesData)
+    /**
+     * @param $imageBattlesData
+     * @return bool
+     */
+    public function insertUserImageBattlesData($imageBattlesData)
     {
         return DB::table('image_battles')->insert($imageBattlesData);
     }

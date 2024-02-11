@@ -60,19 +60,19 @@ class DalleService
             Storage::disk('s3')->put($path, $imageContent); // store the image in S3
 
             $imageBattlesData = [
+                'prompt' => $prompt,
                 'image_url' => $imageUrl,
-                'time_stamp' => $timeStamp,
-                'prompt' => $prompt
+                'time_stamp' => $timeStamp
             ];
 
-            $storeUserImage = $this->__imageBattlesRepository->storeUserImage($imageBattlesData);
+            $storeUserImage = $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesData);
 
             try {
                 if(!$storeUserImage) {
                     return response()->json(['message' => "Something went wrong!"], 422);
                 }
 
-                $key = 'image_battles_data:' . $imageBattlesData['time_stamp'];
+                $key = 'image_battles_data:' . $imageBattlesData['time_stamp']; // Need to append user Id instead
                 $jsonEncodedData = json_encode($imageBattlesData);
 
                 setRedisKey($key, $jsonEncodedData);
@@ -86,6 +86,12 @@ class DalleService
             Log::error($e->getMessage());
         }
 
+    }
+
+    public function getImageBattlesData()
+    {
+        $key = 'image_battles_data:';
+        $jsonString = getDataFromRedisKey($key);
     }
 
 }

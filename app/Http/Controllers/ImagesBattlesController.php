@@ -14,14 +14,16 @@ class ImagesBattlesController extends Controller
         $this->dalleService = $dalleService;
     }
 
-    public function createImage(Request $request)
+    public function generateImage(Request $request)
     {
         $prompt = $request->get('prompt');
 
         return $this->dalleService->generateImage($prompt);
     }
 
-
-
+    public function getImageBattlesData()
+    {
+        return $this->dalleService->getImageBattlesData();
+    }
 
 }

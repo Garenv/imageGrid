@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Agent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -10,13 +11,19 @@ function getS3PathForEnv() {
 
 function setRedisKey($key, $jsonEncodedData)
 {
-//    return config('app.env') === "local" || config('app.env') === "stage" ? config('app.aws_s3_path_stage') : config('app.aws_s3_path_prod');
+    Log::info("Setting Redis key: $key");
     Redis::connection(getSiteEnv())->set($key, $jsonEncodedData);
+    Log::info("Key set successfully.");
+}
+
+function getDataFromRedisKey($key)
+{
+    Log::info("Getting Redis key: $key");
+    return Redis::connection(getSiteEnv())->get($key);
 }
 
 function getUserIpAddr()
 {
-    $ipaddress = '';
     if (isset($_SERVER['HTTP_CLIENT_IP'])) $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
     else if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else if(isset($_SERVER['HTTP_X_FORWARDED'])) $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
