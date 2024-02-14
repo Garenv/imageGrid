@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,5 @@ if(isNotProduction()) {
     Route::delete('deleteUser/{email}', [UsersController::class, 'deleteUser']);
     Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
 }
+
+Route::get('getFaq', [FaqController::class, "getFaq"]);

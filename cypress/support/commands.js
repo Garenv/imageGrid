@@ -83,7 +83,69 @@ Cypress.Commands.add("isText", (locator, text) => {
 Cypress.Commands.add("isVisibleWithText", (locator, text) => {
     cy.get(locator).should('be.visible').then((element) => {
         expect(element.text()).equals(text);
+        expect(element)
     });
+})
+
+Cypress.Commands.add('isNotInViewport', element => {
+    cy.get(element).then($el => {
+        const window = Cypress.$(cy.state('window'))
+        const bottom = window.height()
+        const rect = $el[0].getBoundingClientRect()
+
+        expect((
+            rect.top >= -2 &&
+            rect.left >= 0 &&
+            rect.bottom <= bottom &&
+            rect.right <= window.width()
+        ), "View is within viewport").true
+        expect(rect.top).to.be.greaterThan(bottom)
+        expect(rect.bottom).to.be.greaterThan(bottom)
+        expect(rect.top).to.be.greaterThan(bottom)
+        expect(rect.bottom).to.be.greaterThan(bottom)
+    })
+})
+
+Cypress.Commands.add('isInViewport', element => {
+    cy.get(element).then($el => cy.isElementInViewport($el) )
+})
+
+Cypress.Commands.add('isElementInViewport', element => {
+    const window = Cypress.$(cy.state('window'))
+    const bottom = window.height()
+    const rect = element[0].getBoundingClientRect()
+
+    expect((
+        rect.top <= bottom &&
+        rect.bottom <= bottom &&
+        rect.left >= 0 &&
+        rect.right <= window.width()
+    ), "Content is within viewport").true
+})
+
+Cypress.Commands.add('checkDetails', (locator, expected) => {
+    let summary = expected.title
+    let content = expected.content
+
+    cy.get(locator).children('summary').children('span').first().then((element) => {
+        expect(element).to.exist
+        expect(element.text()).equals(summary)
+    })
+    let checkContent = function (isVisible, text) {
+        cy.get(locator)
+            .children('p')
+            .scrollIntoView()
+            .then(async ($el) => {
+                expect($el.get(0).checkVisibility(), "Is full content visible").equals(isVisible)
+                if(text === null) return
+                expect($el.text()).equals(content)
+                cy.isElementInViewport($el)
+            });
+    }
+
+    checkContent(false, null)
+    cy.get(locator).click()
+    checkContent(true, content)
 })
 
 Cypress.Commands.overwriteQuery('get', function (originalFn, ...args) {
