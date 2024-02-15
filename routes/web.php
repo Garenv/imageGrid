@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UsersController;
@@ -40,13 +41,7 @@ Route::get('/contact-us', function () {
     return view('contact-us');
 });
 
-Route::get('/faq', function () {
-   return view('faq');
-});
-
-Route::get('/get-faq', [ContactUsController::class, function() {
-    return DB::table('faq')->get();
-}]);
+Route::get('/faq', [FaqController::class, 'viewFaq']);
 
 Route::post('/submit-contact-form', [ContactUsController::class, 'submitContactUs']);
 

@@ -22,7 +22,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
         if(agreementCheck) {
             cy.get(agreementCheckSelector).click()
         }
-        return cy.get('register-button').click("top")
+        cy.get('register-button').click()
     };
 
     let name = "FakeUsername";
