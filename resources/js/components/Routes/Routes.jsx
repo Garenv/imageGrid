@@ -12,7 +12,7 @@ import PastUploads from "../Navbar/Items/PastUploads.jsx";
 import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 import Profile from "../Profile/Profile.jsx";
 import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
-import Main from "../ImagesBattles/Main.jsx";
+import Main from "../ImageBattles/Main.jsx";
 
 function AppRoutes() {
     return (

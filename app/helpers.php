@@ -16,9 +16,15 @@ function setRedisKey($key, $jsonEncodedData)
     Log::info("Key set successfully.");
 }
 
-function getDataFromRedisKey($key)
+function getRedisClient()
 {
-    Log::info("Getting Redis key: $key");
+    Log::info("Getting Redis client");
+    return Redis::connection(getSiteEnv())->client();
+}
+
+function getRedisKey($key)
+{
+    Log::info("Getting Redis client");
     return Redis::connection(getSiteEnv())->get($key);
 }
 

@@ -26,7 +26,7 @@ class DalleService
         $this->__imageBattlesRepository = $imageBattlesRepository;
     }
 
-    public function generateImage($prompt)
+    public function generateImage($prompt, $userId)
     {
         try {
 
@@ -62,7 +62,8 @@ class DalleService
             $imageBattlesData = [
                 'prompt' => $prompt,
                 'image_url' => $imageUrl,
-                'time_stamp' => $timeStamp
+                'time_stamp' => $timeStamp,
+                'UserID' => $userId
             ];
 
             $storeUserImage = $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesData);
@@ -72,12 +73,12 @@ class DalleService
                     return response()->json(['message' => "Something went wrong!"], 422);
                 }
 
-                $key = 'image_battles_data:' . $imageBattlesData['time_stamp']; // Need to append user Id instead
+                $key = 'image_battles_data:' . $userId;
                 $jsonEncodedData = json_encode($imageBattlesData);
 
                 setRedisKey($key, $jsonEncodedData);
             } catch (\Exception $e) {
-                Log::error("Redis Block => " . $e->getMessage());
+                Log::error("Redis Error: " . $e->getMessage());
             }
 
             return response()->json($imageBattlesData);
@@ -90,8 +91,37 @@ class DalleService
 
     public function getImageBattlesData()
     {
-        $key = 'image_battles_data:';
-        $jsonString = getDataFromRedisKey($key);
+        $images_battles_data = [];
+        $pattern = 'image_battles_data:*';
+
+        $client = getRedisClient();
+
+        $cursor = 0; // initial cursor value
+
+        do {
+            $result = $client->scan($cursor, 'MATCH', $pattern, 'COUNT', 1000);
+            $cursor = $result[0]; // update cursor position
+            $keys = $result[1]; // retrieved keys
+
+            foreach ($keys as $key) {
+                $data = getRedisKey($key);
+
+                if ($data) {
+                    $dataObject = json_decode($data);
+
+                    if (isset($dataObject)) {
+                        $images_battles_data[] = [
+                            "image_url" => $dataObject->image_url,
+                            "UserID" => $dataObject->UserID
+                        ];
+                    }
+
+                }
+            }
+
+        } while($cursor);
+
+        return response()->json(['images_battles_data' => $images_battles_data]);
     }
 
 }

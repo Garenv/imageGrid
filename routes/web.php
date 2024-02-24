@@ -54,13 +54,6 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
 
-Route::get('/grid',                                       [HomeController::class, 'index'])->middleware(['verified']);
-
-Route::get('/ads.txt',function(){
-    return view('ads');
-});
-
-
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsForThisWeek']);
     Route::post('/like',                                  [UsersController::class,      'handleLike']);
@@ -73,10 +66,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/hard-delete-profile',                 [UsersController::class,      'hardDeleteProfile']);
     Route::get('/get-user-data-for-chat-box',             [UsersController::class,      'getUserDataForChatBox']);
 
-
     Route::get('/{any?}', function () {
         return view('home');
     })->where('any', '.*');
+
+    Route::get('/{any?}',                                 [HomeController::class, 'index'])->middleware(['verified']);
 
     Route::post('/file-upload',                           [FileUploadController::class, 'fileUpload']);
     Route::delete('/delete-user-upload',                  [UsersController::class,      'deleteUserUpload']);

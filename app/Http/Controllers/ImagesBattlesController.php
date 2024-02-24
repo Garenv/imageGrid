@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\DalleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ImagesBattlesController extends Controller
 {
@@ -17,8 +18,9 @@ class ImagesBattlesController extends Controller
     public function generateImage(Request $request)
     {
         $prompt = $request->get('prompt');
+        $userId = $request->get('UserID');
 
-        return $this->dalleService->generateImage($prompt);
+        return $this->dalleService->generateImage($prompt, $userId);
     }
 
     public function getImageBattlesData()
