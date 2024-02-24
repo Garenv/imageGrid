@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -29,3 +30,4 @@ if(isNotProduction()) {
 
 Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);
 Route::get('get-image-battles-data', [ImagesBattlesController::class, 'getImageBattlesData']);
+Route::get('getFaq', [FaqController::class, "getFaq"]);

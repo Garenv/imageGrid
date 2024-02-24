@@ -23,5 +23,10 @@ declare namespace Cypress {
         containsText(locator: string, text: string): void;
         isText(locator: string, text: string): void;
         isVisibleWithText(locator: string, text: string): void;
+        isNotInViewport(locator: string): void;
+        isInViewport(locator: string): void;
+        isElementInViewport(element: JQuery<HTMLElement>): void;
+        checkDetails(locator: string, expected: { title: string, content: string }): void;
+        detailsSummaryIsVisible(detailsLocator: string): void;
     }
 }

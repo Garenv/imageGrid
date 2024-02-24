@@ -22,17 +22,9 @@
         5px 5px 0 grey; /* Multiple shadows for a thicker 3D effect */
 }
 
-.checkbox-container {
-    display: flex;
-    align-items: center; // This will vertically align the checkbox with the text
-}
-
-.align-checkbox {
-    margin-right: 0.5em; // Adjust the spacing between the checkbox and the label text
-}
-
-input#defaultCheck1 {
-    left: -0.3rem;
+/* Ensure the label is displayed inline with the checkbox */
+.form-check-label {
+    display: inline;
 }
 
 .loginRegisterSection .formContainer {
@@ -93,7 +85,14 @@ input#defaultCheck1 {
     color: #555;
 }
 
-.loginRegisterSection .user .formBx form input {
+.loginRegisterSection .user .formBx
+form
+input.login-email-input,
+input.login-password-input,
+input.name-input,
+input.register-email-input,
+input.register-password-input,
+input.password-confirm-input  {
     position: relative;
     width: 100%;
     padding: 10px;
@@ -108,7 +107,7 @@ input#defaultCheck1 {
     font-weight: 300;
 }
 
-.loginRegisterSection .user .formBx form input[type='submit'] {
+.loginRegisterSection .user .formBx input[type='submit'] {
     max-width: 100px;
     background: #677eff;
     color: #fff;
