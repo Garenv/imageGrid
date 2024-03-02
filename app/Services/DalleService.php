@@ -26,7 +26,7 @@ class DalleService
         $this->__imageBattlesRepository = $imageBattlesRepository;
     }
 
-    public function generateImage($prompt, $userId)
+    public function generateImage($prompt, $userId, $name)
     {
         try {
 
@@ -59,14 +59,22 @@ class DalleService
 
             Storage::disk('s3')->put($path, $imageContent); // store the image in S3
 
-            $imageBattlesData = [
+            $imageBattlesDataDb = [
                 'prompt' => $prompt,
                 'image_url' => $imageUrl,
                 'time_stamp' => $timeStamp,
-                'UserID' => $userId
+                'UserID' => $userId,
             ];
 
-            $storeUserImage = $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesData);
+            $imageBattlesDataRedis = [
+                'prompt' => $prompt,
+                'image_url' => $imageUrl,
+                'time_stamp' => $timeStamp,
+                'UserID' => $userId,
+                'name' => $name
+            ];
+
+            $storeUserImage = $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesDataDb);
 
             try {
                 if(!$storeUserImage) {
@@ -74,54 +82,18 @@ class DalleService
                 }
 
                 $key = 'image_battles_data:' . $userId;
-                $jsonEncodedData = json_encode($imageBattlesData);
+                $jsonEncodedRedisData = json_encode($imageBattlesDataRedis);
 
-                setRedisKey($key, $jsonEncodedData);
+                setRedisKey($key, $jsonEncodedRedisData);
             } catch (\Exception $e) {
                 Log::error("Redis Error: " . $e->getMessage());
             }
 
-            return response()->json($imageBattlesData);
+            return response()->json($imageBattlesDataDb);
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
 
     }
-
-    public function getImageBattlesData()
-    {
-        $images_battles_data = [];
-        $pattern = 'image_battles_data:*';
-
-        $client = getRedisClient();
-
-        $cursor = 0; // initial cursor value
-
-        do {
-            $result = $client->scan($cursor, 'MATCH', $pattern, 'COUNT', 1000);
-            $cursor = $result[0]; // update cursor position
-            $keys = $result[1]; // retrieved keys
-
-            foreach ($keys as $key) {
-                $data = getRedisKey($key);
-
-                if ($data) {
-                    $dataObject = json_decode($data);
-
-                    if (isset($dataObject)) {
-                        $images_battles_data[] = [
-                            "image_url" => $dataObject->image_url,
-                            "UserID" => $dataObject->UserID
-                        ];
-                    }
-
-                }
-            }
-
-        } while($cursor);
-
-        return response()->json(['images_battles_data' => $images_battles_data]);
-    }
-
 }

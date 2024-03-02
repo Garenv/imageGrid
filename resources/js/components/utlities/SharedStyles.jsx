@@ -1,4 +1,3 @@
-// sharedStyles.js
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useSharedStyles = makeStyles((theme) => ({
@@ -11,5 +10,12 @@ export const useSharedStyles = makeStyles((theme) => ({
     },
     modalDanger: {
         backgroundColor: '#FF0000'
+    },
+    middleOfScreen: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        minHeight: '100vh'
     }
 }));

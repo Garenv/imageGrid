@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import '../../../sass/imageBattles/imageBattles.scss';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import 'react-toastify/dist/ReactToastify.css';

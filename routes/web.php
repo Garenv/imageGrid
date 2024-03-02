@@ -75,12 +75,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-name',                           [UsersController::class,      'updateName']);
     Route::post('/upload-avatar-image',                   [FileUploadController::class, 'uploadAvatarImage']);
 });
-//Route::get('/get-user-like',                         [UsersController::class,      'getUserLikes']);
-//Route::get('/choose-winners',                        [WinnersController::class,    'getTopThreeWinnersFromUploadsTable']);
-//Route::get('/get-winners',                           [WinnersController::class,    'getTopThreeWinnersFromWinnersTable']);
-//Route::post('/dislike',                              [UsersController::class,      'handleDislike']);
-//Route::get('/get-data-from-userlikes-table',         [UsersController::class,      'getDataFromUserLikesTable']);
-//Route::get('/get-user-data',                         [UsersController::class,      'getUserData']);
-//Route::post('/update-password',                      [UsersController::class,      'changePassword']);
-//Route::post('/update-email',                         [UsersController::class,      'updateEmail']);
-//Route::post('/update-name',                          [UsersController::class,      'updateName']);
