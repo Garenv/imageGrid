@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dal\Interfaces\IImageBattlesRepository;
 use App\Dal\Repositories\ImageBattlesRepository;
+use App\Events\ImageBattlesAssetGeneratedEvent;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -58,6 +59,8 @@ class DalleService
             $path = getS3PathForEnv() . '/imageBattleUploads/' . $fileName;
 
             Storage::disk('s3')->put($path, $imageContent); // store the image in S3
+
+            event(new ImageBattlesAssetGeneratedEvent($imageUrl));
 
             $imageBattlesDataDb = [
                 'prompt' => $prompt,

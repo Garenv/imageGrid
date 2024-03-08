@@ -13,6 +13,7 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <script>
         let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};

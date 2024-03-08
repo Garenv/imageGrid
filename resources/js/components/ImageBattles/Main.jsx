@@ -1,14 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { useMutation, useQuery } from "react-query";
+import React, { useContext, useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import DynamicTextField from "../utlities/DynamicComponents/DynamicTextField.jsx";
 import DynamicButton from "../utlities/DynamicComponents/DynamicButton.jsx";
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
 import { Gallery } from "react-grid-gallery";
+import Pusher from "pusher-js";
+import '../../components/utlities/RealTime/Echo.jsx';
 
 const FormExample = () => {
     const [prompt, setPrompt] = useState(null);
+    const queryClient = useQueryClient();
     const userId = useContext(UserContext).userId;
     const name = useContext(UserContext).name;
 
@@ -19,14 +22,10 @@ const FormExample = () => {
                 "Authorization": `Bearer ${window.Laravel.apiToken}`,
                 "Content-Type": "application/json"
             }
-        }).then(resp => {
-            console.log(resp);
-        })
+        });
     });
 
     const clickButton = (prompt) => {
-
-        console.log("clicked", userId);
 
         generateImageMutate({
             "prompt" : prompt,
@@ -38,12 +37,26 @@ const FormExample = () => {
     const { isLoading: getImagesIsLoading, data: getImagesData, error: getImagesError } = useQuery('myData', () =>
         AxiosClient.get('api/get-users-image-battles-data')
             .then(resp => {
-                console.log("axios", resp.data);
                 return resp.data
             }).catch(err => {
                 console.log(err);
         })
     );
+
+    useEffect(() => {
+
+        Pusher.logToConsole = true;
+
+        const channel = window.Echo.channel('image-battles');
+
+        channel.listen('.image-battles-asset-generated', () => {
+            queryClient.invalidateQueries('myData');
+        });
+
+        return () => {
+            channel.unsubscribe();
+        }
+    }, [queryClient]);
 
     const handleChange = (event) => {
         setPrompt(event.target.value);
