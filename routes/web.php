@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\ImagesBattlesController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
@@ -50,28 +51,29 @@ Route::get('/privacy-policy', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get( '/get-user-uploads-data',                 [UsersController::class,      'getUserUploadsForThisWeek']);
-    Route::post('/like',                                  [UsersController::class,      'handleLike']);
-    Route::post('/dislike',                               [UsersController::class,      'handleDislike']);
-    Route::get('/get-users-past-uploads',                 [UsersController::class,      'getUsersPastUploads']);
-    Route::get('/get-this-weeks-winners',                 [WinnersController::class,    'getThisWeeksWinners']);
-    Route::get('/get-last-weeks-winners',                 [WinnersController::class,    'getLastWeeksWinners']);
-    Route::get('/get-profile-data',                       [UsersController::class,      'getProfileData']);
-    Route::get('/get-avatar-image',                       [FileUploadController::class, 'getAvatarImage']);
-    Route::delete('/hard-delete-profile',                 [UsersController::class,      'hardDeleteProfile']);
-    Route::get('/get-user-data-for-chat-box',             [UsersController::class,      'getUserDataForChatBox']);
+    Route::get( '/get-user-uploads-data',                 [UsersController::class,           'getUserUploadsForThisWeek']);
+    Route::post('/like',                                  [UsersController::class,           'handleLike']);
+    Route::post('/dislike',                               [UsersController::class,           'handleDislike']);
+    Route::get('/get-users-past-uploads',                 [UsersController::class,           'getUsersPastUploads']);
+    Route::get('/get-this-weeks-winners',                 [WinnersController::class,         'getThisWeeksWinners']);
+    Route::get('/get-last-weeks-winners',                 [WinnersController::class,         'getLastWeeksWinners']);
+    Route::get('/get-profile-data',                       [UsersController::class,           'getProfileData']);
+    Route::get('/get-avatar-image',                       [FileUploadController::class,      'getAvatarImage']);
+    Route::delete('/hard-delete-profile',                 [UsersController::class,           'hardDeleteProfile']);
+    Route::get('/get-user-data-for-chat-box',             [UsersController::class,           'getUserDataForChatBox']);
+    Route::get('/get-all-users-image-battles-data',       [ImagesBattlesController::class,   'getAllUsersImageBattlesData']);
+    Route::post('/up-vote',                               [ImagesBattlesController::class,   'upvote']);
 
     Route::get('/{any?}', function () {
         return view('home');
     })->where('any', '.*');
 
-    Route::get('/{any?}',                                 [HomeController::class, 'index'])->middleware(['verified']);
-
-    Route::post('/file-upload',                           [FileUploadController::class, 'fileUpload']);
-    Route::delete('/delete-user-upload',                  [UsersController::class,      'deleteUserUpload']);
-    Route::post('/support',                               [SupportController::class,    'support']);
-    Route::post('/update-password',                       [UsersController::class,      'updatePassword']);
-    Route::post('/update-email',                          [UsersController::class,      'updateEmail']);
-    Route::post('/update-name',                           [UsersController::class,      'updateName']);
-    Route::post('/upload-avatar-image',                   [FileUploadController::class, 'uploadAvatarImage']);
+    Route::get('/{any?}',                                 [HomeController::class,            'index'])->middleware(['verified']);
+    Route::delete('/delete-user-upload',                  [UsersController::class,           'deleteUserUpload']);
+    Route::post('/file-upload',                           [FileUploadController::class,      'fileUpload']);
+    Route::post('/support',                               [SupportController::class,         'support']);
+    Route::post('/update-password',                       [UsersController::class,           'updatePassword']);
+    Route::post('/update-email',                          [UsersController::class,           'updateEmail']);
+    Route::post('/update-name',                           [UsersController::class,           'updateName']);
+    Route::post('/upload-avatar-image',                   [FileUploadController::class,      'uploadAvatarImage']);
 });

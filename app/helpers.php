@@ -16,6 +16,25 @@ function setRedisKey($key, $jsonEncodedData)
     Log::info("Key set successfully.");
 }
 
+function setRedisHash($userId, $key, $value)
+{
+    Log::info("Setting Redis hash: key => $key value => $value");
+    Redis::connection(getSiteEnv())->hset("image_battles_data:$userId", $key, $value);
+    Log::info("Key set successfully.");
+}
+
+function setRedisHashTwo($userId, $key, $value)
+{
+    Log::info("Setting Redis hash: key => $key value => $value");
+    Redis::connection(getSiteEnv())->hset($key, $key, $value);
+    Log::info("Key set successfully.");
+}
+
+function isRedisHashKeySet($key, $upvoteField)
+{
+    return Redis::connection(getSiteEnv())->hget($key, $upvoteField);
+}
+
 function getRedisClient()
 {
     Log::info("Getting Redis client");
@@ -26,6 +45,16 @@ function getRedisKey($key)
 {
     Log::info("Getting Redis client");
     return Redis::connection(getSiteEnv())->get($key);
+}
+
+function getAllDataFromRedisHash($key)
+{
+    return Redis::connection(getSiteEnv())->hgetall($key);
+}
+
+function incrementRedisField($key, $totalVoteCountField, $count)
+{
+    return Redis::connection(getSiteEnv())->hincrby($key, $totalVoteCountField, $count);
 }
 
 function getUserIpAddr()

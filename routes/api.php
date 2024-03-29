@@ -29,5 +29,4 @@ if(isNotProduction()) {
 }
 
 Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);
-Route::get('get-users-image-battles-data', [ImagesBattlesController::class, 'getUsersImageBattlesData']);
 Route::get('getFaq', [FaqController::class, "getFaq"]);
