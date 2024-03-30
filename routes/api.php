@@ -5,6 +5,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImagesBattlesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,5 @@ if(isNotProduction()) {
     Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
 }
 
+Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);
 Route::get('getFaq', [FaqController::class, "getFaq"]);

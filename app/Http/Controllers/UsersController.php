@@ -290,4 +290,9 @@ class UsersController extends Controller
             return response()->json(['message' => 'Something went wrong!'], 500);
         }
     }
+
+    public function getUserDataForChatBox()
+    {
+        return $this->__usersRepository->getUserDataForChatBox();
+    }
 }

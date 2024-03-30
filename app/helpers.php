@@ -1,14 +1,64 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 function getS3PathForEnv() {
     return config('app.env') === "local" || config('app.env') === "stage" ? config('app.aws_s3_path_stage') : config('app.aws_s3_path_prod');
 }
 
+function setRedisKey($key, $jsonEncodedData)
+{
+    Log::info("Setting Redis key: $key");
+    Redis::connection(getSiteEnv())->set($key, $jsonEncodedData);
+    Log::info("Key set successfully.");
+}
+
+function setRedisHash($userId, $key, $value)
+{
+    Log::info("Setting Redis hash: key => $key value => $value");
+    Redis::connection(getSiteEnv())->hset("image_battles_data:$userId", $key, $value);
+    Log::info("Key set successfully.");
+}
+
+function setRedisHashTwo($userId, $key, $value)
+{
+    Log::info("Setting Redis hash: key => $key value => $value");
+    Redis::connection(getSiteEnv())->hset($key, $key, $value);
+    Log::info("Key set successfully.");
+}
+
+function isRedisHashKeySet($key, $upvoteField)
+{
+    return Redis::connection(getSiteEnv())->hget($key, $upvoteField);
+}
+
+function getRedisClient()
+{
+    Log::info("Getting Redis client");
+    return Redis::connection(getSiteEnv())->client();
+}
+
+function getRedisKey($key)
+{
+    Log::info("Getting Redis client");
+    return Redis::connection(getSiteEnv())->get($key);
+}
+
+function getAllDataFromRedisHash($key)
+{
+    return Redis::connection(getSiteEnv())->hgetall($key);
+}
+
+function incrementRedisField($key, $totalVoteCountField, $count)
+{
+    return Redis::connection(getSiteEnv())->hincrby($key, $totalVoteCountField, $count);
+}
+
 function getUserIpAddr()
 {
-    $ipaddress = '';
     if (isset($_SERVER['HTTP_CLIENT_IP'])) $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
     else if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else if(isset($_SERVER['HTTP_X_FORWARDED'])) $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
@@ -75,4 +125,9 @@ function getUserBrowserData()
         'browser' => $browser,
         'browser_version' => $browserVersion
     ];
+}
+
+function getAuthenticatedUser()
+{
+    return Auth::user();
 }

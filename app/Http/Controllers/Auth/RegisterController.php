@@ -118,7 +118,7 @@ class RegisterController extends Controller
                 'confirmed',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&:\[\]{}])[A-Za-z\d@$!%*#?&:\[\]{}]+$/'
             ],
-            'g-recaptcha-response' => ['required', new ReCaptchaV3('submitRegisterForm', 0.5)]
+            'g-recaptcha-response' => ['required', new ReCaptchaV3('submitRegisterForm', 0.1)]
             /*
                 Basic validation: Ensures that a valid code was provided by the browser through the recaptcha/api.js anti-bot mechanism.
                 'g-recaptcha-response' => ['required', new ReCaptchaV3()]
