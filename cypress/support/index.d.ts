@@ -8,17 +8,18 @@ declare namespace Cypress {
          * @param text
          */
         clearType(selector: string, text: string): Chainable<any>;
-
+        instantType(selector: string, text: string): Chainable<any>;
         /**
          * Creates a user.
          * @param name
          * @param email
          * @param password
-         * @param failOnStatusCode
+         * @param ip
          */
-        createUser(name: string, email: string, password: string, failOnStatusCode?: boolean): void;
+        createUser(name: string, email: string, password: string, ip?: string): void;
+        createDefaultUser(): void;
         deleteUser(email: string): void;
-        deleteAllUsers(email: string): void;
+        deleteAllUsers(): void;
 
         containsText(locator: string, text: string): void;
         isText(locator: string, text: string): void;

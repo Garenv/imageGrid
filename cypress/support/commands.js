@@ -33,7 +33,14 @@ Cypress.Commands.add("clearType", (selector, text) => {
     return cy.get(selector).clear()
 })
 
-Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = true) => {
+Cypress.Commands.add("instantType", (selector, text) => {
+    if(text) {
+        return cy.get(selector).invoke('val', text)
+    }
+    return cy.get(selector)
+})
+
+Cypress.Commands.add('createUser', (name, email, password, ip = "") => {
     if(email in users) { return }
 
     const newUser = {
@@ -44,11 +51,17 @@ Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = tr
         email_verified_at: "2023-12-29 21:53:59"
     };
 
+    if(ip !== "") { newUser["ip"] = ip }
+
     cy.request({ method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: false }).then((response) => {
         let isSuccessful = response.isOkStatusCode || response.status === 409
         expect(isSuccessful, "User created successfully or already exists").to.be.true
         users[email] = { name:password, email: email, password: password };
     });
+})
+
+Cypress.Commands.add('createDefaultUser', () => {
+    cy.createUser("FakeUsername", "ValidUsername@gmail.com", "GoodFakePassword@1234", "0.0.0.0")
 })
 
 Cypress.Commands.add('deleteUser', (email) => {
