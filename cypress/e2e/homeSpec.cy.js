@@ -94,7 +94,7 @@ describe("user visits the home page", () => {
             cy.visit("/")
         });
 
-        it.only("should redirect to the grid", () => {
+        it("should redirect to the grid", () => {
             cy.location("pathname").should('equal', "/grid")
         })
     });
