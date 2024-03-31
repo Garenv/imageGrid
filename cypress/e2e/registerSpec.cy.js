@@ -121,6 +121,7 @@ describe('user visits the registration page',  () => {
             let webhookToken = ""
             let newEmail = ""
             let webhookPath = "cypress/fixtures/local/webhookSite.json";
+            let username = "Webhook"
 
             before(() => {
                 cy.task('readFileMaybe', webhookPath).then((f) => {
@@ -162,6 +163,7 @@ describe('user visits the registration page',  () => {
                 }).then(updatedF => {
                     webhookToken = updatedF['uuid'];
                     newEmail = webhookToken + updatedF['domain'];
+                    cy.deleteUserByName(username);
                     cy.deleteUser(newEmail);
                     cy.deleteUser(takenEmail);
                 });
@@ -176,7 +178,7 @@ describe('user visits the registration page',  () => {
             }
 
             it("should redirect to confirm email page", () => {
-                attemptRegistration("Webhook", newEmail, password, password, true)
+                attemptRegistration(username, newEmail, password, password, true)
                 cy.location("pathname").should("eq", "/email/verify").then(() => {
                     cy.request({
                         method: 'GET',

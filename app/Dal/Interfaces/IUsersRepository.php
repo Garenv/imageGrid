@@ -16,7 +16,8 @@ interface IUsersRepository
     public function getUsersPastUploads($loggedInUserId);
     public function hardDeleteProfile();
     public function deleteUser($email);
-    public function deleteAllUsers();
+    public function deleteUserByName($name);
     public function getIpAddresses($ip);
     public function getUserDataForChatBox();
+    public function getUserData($email);
 }

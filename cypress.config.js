@@ -16,6 +16,7 @@ module.exports = {
         supportFile: './cypress/support/index.js',
         viewportWidth: 1366,
         viewportHeight: 768,
-        video: true
+        video: false,
+        specPattern: "./cypress/e2e/*.cy.js"
     },
 };

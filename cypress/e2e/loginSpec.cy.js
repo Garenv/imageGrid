@@ -106,7 +106,7 @@ describe('user visits the login page', { testIsolation: false }, () => {
                         expect(element.text()).eq(faker.email)
                     })
                 })
+            })
         })
-    })
     })
 })

@@ -19,7 +19,9 @@ declare namespace Cypress {
         createUser(name: string, email: string, password: string, ip?: string): void;
         createDefaultUser(): void;
         deleteUser(email: string): void;
-        deleteAllUsers(): void;
+        deleteUserByName(name: string): void;
+        login(email: string, password: string): void;
+        logout(): void;
 
         containsText(locator: string, text: string): void;
         isText(locator: string, text: string): void;

@@ -79,7 +79,7 @@ services:
         container_name: cypress
         depends_on:
             - phopixel.test
-        command: npx cypress run --browser chrome
+        command: npx cypress run
         volumes:
             - ./cypress:/cypress
             - ./cypress.config.js:/cypress.config.js

@@ -18,4 +18,5 @@ yarn-error.log
 cypress/screenshots
 cypress/fixtures/local
 cypress/videos
+cypress/downloads
 .env.local
