@@ -19,5 +19,4 @@ interface IUsersRepository
     public function deleteUserByName($name);
     public function getIpAddresses($ip);
     public function getUserDataForChatBox();
-    public function getUserData($email);
 }

@@ -115,11 +115,6 @@ class UsersRepository implements IUsersRepository
     {
         return User::select('UserID', 'name', 'email', 'avatarImage')->where('UserID', Auth::user()['UserID'])->get();
     }
-
-    public function getUserData($email)
-    {
-        return User::select('*')->where('email', $email);
-    }
 }
 
 
