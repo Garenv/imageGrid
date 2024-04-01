@@ -19,7 +19,6 @@ class ApiAuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        if(Auth::check()) response()->json(['message' => 'Logout unsuccessful'], 500);
         return response()->json(['message' => 'Logout successful']);
     }
 }
