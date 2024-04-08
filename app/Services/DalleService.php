@@ -36,6 +36,12 @@ class DalleService
 
             $getPromptCount = $this->__imageBattlesRepository->getPromptCount($userId);
 
+            // if the prompt is empty or if the prompt only contains whitespaces as a result of
+            // the user pressing the spacebar, then throw an error stating so
+            if(!$prompt || trim($prompt) === '')  {
+                return response()->json(['message' => 'The Prompt field must not be empty!'], 400);
+            }
+
             if(is_null($getPromptCount) || $getPromptCount->prompt_count < 2) {
 
                 $response = Http::withHeaders([
@@ -116,7 +122,6 @@ class DalleService
             }
 
             return response()->json(['message' => 'You can only enter two prompts every 24hrs!'], 400);
-
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());

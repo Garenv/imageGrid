@@ -1,18 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
+import { useSharedStyles } from "../utlities/SharedStyles.jsx";
 import DynamicTextField from "../utlities/DynamicComponents/DynamicTextField.jsx";
 import DynamicButton from "../utlities/DynamicComponents/DynamicButton.jsx";
 import LoadingSpinner from "../utlities/LoadingSpinner/LoadingSpinner.jsx";
+import '../../components/utlities/RealTime/Echo.jsx';
 import '../../../sass/imageBattles/imageBattles.scss';
 import UserContext from "../UserContext.jsx";
 import AxiosClient from "../utlities/AxiosClient.jsx";
-import '../../components/utlities/RealTime/Echo.jsx';
 import Button from "@mui/material/Button";
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import SouthWestIcon from '@mui/icons-material/SouthWest';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 const onBoardingStyles = {
     position: 'absolute',
@@ -32,10 +35,12 @@ const FormExample = () => {
     const [prompt, setPrompt] = useState('');
     const [flash, setFlash] = useState(false);
     const [open, setOpen] = useState(false);
+    const [minimizePromptField, setMinimizePromptField] = useState(false);
     const queryClient = useQueryClient();
     const handleClose = () => setOpen(false);
     const userId = useContext(UserContext).userId;
     const name = useContext(UserContext).name;
+    const sharedClasses = useSharedStyles();
 
     // generate image
     const { mutate: generateImageMutate, isLoading: generateImageLoading, data: generateImageData, error: generateImageError } = useMutation(data => {
@@ -138,7 +143,7 @@ const FormExample = () => {
                     setFlash(true);
 
                     // automatically update the UI in terms of the UI updating
-                    // upon the use upvoting an asset... simple and clean.
+                    // upon the use upvoting an asset... simple and clean like Kingdom Hearts.
                     queryClient.invalidateQueries('myData');
 
                     toast.success(resp.data.message, {
@@ -159,6 +164,10 @@ const FormExample = () => {
                 }
         });
     };
+
+    const minimizeField = () => {
+        setMinimizePromptField(!minimizePromptField);
+    }
 
     return (
         <>
@@ -196,12 +205,11 @@ const FormExample = () => {
 
             { generateImageLoading ? <LoadingSpinner/> : generateImageError ?
                 <div>Error: {generateImageError.message}</div> : null }
-
             {
-                getImagesData && getImagesData.map((item) => {
-                    return (
+                Array.isArray(getImagesData) && getImagesData.length > 0 ? (
+                    getImagesData.map((item) => (
                         <>
-                            <div className="images-battles-grid-container card-container">
+                            <div className="card-container image-battles-grid-container">
                                 <div className="card">
                                     <div className="card-image">
                                         <img src={item.image_url} alt="User Images"/>
@@ -219,33 +227,43 @@ const FormExample = () => {
                                 </div>
                             </div>
                         </>
-                    )
-                })
+                    ))
+                ) : (
+                    <h1 className={sharedClasses.centered}>No images, yet. Be the first to generate an image!</h1>
+                )
             }
 
-            <div className="p-3 bg-light">
-                <form noValidate autoComplete="off">
-                    <DynamicTextField
-                        id="my-textfield"
-                        label="Enter your prompt!"
-                        variant="outlined"
-                        onChange={handleChange}
-                        fullWidth
-                        margin="normal"
-                        inputProps={{
-                            maxLength: 312
-                        }}
-                        error={maxPromptLengthError}
-                        helperText={maxPromptLengthError ? `Maximum ${maxPromptLength} characters allowed.` : `${maxPromptLength - prompt.length} characters left`}
-                    />
-                </form>
-                <DynamicButton
-                    variant="contained"
-                    onClick={() => generateImageButton(prompt)}
-                >
-                    Submit
-                </DynamicButton>
-            </div>
+            {
+                !minimizePromptField ?
+                    <div className={`p-3 bg-dark-subtle fixed-bottom ${minimizePromptField ? `d-none` : `display-block`}`}>
+                        <div className="minimize-icon">
+                            <SouthWestIcon onClick={() => minimizeField()}/>
+                        </div>
+                        <form noValidate autoComplete="off">
+                            <DynamicTextField
+                                id="my-textfield"
+                                label="Enter your prompt!"
+                                variant="outlined"
+                                onChange={handleChange}
+                                fullWidth
+                                margin="normal"
+                                inputProps={{
+                                    maxLength: 312
+                                }}
+                                error={maxPromptLengthError}
+                                helperText={maxPromptLengthError ? `Maximum ${maxPromptLength} characters allowed.` : `${maxPromptLength - prompt.length} characters left`}
+                            />
+                        </form>
+                        <DynamicButton
+                            variant="contained"
+                            onClick={() => generateImageButton(prompt)}
+                        >
+                            Submit
+                        </DynamicButton>
+                    </div>
+                    :
+                <EditNoteIcon onClick={() => minimizeField()} />
+            }
         </>
     );
 };
