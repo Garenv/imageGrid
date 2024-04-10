@@ -96,15 +96,16 @@ const FormExample = () => {
         // not to be used in prod
         // Pusher.logToConsole = true;
 
-        const channel = window.Echo.channel('image-battles');
+        const subscribeToChannel = async () => {
+            const channel = window.Echo.channel('image-battles');
 
-        channel.listen('.image-battles-asset-generated', () => {
-            queryClient.invalidateQueries('myData');
-        });
-
-        return () => {
-            channel.unsubscribe();
+            await channel.listen('.image-battles-asset-generated', () => {
+                queryClient.invalidateQueries('myData');
+            });
         }
+
+        subscribeToChannel();
+
     }, [queryClient]);
 
     const handleChange = (event) => {
@@ -142,8 +143,9 @@ const FormExample = () => {
                 if(resp.status === 200) {
                     setFlash(true);
 
-                    // automatically update the UI in terms of the UI updating
-                    // upon the use upvoting an asset... simple and clean like Kingdom Hearts.
+                    // automatically update the UI
+                    // upon the use upvoting an asset
+                    // simple and clean like Kingdom Hearts
                     queryClient.invalidateQueries('myData');
 
                     toast.success(resp.data.message, {

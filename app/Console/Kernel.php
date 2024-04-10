@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
                 return Carbon::now()->weekOfYear % 2 == 1; // or == 0 depending on the week you want to start
             });
         $schedule->command('cron:weekly-winners')->timezone('America/New_York')->weekly()->appendOutputTo('storage/logs/scheduler.log');
-        $schedule->command('cron:image-battles-daily-winners')->timezone('America/New_York')->weekly()->appendOutputTo('storage/logs/imageBattles.log');
+        $schedule->command('cron:image-battles-daily-winners')->timezone('America/New_York')->daily()->appendOutputTo('storage/logs/imageBattles.log');
     }
 
     /**
