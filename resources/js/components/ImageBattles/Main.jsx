@@ -72,13 +72,16 @@ const FormExample = () => {
         });
     });
 
-    const { isLoading: getImagesIsLoading, data: getImagesData, error: getImagesError } = useQuery('myData', () =>
+    const { data: getImagesData} = useQuery('myData', () =>
         AxiosClient.get('get-all-users-image-battles-data')
             .then(resp => {
                 return resp.data;
             }).catch(err => {
                 console.log(err);
-        })
+        }),
+        {
+            refetchOnWindowFocus: false // ensures that data doesn't automatically refetch every time you switch back to the tab, thus preventing unnecessary API calls
+        }
     );
 
     useEffect(() => {
