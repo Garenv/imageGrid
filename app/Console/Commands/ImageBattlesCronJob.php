@@ -27,7 +27,7 @@ class ImageBattlesCronJob extends Command
      *
      * @var string
      */
-    protected $signature = 'cron:image-battles-cron-job';
+    protected $signature = 'cron:image-battles-daily-winners';
 
     /**
      * The console command description.
