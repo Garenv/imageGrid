@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="userInfo" content="{{ $userId ?? "" }}">
+    <meta name="userName" content="{{ $name ?? "" }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -12,9 +13,17 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
     <script>
         let APP_URL = {!! \Psy\Util\Json::encode(url('/')) !!};
+    </script>
+
+    <script>
+        // Define global config object
+        window.Laravel = {!! json_encode([
+            'apiToken' => config('app.dalle_api_key'),
+        ]) !!};
     </script>
 
     <style>
@@ -35,6 +44,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/loginPage.scss', 'resources/sass/support/support.scss'])
 </head>
 <body>
+
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="display: none;">
             <div class="container">

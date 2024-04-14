@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use App\Dal\Interfaces\IImageBattlesRepository;
 use App\Dal\Interfaces\IUploadsRepository;
 use App\Dal\Interfaces\IUsersRepository;
 use App\Dal\Interfaces\IWinnersRepository;
+use App\Dal\Repositories\ImageBattlesRepository;
+use App\Dal\Interfaces\IFaqRepository;
+use App\Dal\Repositories\FaqRepository;
 use App\Dal\Repositories\UploadsRepository;
 use App\Dal\Repositories\UsersRepository;
 use App\Dal\Repositories\WinnersRepository;
@@ -16,5 +20,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(IUploadsRepository::class,UploadsRepository::class);
         $this->app->bind(IUsersRepository::class,UsersRepository::class);
         $this->app->bind(IWinnersRepository::class,WinnersRepository::class);
+        $this->app->bind(IImageBattlesRepository::class,ImageBattlesRepository::class);
+        $this->app->bind(IFaqRepository::class, FaqRepository::class);
     }
 }

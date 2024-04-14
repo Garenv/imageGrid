@@ -4,6 +4,7 @@ namespace App\Dal\Repositories;
 
 
 use App\Dal\Interfaces\IUsersRepository;
+use App\Models\Faq;
 use App\Models\LegacyUploads;
 use App\Models\Uploads;
 use App\Models\User;
@@ -108,6 +109,11 @@ class UsersRepository implements IUsersRepository
     public function deleteAllUsers()
     {
         return DB::table('users')->delete();
+    }
+
+    public function getUserDataForChatBox()
+    {
+        return User::select('UserID', 'name', 'email', 'avatarImage')->where('UserID', Auth::user()['UserID'])->get();
     }
 }
 

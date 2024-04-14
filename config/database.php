@@ -121,30 +121,38 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
         ],
 
-        'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
+        'local' => [
+            'url' => env('REDIS_LOCAL_URL'),
+            'host' => env('REDIS_LOCAL_HOST', '127.0.0.1'),
+            'username' => env('REDIS_LOCAL_USERNAME'),
+            'password' => env('REDIS_LOCAL_PASSWORD'),
+            'port' => env('REDIS_LOCAL_PORT', '6379'),
+            'database' => env('REDIS_LOCAL_DB', '0'),
         ],
 
-        'cache' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
+        'stage' => [
+            'url' => env('REDIS_STAGE_URL'),
+            'host' => env('REDIS_STAGE_HOST', '127.0.0.1'),
+            'username' => env('REDIS_STAGE_USERNAME'),
+            'password' => env('REDIS_STAGE_PASSWORD'),
+            'port' => env('REDIS_STAGE_PORT', '6379'),
+            'database' => env('REDIS_STAGE_DB', '0'),
         ],
+
+        'prod' => [
+            'url' => env('REDIS_PROD_URL'),
+            'host' => env('REDIS_PROD_HOST', '127.0.0.1'),
+            'username' => env('REDIS_PROD_USERNAME'),
+            'password' => env('REDIS_PROD)PASSWORD'),
+            'port' => env('REDIS_PROD_PORT', '6379'),
+            'database' => env('REDIS_PROD_DB', '0'),
+        ]
 
     ],
 
