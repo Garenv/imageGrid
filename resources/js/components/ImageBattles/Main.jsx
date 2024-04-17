@@ -216,8 +216,8 @@ const FormExample = () => {
                         <>
                             <div className="card-container image-battles-grid-container">
                                 <div className="card">
-                                    <div className="card-image">
-                                        <img src={item.image_url} alt="User Images"/>
+                                    <div className="container-fluid">
+                                        <img src={item.image_url} className="img-fluid" alt="User Images"/>
                                     </div>
                                     <div className="card-content">
                                         <h1 className="newColor">{item.name}</h1>
