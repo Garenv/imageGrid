@@ -64,10 +64,6 @@ class FileUploadController extends Controller
             if (empty($checkIfUserHasUploaded)) {
                 Storage::disk('s3')->put($pathWithImageName, file_get_contents($file));
 
-                if(!isUserOnMobile()) {
-                    return response()->json(['message' => 'You may only upload from a mobile device!'], 400);
-                }
-
                 if($this->__uploadsRepository->insertUserUploadedAsset($data)['status'] === 400) {
                     return response()->json(['message' => 'Upload limit has been reached for this week!'], 400);
                 }
