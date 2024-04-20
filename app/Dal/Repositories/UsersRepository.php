@@ -106,9 +106,9 @@ class UsersRepository implements IUsersRepository
         return DB::table('users')->where('email', $email)->delete();
     }
 
-    public function deleteAllUsers()
+    public function deleteUserByName($name)
     {
-        return DB::table('users')->delete();
+        return DB::table('users')->where('name', $name)->delete();
     }
 
     public function getUserDataForChatBox()

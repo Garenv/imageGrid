@@ -267,10 +267,10 @@ class UsersController extends Controller
         });
     }
 
-    public function deleteAllUsers()
+    public function deleteUserByName($name)
     {
-        return $this->performHardDeletion(function () {
-            return $this->__usersRepository->deleteAllUsers();
+        return $this->performHardDeletion(function () use (&$name) {
+            return $this->__usersRepository->deleteUserByName($name);
         });
     }
 

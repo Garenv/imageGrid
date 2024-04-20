@@ -17,4 +17,6 @@ yarn-error.log
 /.vscode
 cypress/screenshots
 cypress/fixtures/local
+cypress/videos
+cypress/downloads
 .env.local

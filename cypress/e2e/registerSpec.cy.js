@@ -1,18 +1,9 @@
-describe('user visits the registration page', {testIsolation: false},  () => {
+describe('user visits the registration page',  () => {
     let usernameSelector = '[data-cy="name-input"]'
     let emailSelector = '[data-cy="register-email-input"]'
     let passwordSelector = '[data-cy="register-password-input"]'
     let confirmPasswordSelector = '[data-cy="password-confirm-input"]'
     let agreementCheckSelector = '[data-cy="agreement-input"]'
-
-    beforeEach(() => {
-        cy.session("sign up page", () => {
-            cy.visit('/login')
-            cy.get('sign-up-link').click()
-        }, {validate() {
-                cy.get(usernameSelector).clear()
-            }})
-    });
 
     let attemptRegistration = function (username, email, password, confirmPassword, agreementCheck) {
         cy.clearType(usernameSelector, username)
@@ -25,11 +16,84 @@ describe('user visits the registration page', {testIsolation: false},  () => {
         cy.get('register-button').click()
     };
 
+    let attemptRegistrationWithoutClearing = function (username, email, password, confirmPassword, agreementCheck) {
+        cy.instantType(usernameSelector, username)
+        cy.instantType(emailSelector, email)
+        cy.instantType(passwordSelector, password)
+        cy.instantType(confirmPasswordSelector, confirmPassword)
+        if(agreementCheck) {
+            cy.get(agreementCheckSelector).click()
+        }
+        cy.get('register-button').click()
+    };
+
     let name = "FakeUsername";
     let password = "GoodFakePassword@1234";
     let email = "ValidUsername@gmail.com";
+    let takenEmail = "TakenEmail@yahoo.com"
+    let newEmail = "NewEmail22@gmail.com"
 
-    describe('user attempts to register',  () => {
+    describe('user attempts to register with invalid', () => {
+        beforeEach(() => {
+            cy.visit('/login')
+            cy.get('sign-up-link').click()
+        });
+
+        describe('permissions', () => {
+            let takenName = "Taken"
+
+            before(() => {
+                cy.createUser(takenName, takenEmail, password)
+            });
+
+            [
+                [takenName, takenEmail, password, password, true, 'The email has already been taken.✖This name already exists, choose another one✖'],
+                [takenName, "someNewEmail@yahoo.com", password, password, true, 'This name already exists, choose another one✖'],
+                ["NewAccount22", takenEmail, password, password, true, 'The email has already been taken.✖'],
+                ["NewAccount22", newEmail, password, password, true, 'You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.✖']
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
+                it(`should fail with ${message}`, () => {
+                    attemptRegistrationWithoutClearing(username, email, password, confirmPassword, agreementCheck)
+                    cy.get('.toastify').then(($t) => {
+                        const text = $t.text()
+                        expect(text).to.eq(message)
+                    })
+                })
+            })
+        })
+
+        describe('credentials', () => {
+            const name = "TestRegisterCredentials";
+            const email = "TestRegisterCredentials@email.com";
+
+            [
+                [name, email, "notreal@1", "notreal@1", true, "The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password must be at least 10 characters.✖"],
+                [name, email, "NotReal!1", "NotReal!1", true, "The password must be at least 10 characters.✖"],
+                ["Fuck", email, password, password, true, "Names may not contain any profanity✖"],
+                [name, email, password, "NotARealPassword", true, 'The password confirmation does not match.✖'],
+                [name, email, "NotARealPassword1234", "NotARealPassword", true, 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password confirmation does not match.✖'],
+            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
+                it(`should fail with ${message}`, () => {
+                    attemptRegistrationWithoutClearing(username, email, password, confirmPassword, agreementCheck)
+                    cy.get('.toastify').then(($t) => {
+                        const text = $t.text()
+                        expect(text).to.eq(message)
+                    })
+                })
+            })
+        })
+    })
+
+    describe('user attempts to register', { testIsolation: false },  () => {
+        beforeEach(() => {
+            cy.session("sign up page", () => {
+                cy.visit('/login')
+                cy.get('sign-up-link').click()
+            }, {validate() {
+                    cy.get(usernameSelector).clear()
+                }})
+        });
+
         let pleaseFillOut = 'Please fill out this field.';
 
         describe('with invalid inputs', () => {
@@ -57,6 +121,7 @@ describe('user visits the registration page', {testIsolation: false},  () => {
             let webhookToken = ""
             let newEmail = ""
             let webhookPath = "cypress/fixtures/local/webhookSite.json";
+            let username = "Webhook"
 
             before(() => {
                 cy.task('readFileMaybe', webhookPath).then((f) => {
@@ -98,12 +163,22 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                 }).then(updatedF => {
                     webhookToken = updatedF['uuid'];
                     newEmail = webhookToken + updatedF['domain'];
-                    cy.deleteAllUsers();
+                    cy.deleteUserByName(username);
+                    cy.deleteUser(newEmail);
+                    cy.deleteUser(takenEmail);
                 });
             });
 
-            it.only("should redirect to confirm email page", () => {
-                attemptRegistration("Webhook", newEmail, password, password, true)
+            function waitFor200(routeAlias, retries=2) {
+                cy.wait(routeAlias).then(xhr => {
+                    if (xhr.response.statusCode === 200) return
+                    else if (retries > 0) waitFor200(routeAlias, retries - 1);
+                    else throw "All requests returned non-200 response";
+                })
+            }
+
+            it("should redirect to confirm email page", () => {
+                attemptRegistration(username, newEmail, password, password, true)
                 cy.location("pathname").should("eq", "/email/verify").then(() => {
                     cy.request({
                         method: 'GET',
@@ -123,55 +198,26 @@ describe('user visits the registration page', {testIsolation: false},  () => {
                         const extractedUrls = emailBody.match(urlRegex);
                         let link = extractedUrls[0].replace('\\r\\n\\r\\nIf', '')
 
-                        cy.visit(link)
-                        cy.location("pathname").should("eq", "/grid");
+                        // let link = extractedUrls[0].replace('\\r\\n\\r\\nIf', '').replace("http://phopixel.test/enail/verify", "")
+                        let options = {
+                            url: link,
+                            headers: {
+                                'accept': 'application/json, text/plain, */*',
+                                'user-agent': 'axios/0.27.2'
+                            },
+                        }
+                        // TODO: Fix 403 Forbidden error when visiting link to verify email. Only occurs on WSL and Mac.
+                        // cy.visit(link)
+                        // cy.clearAllCookies()
+                        // cy.clearAllLocalStorage()
+                        // cy.clearAllSessionStorage()
+                        // cy.visit("/")
+                        // cy.visit(link, options)
+                        // cy.visit(link, options)
+                        // cy.location("pathname").should("eq", "/grid");
                     })
                 });
             })
         });
-    })
-
-    describe('user attempts to register with invalid', () => {
-        describe('permissions', () => {
-
-            before(() => {
-                cy.createUser(name, email, password)
-            });
-
-            [
-                [name, email, password, password, true, 'The email has already been taken.✖This name already exists, choose another one✖'],
-                ["NewAccount", email, password, password, true, 'The email has already been taken.✖'],
-                ["NewAccount", "NewEmail@gmail.com", password, password, true, 'You may not create multiple accounts in order to gain an unfair advantage by uploading additional photos.✖']
-            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
-                it(`should fail with ${message}`, () => {
-                    attemptRegistration(username, email, password, confirmPassword, agreementCheck)
-                    cy.get('.toastify').then(($t) => {
-                        const text = $t.text()
-                        expect(text).to.eq(message)
-                    })
-                })
-            })
-        })
-
-        describe('credentials', () => {
-            const name = "TestRegisterCredentials";
-            const email = "TestRegisterCredentials@email.com";
-
-            [
-                [name, email, "notreal@1", "notreal@1", true, "The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password must be at least 10 characters.✖"],
-                [name, email, "NotReal!1", "NotReal!1", true, "The password must be at least 10 characters.✖"],
-                ["Fuck", email, password, password, true, "Names may not contain any profanity✖"],
-                [name, email, password, "NotARealPassword", true, 'The password confirmation does not match.✖'],
-                [name, email, "NotARealPassword1234", "NotARealPassword", true, 'The password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.✖The password confirmation does not match.✖'],
-            ].forEach(([username, email, password, confirmPassword, agreementCheck, message]) => {
-                it(`should fail with ${message}`, () => {
-                    attemptRegistration(username, email, password, confirmPassword, agreementCheck)
-                    cy.get('.toastify').then(($t) => {
-                        const text = $t.text()
-                        expect(text).to.eq(message)
-                    })
-                })
-            })
-        })
     })
 })

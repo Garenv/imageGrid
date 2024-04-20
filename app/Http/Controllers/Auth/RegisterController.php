@@ -171,7 +171,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'UserID' => 'u-' . Str::uuid()->toString(),
                 'password' => Hash::make($data['registerPassword']),
-                'ip' =>  getUserIpAddr(),
+                'ip' =>  $data["ip"] ?? getUserIpAddr(),
                 'countryName' => $locationData->countryName,
                 'countryCode' => $locationData->countryCode,
                 'regionCode' => $locationData->regionCode,

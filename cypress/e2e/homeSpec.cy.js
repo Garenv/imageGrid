@@ -87,11 +87,15 @@ describe("user visits the home page", () => {
         });
     });
 
-
-
     context(`user is logged in`, () => {
         before(() => {
-           cy.login()
+            cy.createDefaultUser()
+            cy.login("ValidUsername@gmail.com", "GoodFakePassword@1234")
+            cy.visit("/")
         });
+
+        it("should redirect to the grid", () => {
+            cy.location("pathname").should('equal', "/grid")
+        })
     });
 })
