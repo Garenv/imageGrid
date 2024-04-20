@@ -83,8 +83,6 @@ const ImageGrid = () => {
                     closeButton: false,
                     autoClose: 1000
                 });
-
-                throw new Error('Upload failed');
             }
         }
     };
