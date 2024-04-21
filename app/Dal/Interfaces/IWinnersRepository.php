@@ -13,4 +13,6 @@ interface IWinnersRepository
     public function getThisWeeksWinners($loggedInUserId);
 
     public function getLastWeeksWinners();
+
+    public function insertIntoLegacyWinnersTable($legacyWinnersInsertionData);
 }

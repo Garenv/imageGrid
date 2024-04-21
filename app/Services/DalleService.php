@@ -83,7 +83,7 @@ class DalleService
 
                 event(new ImageBattlesAssetGeneratedEvent($imageUrl));
 
-                $imageBattlesDataForNewDbInseration = [
+                $imageBattlesDataForNewDbInsertion = [
                     'UserID' => $userId,
                     'asset_id' => $assetId,
                     'image_url' => $s3Url,
@@ -112,12 +112,12 @@ class DalleService
                 }
 
                 try {
-                    $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesDataForNewDbInseration);
+                    $this->__imageBattlesRepository->insertUserImageBattlesData($imageBattlesDataForNewDbInsertion);
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
 
-                return response()->json($imageBattlesDataForNewDbInseration);
+                return response()->json($imageBattlesDataForNewDbInsertion);
 
             }
 

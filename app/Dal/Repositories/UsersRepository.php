@@ -5,7 +5,7 @@ namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IUsersRepository;
 use App\Models\Faq;
-use App\Models\LegacyUploads;
+use App\Models\LegacyGrid;
 use App\Models\Uploads;
 use App\Models\User;
 use App\Models\UserLikes;
@@ -89,7 +89,7 @@ class UsersRepository implements IUsersRepository
 
     public function getUsersPastUploads($loggedInUserId)
     {
-        return LegacyUploads::select('url', 'likes')->where('UserID', '=', $loggedInUserId)->get();
+        return LegacyGrid::select('url', 'likes')->where('UserID', '=', $loggedInUserId)->get();
     }
 
     public function getIpAddresses($ip)

@@ -22,6 +22,8 @@ class LegacyWinners extends Model
         'email',
         'place',
         'likes',
+        'votes',
+        'activity',
         'winnerId',
         'url',
         'prizeId',

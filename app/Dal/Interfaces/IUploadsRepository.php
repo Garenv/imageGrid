@@ -13,5 +13,7 @@ interface IUploadsRepository
     public function getAvatarImage($userId);
 
     public function insertUserUploadedAsset($data);
+
+    public function getAllLikes();
 }
 
