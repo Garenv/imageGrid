@@ -3,6 +3,7 @@
 namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IWinnersRepository;
+use App\Models\LegacyWinners;
 use App\Models\Prizes;
 use App\Models\Winners;
 use Illuminate\Support\Facades\DB;
@@ -19,14 +20,16 @@ class WinnersRepository implements IWinnersRepository
 
     public function getTopThreeWinnersFromUploadsTable()
     {
-        // Assuming you are using Carbon for date manipulation
-        $startOfSunday = Carbon::now('America/New_York')->startOfWeek()->subDay(); // This gets the date for Sunday this week at 12:00 AM EST
-        $endOfSunday = $startOfSunday->copy()->addWeek()->subSecond(); // This gets the date for the following Sunday at 11:59 PM EST
+        // set the start of the week to Sunday 12:01 AM
+        $startOfSunday = Carbon::now('America/New_York')->startOfWeek(Carbon::SUNDAY)->addMinute();
+
+        // set the end of the week to Saturday 11:59 PM
+        $endOfSaturday = $startOfSunday->copy()->addWeek()->subMinute();
 
         return DB::table('uploads')
             ->select('users.name', 'uploads.likes', 'uploads.url', 'uploads.UserID', 'users.email', 'uploads.timestamp')
             ->join('users', 'users.UserID', '=', 'uploads.UserID')
-            ->whereBetween('uploads.timestamp', [$startOfSunday, $endOfSunday]) // Adjusted to the new time range
+            ->whereBetween('uploads.timestamp', [$startOfSunday, $endOfSaturday])
             ->orderBy('uploads.likes', 'desc')
             ->limit(3)
             ->get();
@@ -51,6 +54,11 @@ class WinnersRepository implements IWinnersRepository
 
     public function getThisWeeksWinners($loggedInUserId) {
         return Winners::select('place', 'url')->where('UserID', $loggedInUserId)->first();
+    }
+
+    public function insertIntoLegacyWinnersTable($legacyWinnersInsertionData)
+    {
+        LegacyWinners::create($legacyWinnersInsertionData);
     }
 
 }

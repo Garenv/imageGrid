@@ -3,7 +3,7 @@
 namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IUploadsRepository;
-use App\Models\LegacyUploads;
+use App\Models\LegacyGrid;
 use App\Models\Uploads;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -32,11 +32,18 @@ class UploadsRepository implements IUploadsRepository
     public function insertUserUploadedAsset($data) {
         if(Uploads::count() < 200) {
             Uploads::create($data);
-            LegacyUploads::create($data);
+            LegacyGrid::create($data);
 
             return ['status' => 200];
         }
 
         return ['status' => 400];
     }
+
+    public function getAllLikes()
+    {
+        return Uploads::select('likes')->get();
+    }
+
+
 }
