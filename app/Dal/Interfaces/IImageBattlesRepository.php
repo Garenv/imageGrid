@@ -4,7 +4,7 @@ namespace App\Dal\Interfaces;
 
 interface IImageBattlesRepository
 {
-    public function insertUserImageBattlesData($imageBattlesData);
+    public function insertUserImageBattlesData($imageBattlesDataForNewDbInsertion);
 
     public function getAllUsersImageBattlesData($loggedInUserId);
 
@@ -20,4 +20,7 @@ interface IImageBattlesRepository
 
     public function updateUserImageBattlesData($loggedInUserId, $imageBattlesDataToUpdate);
 
+    public function getAllTotalVoteCounts();
+
+    public function truncateImageBattlesTable();
 }

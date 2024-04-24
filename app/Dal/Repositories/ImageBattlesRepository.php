@@ -9,12 +9,28 @@ use Illuminate\Support\Facades\DB;
 class ImageBattlesRepository implements IImageBattlesRepository
 {
     /**
-     * @param $imageBattlesData
+     * @param $imageBattlesDataForNewDbInsertion
      * @return bool
      */
-    public function insertUserImageBattlesData($imageBattlesData): bool
+    public function insertUserImageBattlesData($imageBattlesDataForNewDbInsertion): bool
     {
-        return DB::table('image_battles')->insert($imageBattlesData);
+        $legacyData = $imageBattlesDataForNewDbInsertion;
+
+        unset($legacyData['total_vote_count']);
+        unset($legacyData['prompt_count']);
+
+        $imageBattlesTableInsertion = DB::table('image_battles')->insert($imageBattlesDataForNewDbInsertion);
+
+        $legacyImageBattlesTableInsertion = DB::table('legacy_image_battles')->insert($legacyData);
+
+        if($imageBattlesTableInsertion && $legacyImageBattlesTableInsertion) {
+            DB::commit();
+
+            return true;
+        }
+
+        return false;
+
     }
 
     /**
@@ -83,6 +99,16 @@ class ImageBattlesRepository implements IImageBattlesRepository
     public function updateUserImageBattlesData($loggedInUserId, $imageBattlesDataToUpdate)
     {
         return DB::table('image_battles')->where('UserID', $loggedInUserId)->update($imageBattlesDataToUpdate);
+    }
+
+    public function getAllTotalVoteCounts()
+    {
+        return DB::table('image_battles')->select('total_vote_count')->get();
+    }
+
+    public function truncateImageBattlesTable()
+    {
+        return DB::table('image_battles')->truncate();
     }
 
 }

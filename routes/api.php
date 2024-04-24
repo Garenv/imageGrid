@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\UsersController;
@@ -23,9 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 if(isNotProduction()) {
+    Route::get('logout', [ApiAuthController::class, 'logout']);
+    Route::post('login', [ApiAuthController::class, 'login']);
     Route::post('createUser', [RegisterController::class, 'createUser']);
     Route::delete('deleteUser/{email}', [UsersController::class, 'deleteUser']);
-    Route::delete('deleteAllUsers', [UsersController::class, 'deleteAllUsers']);
+    Route::delete('deleteUserByName/{name}', [UsersController::class, 'deleteUserByName']);
 }
 
 Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);

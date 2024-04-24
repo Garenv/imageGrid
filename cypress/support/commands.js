@@ -33,7 +33,14 @@ Cypress.Commands.add("clearType", (selector, text) => {
     return cy.get(selector).clear()
 })
 
-Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = true) => {
+Cypress.Commands.add("instantType", (selector, text) => {
+    if(text) {
+        return cy.get(selector).invoke('val', text)
+    }
+    return cy.get(selector)
+})
+
+Cypress.Commands.add('createUser', (name, email, password, ip = "") => {
     if(email in users) { return }
 
     const newUser = {
@@ -44,6 +51,8 @@ Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = tr
         email_verified_at: "2023-12-29 21:53:59"
     };
 
+    if(ip !== "") { newUser["ip"] = ip }
+
     cy.request({ method:'POST', url:'/api/createUser', body:newUser, failOnStatusCode: false }).then((response) => {
         let isSuccessful = response.isOkStatusCode || response.status === 409
         expect(isSuccessful, "User created successfully or already exists").to.be.true
@@ -51,20 +60,37 @@ Cypress.Commands.add('createUser', (name, email, password, failOnStatusCode = tr
     });
 })
 
+Cypress.Commands.add('createDefaultUser', () => {
+    cy.createUser("FakeUsername", "ValidUsername@gmail.com", "GoodFakePassword@1234", "0.0.0.0")
+})
+
+Cypress.Commands.add('login', (email, password) => {
+    cy.request( { method: 'POST', url: `/api/login`, body: { email: email, password: password }, failOnStatusCode: false } ).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
+        expect(isSuccessful, "User is logged in. Status Code: " + response.status).true
+    })
+})
+
+Cypress.Commands.add('logout', () => {
+    cy.request( { method: 'GET', url: '/api/logout', failOnStatusCode: false } ).then((response) => {
+        let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
+        expect(isSuccessful, "Log out is successful. Status Code: " + response.status).true
+    })
+})
+
 Cypress.Commands.add('deleteUser', (email) => {
     cy.log("Delete user with email: " + email)
     cy.request({ method:'DELETE', url:`/api/deleteUser/${email}`, failOnStatusCode: false } ).then((response) => {
         let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
-        expect(isSuccessful, "User deleted successfully or does not exist")
-        if(email in users) { delete users[email] }
+        expect(isSuccessful, "User is deleted. Status Code: " + response.status).true
     });
 })
 
-Cypress.Commands.add('deleteAllUsers', () => {
-    cy.request({ method:'DELETE', url:`/api/deleteAllUsers`, failOnStatusCode: false } ).then((response) => {
+Cypress.Commands.add('deleteUserByName', (name) => {
+    cy.log("Delete user with email: " + name)
+    cy.request({ method:'DELETE', url:`/api/deleteUserByName/${name}`, failOnStatusCode: false } ).then((response) => {
         let isSuccessful = response.isOkStatusCode || response.status === 405 || response.status === 422
-        expect(isSuccessful, "Users deleted successfully or is empty")
-        users = {}
+        expect(isSuccessful, "User is deleted. Status Code: " + response.status).true
     });
 })
 

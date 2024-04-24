@@ -74,6 +74,17 @@ services:
             - 'sail-redis:/data'
         networks:
             - sail
+    e2e:
+        image: cypress/included:13.7.1
+        container_name: cypress
+        depends_on:
+            - phopixel.test
+        command: npx cypress run
+        volumes:
+            - ./cypress:/cypress
+            - ./cypress.config.js:/cypress.config.js
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
@@ -83,4 +94,6 @@ volumes:
     sail-mysql:
         driver: local
     sail-redis:
+        driver: local
+    sail-cypress:
         driver: local

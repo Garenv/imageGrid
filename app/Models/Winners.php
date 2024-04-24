@@ -20,6 +20,9 @@ class Winners extends Model
     protected $fillable = [
         'UserID',
         'email',
+        'likes',
+        'votes',
+        'activity',
         'place',
         'likes',
         'winnerId',
