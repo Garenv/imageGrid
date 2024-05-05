@@ -13,7 +13,7 @@
         </nav>
 
         @if (Route::has('login'))
-            <a data-cy="about-us-navbar" href="{{ url('/grid') }}" class="get-started-btn">Get Started</a>
+            <a data-cy="about-us-navbar" href="{{ url('/image-battles') }}" class="get-started-btn">Get Started</a>
         @endif
 
     </div>
