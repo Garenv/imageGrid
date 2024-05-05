@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\FaqController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +31,3 @@ if(isNotProduction()) {
 }
 
 Route::post('generate-image', [ImagesBattlesController::class, 'generateImage']);
-Route::get('getFaq', [FaqController::class, "getFaq"]);
