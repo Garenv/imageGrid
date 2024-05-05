@@ -29,7 +29,7 @@ Route::get('/check-session', [HomeController::class, 'checkSession']);
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('/grid');
+        return redirect('/image-battles');
     }
     return view('welcome');
 });

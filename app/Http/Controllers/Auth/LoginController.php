@@ -32,7 +32,7 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            return redirect('/grid');
+            return redirect('/image-battles');
         }
 
         return view('auth.login');

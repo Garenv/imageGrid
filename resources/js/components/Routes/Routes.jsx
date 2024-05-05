@@ -13,6 +13,7 @@ import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 import Profile from "../Profile/Profile.jsx";
 import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
 import Main from "../ImageBattles/Main.jsx";
+import NotFound from "../utlities/NotFound.jsx";
 
 function AppRoutes() {
     return (
@@ -20,17 +21,20 @@ function AppRoutes() {
             <Navbar/>
             <Routes>
                 <Route element={<ProtectedRoute/>}>
-                    <Route path="/grid" element={<ImageGrid/>} />
+                    {/*<Route path="/image-battles" element={<ImageGrid/>} />*/}
+                    <Route path="/image-battles" element={<Main/>} />
                     <Route path="/support" element={<Support/>} />
                     <Route path="/settings" element={<Settings/>} />
                     <Route path="/update-password" element={<UpdatePassword/>} />
                     <Route path="/update-email" element={<UpdateEmail/>} />
                     <Route path="/update-name" element={<UpdateName/>} />
-                    <Route path="/past-uploads" element={<PastUploads/>} />
+                    {/*<Route path="/past-uploads" element={<PastUploads/>} />*/}
+                    {/* work on past-images */}
+                    {/*<Route path="/past-images" element={<PastUploads/>} />*/}
                     <Route path="/prize-status" element={<PrizeStatus/>} />
                     <Route path="/profile" element={<Profile/>} />
-                    <Route path="/last-weeks-winners" element={<LastWeeksWinners/>} />
-                    <Route path="/image-battles" element={<Main/>} />
+                    {/*<Route path="/last-weeks-winners" element={<LastWeeksWinners/>} />*/}
+                    <Route path="*" element={<NotFound/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
