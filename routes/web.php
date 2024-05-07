@@ -42,7 +42,9 @@ Route::get('/contact-us', function () {
     return view('contact-us');
 });
 
-Route::get('/faq', [FaqController::class, 'viewFaq']);
+Route::get('/faq', function () {
+    return view('faq');
+});
 
 Route::post('/submit-contact-form', [ContactUsController::class, 'submitContactUs']);
 
