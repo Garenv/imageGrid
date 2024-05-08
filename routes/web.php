@@ -29,7 +29,7 @@ Route::get('/check-session', [HomeController::class, 'checkSession']);
 
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect('/grid');
+        return redirect('/image-battles');
     }
     return view('welcome');
 });
@@ -42,7 +42,9 @@ Route::get('/contact-us', function () {
     return view('contact-us');
 });
 
-Route::get('/faq', [FaqController::class, 'viewFaq']);
+Route::get('/faq', function () {
+    return view('faq');
+});
 
 Route::post('/submit-contact-form', [ContactUsController::class, 'submitContactUs']);
 

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Dal\Interfaces\IUploadsRepository;
 use App\Dal\Interfaces\IWinnersRepository;
+use App\Enums\Activity;
 use App\Mail\WeeklyWinners;
 use App\Models\LastWeeksWinners;
 use App\Models\LegacyWinners;
@@ -16,14 +18,23 @@ use Illuminate\Support\Str;
 class WinnersService
 {
 
+    /**
+     * @var IWinnersRepository
+     */
     protected $__winnersRepository;
+
+    /**
+     * @var IUploadsRepository
+     */
+    protected $__uploadsRepository;
 
     /**
      * @param IWinnersRepository $winnersRepository
      */
-    public function __construct(IWinnersRepository $winnersRepository)
+    public function __construct(IWinnersRepository $winnersRepository, IUploadsRepository $uploadsRepository)
     {
         $this->__winnersRepository = $winnersRepository;
+        $this->__uploadsRepository = $uploadsRepository;
     }
 
     public function weeklyWinners()
@@ -31,6 +42,28 @@ class WinnersService
         try {
             // Get top three winners by joining uploads and users tables
             $topThreeWinners = $this->__winnersRepository->getTopThreeWinnersFromUploadsTable();
+
+            // Get all likes from the uploads table
+            $getAllTotalLikes = $this->__uploadsRepository->getAllLikes();
+
+            if($topThreeWinners->isEmpty()) {
+                Log::channel('grid')->error('No uploads this week');
+
+                return false;
+            }
+
+            // check if all uploads have 0 likes
+            $getAllZeroCount = $getAllTotalLikes->every(function ($item) {
+                return $item->likes === 0;
+            });
+
+            if($getAllZeroCount) {
+                Log::channel('grid')->error('All assets have 0 likes... no winner will be chosen this week.Truncating the uploads table to make way for the next batch of user generated assets.');
+
+                Uploads::truncate();
+
+                return false;
+            }
 
             // Get prize data
             $prizesData = $this->__winnersRepository->getPrizeData();
@@ -96,38 +129,41 @@ class WinnersService
 
             $winnersDataFirstPlace = [
                 'UserID' => $firstPlaceUserId,
+                'name' => $firstPlaceName,
                 'email' => $firstPlaceEmail,
+                'activity' => Activity::Grid->value,
                 'place' => "1st Place",
                 'likes' => $firstPlaceLikes,
                 'winnerId' => $firstPlaceWinnerId,
                 'url' => $firstPlaceUrl,
                 'prizeId' => $firstPlacePrizeId,
                 'timeStamp' => $timeStamp,
-                'name' => $firstPlaceName
             ];
 
             $winnersDataSecondPlace = [
                 'UserID' => $secondPlaceUserId,
+                'name' => $secondPlaceName,
                 'email' => $secondPlaceEmail,
+                'activity' => Activity::Grid->value,
                 'place' => "2nd Place",
                 'likes' => $secondPlaceLikes,
                 'winnerId' => $secondPlaceWinnerId,
                 'url' => $secondPlaceUrl,
                 'prizeId' => $secondPlacePrizeId,
                 'timeStamp' => $timeStamp,
-                'name' => $secondPlaceName
             ];
 
             $winnersDataThirdPlace = [
                 'UserID' => $thirdPlaceUserId,
+                'name' => $thirdPlaceName,
                 'email' => $thirdPlaceEmail,
+                'activity' => Activity::Grid->value,
                 'place' => "3rd Place",
                 'likes' => $thirdPlaceLikes,
                 'winnerId' => $thirdPlaceWinnerId,
                 'url' => $thirdPlaceUrl,
                 'prizeId' => $thirdPlacePrizeId,
                 'timeStamp' => $timeStamp,
-                'name' => $thirdPlaceName
             ];
 
             // store them in winners table
