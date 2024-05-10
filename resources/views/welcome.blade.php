@@ -77,7 +77,7 @@
             <div data-cy="win-prize-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="ri-gift-2-line text-black"></i>
-                    <h3 class="text-white">Be On Front Page</h3><h1> > </h1>
+                    <h3 class="text-white">Get Featured In Hall Of Fame</h3><h1> > </h1>
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@
                 <div data-cy="phopixel-description" class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
                     <h3>What is Phopixel?</h3>
                     <p>
-                        Phopixel is the first website that ensures a fair and amiable opportunity for all to compete for the front page based on how well liked their generated images are.
+                        Phopixel is the first website that ensures a fair and amiable opportunity for all to compete for the hall of fame based on how well liked their generated images are.
                         <br>
                         <br>
                         Here are a few things to note:
@@ -104,7 +104,7 @@
                     <ul>
                         <li><i class="ri-check-double-line"></i>Available worldwide</li>
                         <li><i class="ri-check-double-line"></i>It's free to join and participate</li>
-                        <li><i class="ri-check-double-line"></i>Rankings of most liked images are determined each week and reset each week</li>
+                        <li><i class="ri-check-double-line"></i>Rankings of most upvoted images are determined each week and reset each week</li>
                         <li><i class="ri-check-double-line"></i>Inappropriate prompts are not allowed and will be rejected by the algorithm</li>
                         <li><i class="ri-check-double-line"></i>You may only generate an image once a day</li>
                         <li><i class="ri-check-double-line"></i>Visit the <a data-cy="faq-description-link" href="/faq">FAQ</a> section for more info!</li>
@@ -144,37 +144,36 @@
     </section><!-- End Features Section -->
 
     <!-- ======= Services Section ======= -->
-    <section id="prizes" class="services">
-        <div class="container" data-aos="fade-up">
+{{--    <section id="prizes" class="services">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
 
-            <div class="section-title">
-                <p data-cy="prizes-text" class="text-center">Be featured on the front page!</p>
-            </div>
+{{--            <div class="section-title">--}}
+{{--                <p data-cy="prizes-text" class="text-center">Be featured on the front page!</p>--}}
+{{--            </div>--}}
 
-            <div class="row">
+{{--            <div class="row">--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/50_visa_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/50_visa_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/25_amazon_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/25_amazon_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/10_walmart_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/10_walmart_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </section><!-- End Services Section -->
-    <h1 class="text-center pb-5">And more...</h1>
+{{--    </section><!-- End Services Section -->--}}
+{{--    <h1 class="text-center pb-5">And more...</h1>--}}
 
 
 <!-- ======= Footer ======= -->
