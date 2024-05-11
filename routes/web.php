@@ -52,6 +52,8 @@ Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
 
+Route::get('/hall-of-fame', [ImagesBattlesController::class, 'hallOfFame']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get( '/get-user-uploads-data',                 [UsersController::class,           'getUserUploadsForThisWeek']);
     Route::post('/like',                                  [UsersController::class,           'handleLike']);
@@ -65,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-user-data-for-chat-box',             [UsersController::class,           'getUserDataForChatBox']);
     Route::get('/get-all-users-image-battles-data',       [ImagesBattlesController::class,   'getAllUsersImageBattlesData']);
     Route::post('/up-vote',                               [ImagesBattlesController::class,   'upvote']);
+    Route::get('/get-your-past-images',                   [ImagesBattlesController::class,   'getYourPastImages']);
 
     Route::get('/{any?}', function () {
         return view('home');
