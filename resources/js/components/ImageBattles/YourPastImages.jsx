@@ -18,7 +18,9 @@ async function getYourPastImages() {
 
 const YourPastImages = () => {
 
-    const { isLoading, error, data } = useQuery('getYourPastImages', getYourPastImages);
+    const { isLoading, error, data } = useQuery('getYourPastImages', getYourPastImages, {
+        refetchOnWindowFocus: false
+    });
 
     if (error) {
         return toast.error("An error has occurred!", {
