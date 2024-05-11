@@ -97,13 +97,41 @@ class ImagesBattlesController extends Controller
                 return response()->json(['message' => 'Your vote has been casted!']);
             }
 
-            return response()->json(['message' => 'Your vote has been casted!'], 400);
+            return response()->json(['message' => 'Something went wrong!'], 400);
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
 
+    }
 
+    public function hallOfFame() {
+
+        try {
+
+            $hallOfFameInductees = $this->__imageBattlesRepository->getHallOfFameInductees();
+
+            return view('imageBattles.hall-of-fame', compact('hallOfFameInductees'));
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+    }
+
+    public function getYourPastImages()
+    {
+        try {
+
+            $loggedInUserId = getAuthenticatedUser()['UserID'];
+
+
+            return $this->__imageBattlesRepository->getYourPastImages($loggedInUserId);
+
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
 }

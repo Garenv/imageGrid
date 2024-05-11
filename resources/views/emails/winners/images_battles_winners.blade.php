@@ -343,8 +343,7 @@
                                                                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" align="center">
                                                                             <tr>
                                                                                 <td valign="top" class="pc-font-alt pc-w620-fontSize-16 pc-w620-lineHeight-26" align="center" style="mso-line-height: exactly;line-height: 156%;letter-spacing: -0.2px;font-family: Fira Sans, Arial, Helvetica, sans-serif;font-size: 18px;font-weight: 300;color: #ffffff;text-align: center;text-align-last: center;font-variant-ligatures: normal;">
-                                                                                    Be on the lookout for your prize.
-                                                                                    <br/>We'll email it to you within one business day!</td>
+                                                                                    You'll be featured in our hall of fame!
                                                                             </tr>
                                                                         </table>
                                                                     </td>

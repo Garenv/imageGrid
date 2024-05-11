@@ -120,7 +120,6 @@ const ImageGrid = () => {
             refetchOnMount: false,
 
             onSuccess: (response) => {
-                // console.log(response, "onSuccess()");
 
                 if(response.data.sorted) {
                     toast.success(response.data.message, {
@@ -132,7 +131,6 @@ const ImageGrid = () => {
             },
 
             onError: (error) => {
-                // console.log(error, "onError()");
 
                 toast.error(error.response.data.message, {
                     closeOnClick: false,

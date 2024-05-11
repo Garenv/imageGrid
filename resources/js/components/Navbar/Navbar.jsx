@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = () => {
-    const pages = ['Your Past Uploads', "Last Week's Winners", 'Prize Status', 'Image Battles', 'Support'];
+    // const pages = ['Your Past Generated Images', 'Support'];
+    const pages = ['Your Past Images', 'Support'];
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -84,22 +85,22 @@ const Navbar = () => {
     };
 
     const handleNavigation = () => {
-        navigate('/grid');
+        navigate('/image-battles');
         setAnchorElUser(null);
     };
 
     const pageSelection = (page) => {
         switch (page) {
-            case "Your Past Uploads":
-                return "/past-uploads";
-            case "Prize Status":
-                return "/prize-status"
+            case "Your Past Images":
+                return "/your-past-images";
+            // case "Prize Status":
+            //     return "/prize-status"
             case "Support":
                 return "/support"
-            case "Last Week's Winners":
-                return "/last-weeks-winners"
-            case "Image Battles":
-                return "/image-battles"
+            // case "Last Week's Winners":
+            //     return "/last-weeks-winners"
+            // case "Image Battles":
+            //     return "/image-battles"
             default:
                 return "Not Found";
         }
