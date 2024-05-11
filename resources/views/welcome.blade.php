@@ -7,7 +7,7 @@
 
     <title>Phopixel</title>
     <meta content="og:title" name="Phopixel">
-    <meta property="og:description" content="Win prizes based on the number of likes on your photo">
+    <meta property="og:description" content="Be featured on the front page with the most upvoted generated image">
     <meta name="google-adsense-account" content="ca-pub-7469058557975267">
 
     <!-- Favicons -->
@@ -38,8 +38,8 @@
 
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
             <div class="col-xl-6 col-lg-8">
-                <h1 data-cy="description-1">Win prizes for uploading appealing photos</h1>
-                <h2 data-cy="description-2">The first website ever to award prizes contingent on how well-liked photos are</h2>
+                <h1 data-cy="description-1">Generate unique images with text prompts</h1>
+                <h2 data-cy="description-2">Share the generated images with your friends and gain the most likes to be featured on the front page</h2>
             </div>
             <br>
         </div>
@@ -62,25 +62,25 @@
             <div data-cy="image-grid-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="ri-bar-chart-box-line text-black"></i>
-                    <h3 class="text-white">Image Grid</h3><h1> > </h1>
+                    <h3 class="text-white">Describe Your Image</h3><h1> > </h1>
                 </div>
             </div>
             <div data-cy="upload-photo-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="bi-camera text-black"></i>
-                    <h3 class="text-white">Upload Photo</h3><h1> > </h1>
+                    <h3 class="text-white">Click Submit</h3><h1> > </h1>
                 </div>
             </div>
             <div data-cy="gain-likes-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="bi-hand-thumbs-up text-black"></i>
-                    <h3 class="text-white">Gain Likes</h3><h1> > </h1>
+                    <h3 class="text-white">Gain Upvotes</h3><h1> > </h1>
                 </div>
             </div>
             <div data-cy="win-prize-icon" class="col-xl-2 col-md-4">
                 <div class="icon-box">
                     <i class="ri-gift-2-line text-black"></i>
-                    <h3 class="text-white">Win Prize</h3><h1> > </h1>
+                    <h3 class="text-white">Get Featured In Hall Of Fame</h3><h1> > </h1>
                 </div>
             </div>
         </div>
@@ -99,8 +99,7 @@
                 <div data-cy="phopixel-description" class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
                     <h3>What is Phopixel?</h3>
                     <p>
-                        Phopixel is the first website that ensures a fair and amiable opportunity for all to win prizes, determined entirely by the attractiveness of the photos you upload.
-                        The goal of Phopixel is to give something back to the world in a fair, concise and honest way
+                        Phopixel is the first website that ensures a fair and amiable opportunity for all to compete for the hall of fame based on how well liked their generated images are.
                         <br>
                         <br>
                         Here are a few things to note:
@@ -108,9 +107,9 @@
                     <ul>
                         <li><i class="ri-check-double-line"></i>Available worldwide</li>
                         <li><i class="ri-check-double-line"></i>It's free to join and participate</li>
-                        <li><i class="ri-check-double-line"></i>Prizes are given out weekly to the top 3 like amounts for that week</li>
-                        <li><i class="ri-check-double-line"></i>Inappropriate photos aren't allowed and will automatically be rejected by the system upon uploading</li>
-                        <li><i class="ri-check-double-line"></i>You may only upload one photo per week</li>
+                        <li><i class="ri-check-double-line"></i>Rankings of most upvoted images are determined each week and reset each week</li>
+                        <li><i class="ri-check-double-line"></i>Inappropriate prompts are not allowed and will be rejected by the algorithm</li>
+                        <li><i class="ri-check-double-line"></i>You may only generate an image once a day</li>
                         <li><i class="ri-check-double-line"></i>Visit the <a data-cy="faq-description-link" href="/faq">FAQ</a> section for more info!</li>
                     </ul>
 
@@ -128,8 +127,8 @@
                 <div data-cy="engineering-description" class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
                     <div class="icon-box mt-5 mt-lg-0" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-check-shield text-black"></i>
-                        <h4>Integrity</h4>
-                        <p>We utilize both AI and ML, specifically through deep learning models, to analyze and identify elements within images to ensure nothing inappropriate gets uploaded ranging from thirst trap photos to violence to hate and much more</p>
+                        <h4>Engineering</h4>
+                        <p>Explore the frontiers of creativity by harnessing the power of AI-driven image synthesis. Input your vision and watch as cutting-edge algorithms bring your vision into reality!</p>
                     </div>
                     <div data-cy="engineering-description2" class="icon-box mt-5" data-aos="zoom-in" data-aos-delay="150">
                         <i class="bx bx-user text-black"></i>
@@ -148,37 +147,36 @@
     </section><!-- End Features Section -->
 
     <!-- ======= Services Section ======= -->
-    <section id="prizes" class="services">
-        <div class="container" data-aos="fade-up">
+{{--    <section id="prizes" class="services">--}}
+{{--        <div class="container" data-aos="fade-up">--}}
 
-            <div class="section-title">
-                <p data-cy="prizes-text" class="text-center">Here are some of the many prizes you could win!</p>
-            </div>
+{{--            <div class="section-title">--}}
+{{--                <p data-cy="prizes-text" class="text-center">Be featured on the front page!</p>--}}
+{{--            </div>--}}
 
-            <div class="row">
+{{--            <div class="row">--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/50_visa_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/50_visa_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/25_amazon_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/25_amazon_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
+{{--                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">--}}
+{{--                    <div class="icon-box">--}}
+{{--                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/10_walmart_gc.jpg" class="img-fluid" alt="">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="icon-box">
-                        <img src="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/giftCards/10_walmart_gc.jpg" class="img-fluid" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </section><!-- End Services Section -->
-    <h1 class="text-center pb-5">And more...</h1>
+{{--    </section><!-- End Services Section -->--}}
+{{--    <h1 class="text-center pb-5">And more...</h1>--}}
 
 
 <!-- ======= Footer ======= -->
