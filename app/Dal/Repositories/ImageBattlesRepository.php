@@ -3,6 +3,8 @@
 namespace App\Dal\Repositories;
 
 use App\Dal\Interfaces\IImageBattlesRepository;
+use App\Models\LegacyImageBattles;
+use App\Models\LegacyWinners;
 use App\Models\UserVotes;
 use Illuminate\Support\Facades\DB;
 
@@ -109,6 +111,16 @@ class ImageBattlesRepository implements IImageBattlesRepository
     public function truncateImageBattlesTable()
     {
         return DB::table('image_battles')->truncate();
+    }
+
+    public function getHallOfFameInductees()
+    {
+        return LegacyWinners::all();
+    }
+
+    public function getYourPastImages($loggedInUserId)
+    {
+        return LegacyImageBattles::where('UserID', $loggedInUserId)->get();
     }
 
 }

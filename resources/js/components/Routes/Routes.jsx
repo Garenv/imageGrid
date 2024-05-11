@@ -1,19 +1,33 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
-import ImageGrid from "../ImageGrid/ImageGrid.jsx";
+// import ImageGrid from "../ImageGrid/ImageGrid.jsx";
 import Support from "../Navbar/Items/Support.jsx";
 import Navbar from "../Navbar/Navbar.jsx";
 import Settings from "../Navbar/Settings/Settings.jsx";
 import UpdatePassword from "../Navbar/Settings/Update/UpdatePassword.jsx";
 import UpdateEmail from "../Navbar/Settings/Update/UpdateEmail.jsx";
 import UpdateName from "../Navbar/Settings/Update/UpdateName.jsx";
-import PastUploads from "../Navbar/Items/PastUploads.jsx";
+// import PastUploads from "../Navbar/Items/PastUploads.jsx";
 import PrizeStatus from "../Navbar/Items/PrizeStatus.jsx";
 import Profile from "../Profile/Profile.jsx";
-import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
+// import LastWeeksWinners from "../Navbar/Items/LastWeeksWinners.jsx";
 import Main from "../ImageBattles/Main.jsx";
 import NotFound from "../utlities/NotFound.jsx";
+import YourPastImages from "../ImageBattles/YourPastImages.jsx";
+
+// .grid {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Creates as many 150px columns as can fit in the container */
+//     grid-gap: 10px; /* Space between grid items */
+//     padding: 10px; /* Padding around the grid */
+// }
+//
+// .grid-item img {
+//     width: 100%; /* Makes image fully responsive within the container */
+//     height: auto; /* Maintain aspect ratio */
+//     display: block; /* Remove any extra space below the image */
+// }
 
 function AppRoutes() {
     return (
@@ -33,6 +47,7 @@ function AppRoutes() {
                     {/*<Route path="/past-images" element={<PastUploads/>} />*/}
                     <Route path="/prize-status" element={<PrizeStatus/>} />
                     <Route path="/profile" element={<Profile/>} />
+                    <Route path="/your-past-images" element={<YourPastImages/>} />
                     {/*<Route path="/last-weeks-winners" element={<LastWeeksWinners/>} />*/}
                     <Route path="*" element={<NotFound/>} />
                 </Route>

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
     // const pages = ['Your Past Generated Images', 'Support'];
-    const pages = ['Past Images', 'Support'];
+    const pages = ['Your Past Images', 'Support'];
 
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -91,8 +91,8 @@ const Navbar = () => {
 
     const pageSelection = (page) => {
         switch (page) {
-            case "Past Images":
-                return "/past-images";
+            case "Your Past Images":
+                return "/your-past-images";
             // case "Prize Status":
             //     return "/prize-status"
             case "Support":

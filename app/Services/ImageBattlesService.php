@@ -72,6 +72,7 @@ class ImageBattlesService
                 "UserID" => $selectDailyWinners->UserID,
                 "name" => $selectDailyWinners->name,
                 "activity" => Activity::ImageBattles->value,
+                "prompt" => $selectDailyWinners->prompt,
                 "place" => '1st Place',
                 "votes" => $selectDailyWinners->total_vote_count,
                 "winnerId" => 'w-' . Str::uuid()->toString(),

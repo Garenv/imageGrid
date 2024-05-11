@@ -23,4 +23,8 @@ interface IImageBattlesRepository
     public function getAllTotalVoteCounts();
 
     public function truncateImageBattlesTable();
+
+    public function getHallOfFameInductees();
+
+    public function getYourPastImages($loggedInUserId);
 }

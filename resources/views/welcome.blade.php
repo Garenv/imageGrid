@@ -41,11 +41,14 @@
                 <h1 data-cy="description-1">Generate unique images with text prompts</h1>
                 <h2 data-cy="description-2">Share the generated images with your friends and gain the most likes to be featured on the front page</h2>
             </div>
-
-{{--            <div class="col-xl-6 col-lg-8">--}}
-{{--                <svg class="image col-lg-6" style='background-image: url("https://phopixel.s3.amazonaws.com/landingPage/park_pictures.png"); background-size: 150% 150%;' data-aos="fade-right"></svg>--}}
-{{--            </div>--}}
+            <br>
         </div>
+
+        <br>
+        <br>
+        <br>
+
+        <button type="button" class="btn btn-dark" ><a href="/hall-of-fame"><span class="text-white">Check out the Hall of Fame!</span></a></button>
 
         <div class="row gy-4 mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
             <div data-cy="create-account-icon" class="col-xl-2 col-md-4">

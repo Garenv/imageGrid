@@ -13,4 +13,4 @@ import './bootstrap';
  */
 import './components/App.jsx';
 import './components/LandingPage/ContactUs.jsx';
-import Toastify from 'toastify-js';
+import 'react-toastify/dist/ReactToastify.css';
