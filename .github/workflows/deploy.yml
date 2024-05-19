@@ -27,7 +27,7 @@ jobs:
       - name: Create deployment
         run: |
           aws deploy create-deployment \
-            --application-name LaravelStagingApp \
+            --application-name phopixelStaging \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name StagingGroup \
             --s3-location bucket=phopixel-deployments,bundleType=zip,key=imageGrid.zip
