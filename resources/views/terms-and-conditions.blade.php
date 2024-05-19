@@ -90,7 +90,7 @@
         graphics, logos, images, and software, are the property of Phopixel or its licensors and are
         protected by U.S. and international copyright and trademark laws. You may not use any content or
         materials on the Site for any commercial purpose without the express written consent of
-        Phopixel.</h5>
+        Phopixel....</h5>
 </div>
 
 {{--<footer class="bg-light text-center text-lg-start">--}}
