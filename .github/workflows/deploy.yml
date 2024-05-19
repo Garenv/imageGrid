@@ -22,10 +22,10 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload to S3
-        run: aws s3 cp my-app.zip s3://phopixel-deployments/imageGrid.zip
+        run: aws s3 cp imageGrid.zip s3://phopixel-deployments/imageGrid.zip
 
       - name: Create deployment
-        run: aws scripts create-deployment --application-name phopixelStaging --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name StagingGroup --s3-location bucket=phopixel-deployments,bundleType=zip,key=my-app.zip
+        run: aws scripts create-deployment --application-name phopixelStaging --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name StagingGroup --s3-location bucket=phopixel-deployments,bundleType=zip,key=imageGrid.zip
 
       - name: Notify Slack on success
         if: success()
