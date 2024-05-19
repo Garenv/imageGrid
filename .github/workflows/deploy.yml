@@ -11,21 +11,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Zip code
-        run: zip -r imageGrid.zip .
-
-      - name: Upload to S3
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Zip code
+        run: zip -r imageGrid.zip .
+
       - name: Upload to S3
         run: aws s3 cp imageGrid.zip s3://phopixel-deployments/imageGrid.zip
 
       - name: Create deployment
-        run: aws scripts create-deployment --application-name phopixelStaging --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name StagingGroup --s3-location bucket=phopixel-deployments,bundleType=zip,key=imageGrid.zip
+        run: |
+          aws deploy create-deployment \
+            --application-name LaravelStagingApp \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name StagingGroup \
+            --s3-location bucket=phopixel-deployments,bundleType=zip,key=imageGrid.zip
 
       - name: Notify Slack on success
         if: success()
