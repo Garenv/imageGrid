@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 current_date=(date "+%Y%m%d")
 
-cd /var/www/gingr-borg
+cd /var/www/imageGrid
 chown -R admin: .
 # Empty existing .env file if present
 if [ -e .env ]; then
