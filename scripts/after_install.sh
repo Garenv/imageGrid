@@ -11,12 +11,3 @@ if [ -e .env ]; then
 else
     echo ".env file not found, moving on to merge."
 fi
-
-# Check .env file is properly formatted in KEY=VALUE format
-if grep -qE '^[^=]+=[^=]+$' .env; then
-    echo ".env File is formatted correctly, removing seed files."
-    rm -rf .env-*
-else
-    echo "Error: File is not formatted in KEY=VALUE pattern, exiting."
-    exit 1
-fi
