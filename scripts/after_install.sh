@@ -2,7 +2,7 @@
 current_date=$(date "+%Y%m%d")
 
 cd /var/www/imageGrid
-chown -R admin: .
+
 # Empty existing .env file if present
 if [ -e .env ]; then
     echo ".env file exists, backing up and emptying file."
