@@ -21,13 +21,13 @@ composer --version
 echo "Removing composer.lock"
 rm -f /var/www/imageGrid/composer.lock
 
-# Install composer dependencies
-echo "Running composer install"
-composer install
+# install from the lock file without updating dependencies
+echo "Running composer install --prefer-dist"
+composer install --prefer-dist
 
-# Install npm dependencies
-echo "Running npm install"
-npm install
+# install from the lock file without updating dependencies
+echo "Running npm ci"
+npm ci
 
 # Build assets
 echo "Running npm run build"
