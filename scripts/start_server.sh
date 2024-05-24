@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e  # Exit immediately if a command exits with a non-zero status
 
-LOG_FILE="/var/log/imageGrid/start_server.log"
-exec > >(tee -i ${LOG_FILE}) 2>&1  # Redirect all output to the log file
-
 echo "Starting start_server.sh script"
 
 cd /var/www/imageGrid
@@ -17,21 +14,29 @@ npm --version
 echo "composer version:"
 composer --version
 
+# Define the non-root user to run Composer and npm
+USER_NAME="garen"  # Replace with the actual username
+USER_HOME="/home/$USER_NAME"
+
+# Ensure the environment variables are set
+export HOME=$USER_HOME
+export COMPOSER_HOME=$USER_HOME/.composer
+
 # Remove composer.lock if it exists
 echo "Removing composer.lock"
 rm -f /var/www/imageGrid/composer.lock
 
-# install from the lock file without updating dependencies
+# Run Composer install as the non-root user
 echo "Running composer install --prefer-dist"
-composer install --prefer-dist
+sudo -u $USER_NAME -H sh -c 'composer install --prefer-dist'
 
-# install from the lock file without updating dependencies
+# Run npm install as the non-root user
 echo "Running npm ci"
-npm ci
+sudo -u $USER_NAME -H sh -c 'npm ci'
 
-# Build assets
+# Build assets as the non-root user
 echo "Running npm run build"
-npm run build
+sudo -u $USER_NAME -H sh -c 'npm run build'
 
 # Optimize Laravel application
 echo "Running php artisan optimize:clear"
