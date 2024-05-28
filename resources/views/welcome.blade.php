@@ -3,12 +3,43 @@
 
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate AI images with the help of cutting edge algorithms">
+    <meta name="keywords" content="image, AI, Artificial Intelligence, ML, Machine Learning">
     <title>Phopixel</title>
     <meta content="og:title" name="Phopixel">
     <meta property="og:description" content="Be featured on the front page with the most upvoted generated image">
+    <meta property="og:url" content="https://phopixel.com">
+    <meta property="og:type" content="website">
     <meta name="google-adsense-account" content="ca-pub-7469058557975267">
+    <link rel="icon" href="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent_v2.1.jpg">
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Login",
+              "item": "https://phopixel.com/login"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "FAQ",
+              "item": "https://phopixel.com/faq"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Contact Us",
+              "item": "https://phopixel.com/contact-us"
+            }
+          ]
+        }
+    </script>
 
     <!-- Favicons -->
 
