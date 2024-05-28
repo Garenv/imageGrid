@@ -14,33 +14,6 @@
     <meta name="google-adsense-account" content="ca-pub-7469058557975267">
     <link rel="icon" href="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent_v2.1.jpg">
 
-    <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Login",
-              "item": "https://phopixel.com/login"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "FAQ",
-              "item": "https://phopixel.com/faq"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "Contact Us",
-              "item": "https://phopixel.com/contact-us"
-            }
-          ]
-        }
-    </script>
-
     <!-- Favicons -->
 
     <!-- Google Fonts -->
