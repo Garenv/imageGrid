@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\ImageBattlesCronJob;
 use App\Console\Commands\TruncateWeeklyWinnersCronJob;
 use App\Console\Commands\WeeklyWinnersCronJob;
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         WeeklyWinnersCronJob::class,
         TruncateWeeklyWinnersCronJob::class,
-        ImageBattlesCronJob::class
+        ImageBattlesCronJob::class,
+        GenerateSitemap::class,
     ];
 
     /**
@@ -33,6 +35,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('cron:weekly-winners')->timezone('America/New_York')->weekly()->appendOutputTo('storage/logs/scheduler.log');
         // runs daily at midnight
         $schedule->command('cron:image-battles-daily-winners')->timezone('America/New_York')->daily()->appendOutputTo('storage/logs/imageBattles.log');
+        $schedule->command('sitemap:generate')->daily();
     }
 
     /**
