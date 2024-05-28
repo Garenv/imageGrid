@@ -49,7 +49,7 @@
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    You may only generate one image per week so ensure that you've picked your best one!
+                    You may only generate up to one image per day with 3 attempts so ensure that you've picked your best one!
                 </p>
             </details>
         </div>
@@ -69,26 +69,13 @@
         <div class="py-3">
             <details class="group">
                 <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
-                    <span>How many images can the grid contain?</span>
-                    <span class="transition group-open:rotate-180">
-                <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
-              </span>
-                </summary>
-                <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    The grid can only hold 200 images per week, so it's imperative to generate your image early in the week so you have more time to accumulate upvotes and increase your chances of winning!
-                </p>
-            </details>
-        </div>
-        <div class="py-3">
-            <details class="group">
-                <summary class="flex justify-between items-center font-medium cursor-pointer list-none">
                     <span>What can I win?</span>
                     <span class="transition group-open:rotate-180">
                 <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
               </span>
                 </summary>
                 <p class="text-neutral-600 mt-3 group-open:animate-fadeIn">
-                    At the time of writing this, the top 10 images will be displayed on the front page for the week. Gain the admiration of your fellow Phopixelers and reach the top spot!
+                    At the time of writing this, the top 100 images will be displayed on the front page for the week. Gain the admiration of your fellow Phopixelers and reach the top spot!
                 </p>
             </details>
         </div>

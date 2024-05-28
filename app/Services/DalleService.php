@@ -51,6 +51,12 @@ class DalleService
                     'prompt' => $prompt
                 ]);
 
+                $errorCode = $response->json()['error']['code'];
+
+                if($errorCode === "content_policy_violation") {
+                    return response()->json(['message' => 'Your prompt is inappropriate'], $response->status());
+                }
+
                 if($response->failed()) {
                     return response()->json(['message' => 'Something went wrong!'], $response->status());
                 }
