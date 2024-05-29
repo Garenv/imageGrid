@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Generate AI images with the help of cutting edge algorithms">
+    <meta name="description" content="Generate AI images with the help of cutting-edge algorithms that produce high-quality, realistic visuals. Enhance your projects with advanced image generation technology, delivering stunning and impressive results efficiently.">
     <meta name="keywords" content="image, AI, Artificial Intelligence, ML, Machine Learning">
     <title>Phopixel</title>
     <meta content="og:title" name="Phopixel">
@@ -13,8 +13,7 @@
     <meta property="og:type" content="website">
     <meta name="google-adsense-account" content="ca-pub-7469058557975267">
     <link rel="icon" href="https://cruskip.s3.us-east-2.amazonaws.com/assets/images/phopix/logos/p_1081x1080_transparent_v2.1.jpg">
-
-    <!-- Favicons -->
+    <link rel="canonical" href="https://www.phopixel.com/">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
