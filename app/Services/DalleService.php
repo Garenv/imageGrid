@@ -36,6 +36,8 @@ class DalleService
 
             $getPromptCount = $this->__imageBattlesRepository->getPromptCount($userId);
 
+//            dd($getPromptCount);
+
             // if the prompt is empty or if the prompt only contains whitespaces as a result of
             // the user pressing the spacebar, then throw an error stating so
             if(!$prompt || trim($prompt) === '')  {
@@ -51,10 +53,16 @@ class DalleService
                     'prompt' => $prompt
                 ]);
 
-                $errorCode = $response->json()['error']['code'];
+                try {
 
-                if($errorCode === "content_policy_violation") {
-                    return response()->json(['message' => 'Your prompt is inappropriate'], $response->status());
+                    $errorCode = $response->json()['error']['code'];
+
+                    if($errorCode === "content_policy_violation") {
+                        return response()->json(['message' => 'Your prompt is inappropriate'], $response->status());
+                    }
+
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
                 }
 
                 if($response->failed()) {
