@@ -15,7 +15,7 @@ class StagingRobotsMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->getHost() == config('app.url')) {
+        if (!app()->environment('prod')) {
             header("X-Robots-Tag: noindex, nofollow", true);
         }
 
