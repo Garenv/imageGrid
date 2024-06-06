@@ -261,7 +261,7 @@ const FormExample = () => {
                                 margin="normal"
                                 onKeyPress={handleKeyPress}
                                 inputProps={{
-                                    maxLength: 312,
+                                    maxLength: 312
                                 }}
                                 error={maxPromptLengthError}
                                 helperText={maxPromptLengthError ? `Maximum ${maxPromptLength} characters allowed.` : `${maxPromptLength - prompt.length} characters left`}
