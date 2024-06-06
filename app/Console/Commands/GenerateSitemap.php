@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 
@@ -25,6 +26,6 @@ class GenerateSitemap extends Command
             ->add(Url::create('/contact-us')->setPriority(0.5))
             ->writeToFile(public_path('sitemap.xml'));
 
-        $this->info('Sitemap generated successfully.');
+        Log::channel('site_map')->info("Generated sitemap successfully");
     }
 }

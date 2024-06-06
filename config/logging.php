@@ -135,6 +135,11 @@ return [
         'grid' => [
             'driver' => 'single',
             'path' => storage_path('logs/grid.log'),
+        ],
+
+        'site_map' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/site_map.log'),
         ]
     ],
 
