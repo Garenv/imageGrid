@@ -174,6 +174,13 @@ const FormExample = () => {
         setMinimizePromptField(!minimizePromptField);
     }
 
+    const handleKeyPress = (e) => {
+        if(e.key === "Enter") {
+            e.preventDefault();
+            generateImageButton(prompt);
+        }
+    }
+
     return (
         <>
             <ToastContainer
@@ -252,6 +259,7 @@ const FormExample = () => {
                                 onChange={handleChange}
                                 fullWidth
                                 margin="normal"
+                                onKeyPress={handleKeyPress}
                                 inputProps={{
                                     maxLength: 312
                                 }}
@@ -261,6 +269,7 @@ const FormExample = () => {
                         </form>
                         <DynamicButton
                             variant="contained"
+                            type="button"
                             onClick={() => generateImageButton(prompt)}
                         >
                             Submit
