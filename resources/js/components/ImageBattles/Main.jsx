@@ -270,6 +270,7 @@ const FormExample = () => {
                                         ) : (
                                             <DoneOutlineIcon color="success" className={flash ? 'flashEffect' : ''}/>
                                         )}
+                                        <br/>
                                         <GlobalSharedModal
                                             launchButtonTitle="Share"
                                             body={shareableLinks(item.image_url)}
