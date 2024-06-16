@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toast, ToastContainer } from "react-toastify";
 import { useSharedStyles } from "../utlities/SharedStyles.jsx";
@@ -16,6 +16,15 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SouthWestIcon from '@mui/icons-material/SouthWest';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import {InputGroup, Form, Col} from "react-bootstrap"
+import GlobalSharedModal from "../utlities/SharedModal/SharedModalWithBody.jsx";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+
+library.add(faCopy);
 
 const onBoardingStyles = {
     position: 'absolute',
@@ -172,14 +181,39 @@ const FormExample = () => {
 
     const minimizeField = () => {
         setMinimizePromptField(!minimizePromptField);
-    }
+    };
 
     const handleKeyPress = (e) => {
         if(e.key === "Enter") {
             e.preventDefault();
             generateImageButton(prompt);
         }
-    }
+    };
+
+    const copiedToClipBoard = () => {
+        toast.success("Copied to Clipboard!", {
+            autoClose: 2000
+        });
+    };
+
+    const shareableLinks = (image_url) => {
+        console.log(getImagesData, "shareableLinks()");
+        return (
+            <InputGroup className="mb-3" style={{ maxWidth: '300px' }}>
+                <Form.Control
+                    type="text"
+                    value={image_url}
+                    readOnly
+                    className="text-center"
+                />
+                <CopyToClipboard text={image_url} onCopy={copiedToClipBoard}>
+                    <Button variant="outline-secondary">
+                        <FontAwesomeIcon icon={faCopy} />
+                    </Button>
+                </CopyToClipboard>
+            </InputGroup>
+        );
+    };
 
     return (
         <>
@@ -230,12 +264,23 @@ const FormExample = () => {
                                         <h1 className="newColor">{item.name}</h1>
                                         <h1><u>prompt</u> - {item.prompt}</h1>
                                         {!item.upvoted ? (
-                                            <Button variant="contained" onClick={() => clickUpVoteButton(item)}
-                                                    color="success">UpVote</Button>
+                                            <div>
+                                                <Button variant="contained" onClick={() => clickUpVoteButton(item)} color="success">UpVote</Button>
+                                            </div>
                                         ) : (
                                             <DoneOutlineIcon color="success" className={flash ? 'flashEffect' : ''}/>
                                         )}
+                                        <br/>
+                                        <GlobalSharedModal
+                                            launchButtonTitle="Share"
+                                            body={shareableLinks(item.image_url)}
+                                            title="Share Your Creation!"
+                                            customStyle={{
+                                                backgroundColor: "#0000FF"
+                                            }}
+                                        />
                                     </div>
+
                                 </div>
                             </div>
                         </>
