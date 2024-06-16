@@ -29,10 +29,6 @@ function SharedModal({ primaryClick, launchButtonTitle, title, body, customStyle
                     <Modal.Title data-cy='modal-title'>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body data-cy="modal-body">{body}</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" data-cy="modal-secondary" onClick={handleClose}>Close</Button>
-                    <Button className="bg-danger" disabled={isDisabled} data-cy="modal-primary" onClick={primaryClick}>OK</Button>
-                </Modal.Footer>
             </Modal>
         </>
     );
