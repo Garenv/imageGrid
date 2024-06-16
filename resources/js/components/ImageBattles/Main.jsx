@@ -274,7 +274,7 @@ const FormExample = () => {
                                         <GlobalSharedModal
                                             launchButtonTitle="Share"
                                             body={shareableLinks(item.image_url)}
-                                            title="Share Your Creation!"
+                                            title="Share This Prompt!"
                                             customStyle={{
                                                 backgroundColor: "#0000FF"
                                             }}
