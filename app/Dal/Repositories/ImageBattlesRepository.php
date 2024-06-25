@@ -115,7 +115,8 @@ class ImageBattlesRepository implements IImageBattlesRepository
 
     public function getHallOfFameInductees()
     {
-        return LegacyWinners::all();
+        $legacyWinners = LegacyWinners::with(['user'])->get();
+        return $legacyWinners;
     }
 
     public function getYourPastImages($loggedInUserId)

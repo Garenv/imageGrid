@@ -10,32 +10,38 @@
     @vite(['resources/sass/imageBattles/hallOfFame.scss'])
 </head>
 <body>
-
-<article class="images-sec-wrap">
-
-    <div class="images-sec">
-        <h1 class="text-center"><u>Image Battles Hall of Fame</u></h1>
-
-        <ul class="images-sec-middle" id="vid-grid">
+        <ul class="center-flex-column" id="vid-grid" style="">
 
             @if(isset($hallOfFameInductees) && !$hallOfFameInductees->isEmpty())
                 @foreach($hallOfFameInductees as $hallOfFameInductee)
-                    <li class="thumb-wrap">
-                        <img class="thumb" alt="photo" src={{ $hallOfFameInductee->url }} />
-                        <div class="thumb-info text-center">
-                            <h2 class="thumb-title">{{ $hallOfFameInductee->name }}</h2>
-                            <h2 class="thumb-title text-black"><u>Prompt</u>: {{ $hallOfFameInductee->prompt }}</h2>
-                            <h2 class="thumb-text">{{ $hallOfFameInductee->votes }} votes</h2>
+                    <article class="flex-md-wrap">
+                        <div class="phopixel-card card">
+                            <p class="phopixel-card-profile-paragraph">
+                                <img class="phopixel-profile-image" alt="profile image" src={{ $hallOfFameInductee->user->avatarImage ?? 'https://phopixel.s3.amazonaws.com/stage/assets/images/logos/phopixel_icon_small.png'  }} />
+                                <span class="phopixel-card-title phopixel-card-profile-title">{{ $hallOfFameInductee->name }} - {{ $hallOfFameInductee->votes}}@if($hallOfFameInductee->votes === 1) vote @else votes @endif - {{date('M d, Y' , strtotime($hallOfFameInductee->timeStamp))}}</span>
+                            <p><img class="phopixel-card-image card-img" alt="photo" src={{ $hallOfFameInductee->url }} /></p>
+                            <p>
+                                <span class="phopixel-card-title">Prompt: </span>
+                                <span class="phopixel-card-text text-center">{{ $hallOfFameInductee->prompt }}</span>
+                            </p>
+                            <p class="phopixel-card-title">{{$hallOfFameInductee->comments->count ?? 0 }} Comments</p>
+                            <hr class="hr hr-blurry" />
                         </div>
-                    </li>
+                    </article>
+
+                    {{--                    <li class="thumb-wrap">--}}
+{{--                        <img class="thumb" alt="photo" src={{ $hallOfFameInductee->url }} />--}}
+{{--                        <div class="thumb-info text-center">--}}
+{{--                            <h2 class="thumb-title">{{ $hallOfFameInductee->name }}</h2>--}}
+{{--                            <h2 class="thumb-title text-black"><u>Prompt</u>: {{ $hallOfFameInductee->prompt }}</h2>--}}
+{{--                            <h2 class="thumb-text">{{ $hallOfFameInductee->votes }} votes</h2>--}}
+{{--                        </div>--}}
+{{--                    </li>--}}
                 @endforeach
             @else
                 <div class="middle-of-screen">No Hall of Fame inductees, yet!</div>
             @endif
         </ul>
-    </div>
-</article>
-
 <script>
     let thumbTitle = document.querySelectorAll(".thumb-title");
 

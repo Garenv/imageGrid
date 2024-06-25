@@ -31,4 +31,8 @@ class LegacyWinners extends Model
         'timeStamp',
         'name'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'UserID', 'UserID');
+    }
 }

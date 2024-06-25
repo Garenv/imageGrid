@@ -109,7 +109,7 @@ class ImagesBattlesController extends Controller
 
         try {
 
-            $hallOfFameInductees = $this->__imageBattlesRepository->getHallOfFameInductees();
+            $hallOfFameInductees = $this->__imageBattlesRepository->getHallOfFameInductees()->sortByDesc("timeStamp");
 
             return view('imageBattles.hall-of-fame', compact('hallOfFameInductees'));
 

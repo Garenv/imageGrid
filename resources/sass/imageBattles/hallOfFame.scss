@@ -21,6 +21,57 @@
     min-height: 100vh;
 }
 
+.center-flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.phopixel-card {
+    border: 0;
+    margin: 16px;
+    width: 30rem;
+}
+
+.phopixel-card-title {
+    font-family: cursive;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.phopixel-card-profile-paragraph {
+    display: flex;
+    margin-bottom: 1.25em;
+}
+
+.phopixel-card-profile-title {
+    align-self: center;
+    margin-left: 1em;
+}
+
+.phopixel-card-text {
+    font-family: Roboto Condensed, sans-serif;
+    font-size: 1em;
+}
+
+.phopixel-profile-image {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    background-color: #FFFFE5;
+}
+
+.phopixel-card-image {
+    margin: 0;
+    padding: 0;
+}
+
+.phopixel-card-body { }
+
+.phopixel-separator {
+    color: #1e90ff;
+}
+
 .images-sec {
     width: 85%;
     margin: 3em auto;
